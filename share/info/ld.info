@@ -4147,12 +4147,6 @@ pattern for the file name.
 '\'
      quotes the following character
 
-   When a file name is matched with a wildcard, the wildcard characters
-will not match a '/' character (used to separate directory names on
-Unix).  A pattern consisting of a single '*' character is an exception;
-it will always match any file name, whether it contains a '/' or not.
-In a section name, the wildcard characters will match a '/' character.
-
    File name wildcard patterns only match files which are explicitly
 specified on the command line or in an 'INPUT' command.  The linker does
 not search directories to expand wildcards.
@@ -7580,7 +7574,7 @@ contact that organization first.
 individuals in the file 'etc/SERVICE' in the GNU Emacs distribution.
 
    Otherwise, send bug reports for 'ld' to
-<https://www.sourceware.org/bugzilla/>.
+<https://sourceware.org/bugzilla/>.
 
    The fundamental principle of reporting bugs usefully is this: *report
 all the facts*.  If you are not sure whether to state a fact or leave it
@@ -9181,15 +9175,15 @@ LD Index
 * small common symbols:                  Input Section Common.
                                                              (line   20)
 * SORT:                                  Input Section Wildcards.
-                                                             (line   64)
+                                                             (line   58)
 * SORT_BY_ALIGNMENT:                     Input Section Wildcards.
-                                                             (line   51)
+                                                             (line   45)
 * SORT_BY_INIT_PRIORITY:                 Input Section Wildcards.
-                                                             (line   57)
+                                                             (line   51)
 * SORT_BY_NAME:                          Input Section Wildcards.
-                                                             (line   43)
+                                                             (line   37)
 * SORT_NONE:                             Input Section Wildcards.
-                                                             (line  100)
+                                                             (line   94)
 * SPU:                                   SPU ELF.            (line   29)
 * SPU <1>:                               SPU ELF.            (line   46)
 * SPU ELF options:                       SPU ELF.            (line    6)
@@ -9300,66 +9294,66 @@ Node: Output Section Address174567
 Node: Input Section176800
 Node: Input Section Basics177601
 Node: Input Section Wildcards182619
-Node: Input Section Common187914
-Node: Input Section Keep189396
-Node: Input Section Example189886
-Node: Output Section Data191297
-Node: Output Section Keywords194076
-Node: Output Section Discarding197643
-Node: Output Section Attributes199533
-Node: Output Section Type200652
-Node: Output Section LMA201781
-Node: Forced Output Alignment204852
-Node: Forced Input Alignment205281
-Node: Output Section Constraint205669
-Node: Output Section Region206097
-Node: Output Section Phdr206530
-Node: Output Section Fill207194
-Node: Overlay Description208336
-Node: MEMORY212781
-Node: PHDRS217387
-Node: VERSION222713
-Node: Expressions230804
-Node: Constants231817
-Node: Symbolic Constants232691
-Node: Symbols233242
-Node: Orphan Sections233989
-Node: Location Counter235574
-Node: Operators240008
-Node: Evaluation240930
-Node: Expression Section242294
-Node: Builtin Functions246264
-Node: Implicit Linker Scripts254598
-Node: Plugins255373
-Node: libdep Plugin255833
-Node: Machine Dependent257630
-Node: H8/300258718
-Node: M68HC11/68HC12260791
-Node: ARM262238
-Node: HPPA ELF32274348
-Node: M68K275971
-Node: MIPS276880
-Node: MMIX277996
-Node: MSP430279161
-Node: NDS32281074
-Node: Nios II282038
-Node: PowerPC ELF32283354
-Node: PowerPC64 ELF64286185
-Node: S/390 ELF295943
-Node: SPU ELF296290
-Node: TI COFF298918
-Node: WIN32299444
-Node: Xtensa319591
-Node: BFD323034
-Node: BFD outline324492
-Node: BFD information loss325780
-Node: Canonical format328306
-Node: Reporting Bugs332634
-Node: Bug Criteria333328
-Node: Bug Reporting334027
-Node: MRI341066
-Node: GNU Free Documentation License345537
-Node: LD Index370674
+Node: Input Section Common187560
+Node: Input Section Keep189042
+Node: Input Section Example189532
+Node: Output Section Data190943
+Node: Output Section Keywords193722
+Node: Output Section Discarding197289
+Node: Output Section Attributes199179
+Node: Output Section Type200298
+Node: Output Section LMA201427
+Node: Forced Output Alignment204498
+Node: Forced Input Alignment204927
+Node: Output Section Constraint205315
+Node: Output Section Region205743
+Node: Output Section Phdr206176
+Node: Output Section Fill206840
+Node: Overlay Description207982
+Node: MEMORY212427
+Node: PHDRS217033
+Node: VERSION222359
+Node: Expressions230450
+Node: Constants231463
+Node: Symbolic Constants232337
+Node: Symbols232888
+Node: Orphan Sections233635
+Node: Location Counter235220
+Node: Operators239654
+Node: Evaluation240576
+Node: Expression Section241940
+Node: Builtin Functions245910
+Node: Implicit Linker Scripts254244
+Node: Plugins255019
+Node: libdep Plugin255479
+Node: Machine Dependent257276
+Node: H8/300258364
+Node: M68HC11/68HC12260437
+Node: ARM261884
+Node: HPPA ELF32273994
+Node: M68K275617
+Node: MIPS276526
+Node: MMIX277642
+Node: MSP430278807
+Node: NDS32280720
+Node: Nios II281684
+Node: PowerPC ELF32283000
+Node: PowerPC64 ELF64285831
+Node: S/390 ELF295589
+Node: SPU ELF295936
+Node: TI COFF298564
+Node: WIN32299090
+Node: Xtensa319237
+Node: BFD322680
+Node: BFD outline324138
+Node: BFD information loss325426
+Node: Canonical format327952
+Node: Reporting Bugs332280
+Node: Bug Criteria332974
+Node: Bug Reporting333673
+Node: MRI340708
+Node: GNU Free Documentation License345179
+Node: LD Index370316
 
 End Tag Table
 

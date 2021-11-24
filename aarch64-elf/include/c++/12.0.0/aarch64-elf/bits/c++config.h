@@ -34,7 +34,7 @@
 #define _GLIBCXX_RELEASE 12
 
 // The datestamp of the C++ library in compressed ISO date format.
-#define __GLIBCXX__ 20211017
+#define __GLIBCXX__ 20211124
 
 // Macros for various attributes.
 //   _GLIBCXX_PURE
@@ -107,7 +107,7 @@
 # define _GLIBCXX11_DEPRECATED_SUGGEST(ALT)
 #endif
 
-#if defined(__DEPRECATED) && (__cplusplus >= 201403L)
+#if defined(__DEPRECATED) && (__cplusplus >= 201402L)
 # define _GLIBCXX14_DEPRECATED _GLIBCXX_DEPRECATED
 # define _GLIBCXX14_DEPRECATED_SUGGEST(ALT) _GLIBCXX_DEPRECATED_SUGGEST(ALT)
 #else
@@ -123,7 +123,7 @@
 # define _GLIBCXX17_DEPRECATED_SUGGEST(ALT)
 #endif
 
-#if defined(__DEPRECATED) && (__cplusplus > 201703L)
+#if defined(__DEPRECATED) && (__cplusplus >= 202002L)
 # define _GLIBCXX20_DEPRECATED(MSG) [[deprecated(MSG)]]
 # define _GLIBCXX20_DEPRECATED_SUGGEST(ALT) _GLIBCXX_DEPRECATED_SUGGEST(ALT)
 #else
@@ -526,22 +526,17 @@ namespace std
   // Avoid the use of assert, because we're trying to keep the <cassert>
   // include out of the mix.
   extern "C++" _GLIBCXX_NORETURN
-  inline void
-  __replacement_assert(const char* __file, int __line,
-		       const char* __function, const char* __condition)
-  _GLIBCXX_NOEXCEPT
-  {
-    __builtin_printf("%s:%d: %s: Assertion '%s' failed.\n", __file, __line,
-		     __function, __condition);
-    __builtin_abort();
-  }
+  void
+  __glibcxx_assert_fail(const char* __file, int __line,
+			const char* __function, const char* __condition)
+  _GLIBCXX_NOEXCEPT;
 }
-#define __glibcxx_assert_impl(_Condition)			       \
-  if (__builtin_expect(!bool(_Condition), false))		       \
-  {								       \
-    __glibcxx_constexpr_assert(false);				       \
-    std::__replacement_assert(__FILE__, __LINE__, __PRETTY_FUNCTION__, \
-			      #_Condition);			       \
+#define __glibcxx_assert_impl(_Condition)				\
+  if (__builtin_expect(!bool(_Condition), false))			\
+  {									\
+    __glibcxx_constexpr_assert(false);					\
+    std::__glibcxx_assert_fail(__FILE__, __LINE__, __PRETTY_FUNCTION__,	\
+			       #_Condition);				\
   }
 # else // ! VERBOSE_ASSERT
 # define __glibcxx_assert_impl(_Condition)		\
@@ -550,7 +545,7 @@ namespace std
     __glibcxx_constexpr_assert(false);			\
     __builtin_abort();					\
   }
-#endif
+# endif
 #endif
 
 #if defined(_GLIBCXX_ASSERTIONS)
@@ -821,6 +816,9 @@ namespace std
 /* Define to 1 if you have the `aligned_alloc' function. */
 /* #undef _GLIBCXX_HAVE_ALIGNED_ALLOC */
 
+/* Define if arc4random is available in <stdlib.h>. */
+#define _GLIBCXX_HAVE_ARC4RANDOM 1
+
 /* Define to 1 if you have the <arpa/inet.h> header file. */
 /* #undef _GLIBCXX_HAVE_ARPA_INET_H */
 
@@ -943,6 +941,9 @@ namespace std
 
 /* Define to 1 if you have the `frexpl' function. */
 /* #undef _GLIBCXX_HAVE_FREXPL */
+
+/* Define if getentropy is available in <unistd.h>. */
+#define _GLIBCXX_HAVE_GETENTROPY 1
 
 /* Define if _Unwind_GetIPInfo is available. */
 #define _GLIBCXX_HAVE_GETIPINFO 1
@@ -1588,7 +1589,7 @@ namespace std
 
 /* Define if C99 functions or macros in <stdlib.h> should be imported in
    <cstdlib> in namespace std for C++11. */
-#define _GLIBCXX11_USE_C99_STDLIB 1
+/* #undef _GLIBCXX11_USE_C99_STDLIB */
 
 /* Define if C99 functions or macros in <wchar.h> should be imported in
    <cwchar> in namespace std for C++11. */
@@ -1609,7 +1610,7 @@ namespace std
 
 /* Define if C99 functions or macros in <stdlib.h> should be imported in
    <cstdlib> in namespace std for C++98. */
-#define _GLIBCXX98_USE_C99_STDLIB 1
+/* #undef _GLIBCXX98_USE_C99_STDLIB */
 
 /* Define if C99 functions or macros in <wchar.h> should be imported in
    <cwchar> in namespace std for C++98. */
