@@ -1,6 +1,6 @@
 // Character Traits for use by standard string and iostream -*- C++ -*-
 
-// Copyright (C) 1997-2021 Free Software Foundation, Inc.
+// Copyright (C) 1997-2022 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the
@@ -38,6 +38,9 @@
 
 #include <bits/postypes.h>      // For streampos
 #include <cwchar>               // For WEOF, wmemmove, wmemset, etc.
+#if __cplusplus >= 201103L
+# include <type_traits>
+#endif
 #if __cplusplus >= 202002L
 # include <compare>
 # include <bits/stl_construct.h>
@@ -50,6 +53,11 @@
 namespace __gnu_cxx _GLIBCXX_VISIBILITY(default)
 {
 _GLIBCXX_BEGIN_NAMESPACE_VERSION
+
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wstringop-overflow"
+#pragma GCC diagnostic ignored "-Wstringop-overread"
+#pragma GCC diagnostic ignored "-Warray-bounds"
 
   /**
    *  @brief  Mapping from character type to associated types.
@@ -101,8 +109,8 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       static _GLIBCXX14_CONSTEXPR void
       assign(char_type& __c1, const char_type& __c2)
       {
-#if __cpp_constexpr_dynamic_alloc && __cpp_lib_is_constant_evaluated
-	if (std::is_constant_evaluated())
+#if __cpp_constexpr_dynamic_alloc
+	if (std::__is_constant_evaluated())
 	  std::construct_at(__builtin_addressof(__c1), __c2);
 	else
 #endif
@@ -199,8 +207,8 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
     {
       if (__n == 0)
 	return __s1;
-#if __cpp_lib_is_constant_evaluated
-      if (std::is_constant_evaluated())
+#if __cplusplus >= 202002L
+      if (std::__is_constant_evaluated())
 	{
 	  if (__s1 == __s2) // unlikely, but saves a lot of work
 	    return __s1;
@@ -247,8 +255,8 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
     char_traits<_CharT>::
     copy(char_type* __s1, const char_type* __s2, std::size_t __n)
     {
-#if __cpp_lib_is_constant_evaluated
-      if (std::is_constant_evaluated())
+#if __cplusplus >= 202002L
+      if (std::__is_constant_evaluated())
 	{
 	  for (std::size_t __i = 0; __i < __n; ++__i)
 	    std::construct_at(__s1 + __i, __s2[__i]);
@@ -266,8 +274,8 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
     char_traits<_CharT>::
     assign(char_type* __s, std::size_t __n, char_type __a)
     {
-#if __cpp_lib_is_constant_evaluated
-      if (std::is_constant_evaluated())
+#if __cplusplus >= 202002L
+      if (std::__is_constant_evaluated())
 	{
 	  for (std::size_t __i = 0; __i < __n; ++__i)
 	    std::construct_at(__s + __i, __a);
@@ -299,7 +307,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 #ifdef __cpp_lib_is_constant_evaluated
 // Unofficial macro indicating P1032R1 support in C++20
 # define __cpp_lib_constexpr_char_traits 201811L
-#elif __cplusplus >= 201703L && _GLIBCXX_HAVE_BUILTIN_IS_CONSTANT_EVALUATED
+#elif __cplusplus >= 201703L && _GLIBCXX_HAVE_IS_CONSTANT_EVALUATED
 // Unofficial macro indicating P0426R1 support in C++17
 # define __cpp_lib_constexpr_char_traits 201611L
 #endif
@@ -338,8 +346,8 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       static _GLIBCXX17_CONSTEXPR void
       assign(char_type& __c1, const char_type& __c2) _GLIBCXX_NOEXCEPT
       {
-#if __cpp_constexpr_dynamic_alloc && __cpp_lib_is_constant_evaluated
-	if (std::is_constant_evaluated())
+#if __cpp_constexpr_dynamic_alloc
+	if (std::__is_constant_evaluated())
 	  std::construct_at(__builtin_addressof(__c1), __c2);
 	else
 #endif
@@ -363,8 +371,8 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       {
 	if (__n == 0)
 	  return 0;
-#if __cplusplus >= 201703L && _GLIBCXX_HAVE_BUILTIN_IS_CONSTANT_EVALUATED
-	if (__builtin_is_constant_evaluated())
+#if __cplusplus >= 201703L
+	if (std::__is_constant_evaluated())
 	  {
 	    for (size_t __i = 0; __i < __n; ++__i)
 	      if (lt(__s1[__i], __s2[__i]))
@@ -380,8 +388,8 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       static _GLIBCXX17_CONSTEXPR size_t
       length(const char_type* __s)
       {
-#if __cplusplus >= 201703L && _GLIBCXX_HAVE_BUILTIN_IS_CONSTANT_EVALUATED
-	if (__builtin_is_constant_evaluated())
+#if __cplusplus >= 201703L
+	if (std::__is_constant_evaluated())
 	  return __gnu_cxx::char_traits<char_type>::length(__s);
 #endif
 	return __builtin_strlen(__s);
@@ -392,8 +400,8 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       {
 	if (__n == 0)
 	  return 0;
-#if __cplusplus >= 201703L && _GLIBCXX_HAVE_BUILTIN_IS_CONSTANT_EVALUATED
-	if (__builtin_is_constant_evaluated())
+#if __cplusplus >= 201703L
+	if (std::__is_constant_evaluated())
 	  return __gnu_cxx::char_traits<char_type>::find(__s, __n, __a);
 #endif
 	return static_cast<const char_type*>(__builtin_memchr(__s, __a, __n));
@@ -404,8 +412,8 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       {
 	if (__n == 0)
 	  return __s1;
-#ifdef __cpp_lib_is_constant_evaluated
-	if (std::is_constant_evaluated())
+#if __cplusplus >= 202002L
+	if (std::__is_constant_evaluated())
 	  return __gnu_cxx::char_traits<char_type>::move(__s1, __s2, __n);
 #endif
 	return static_cast<char_type*>(__builtin_memmove(__s1, __s2, __n));
@@ -416,8 +424,8 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       {
 	if (__n == 0)
 	  return __s1;
-#ifdef __cpp_lib_is_constant_evaluated
-	if (std::is_constant_evaluated())
+#if __cplusplus >= 202002L
+	if (std::__is_constant_evaluated())
 	  return __gnu_cxx::char_traits<char_type>::copy(__s1, __s2, __n);
 #endif
 	return static_cast<char_type*>(__builtin_memcpy(__s1, __s2, __n));
@@ -428,8 +436,8 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       {
 	if (__n == 0)
 	  return __s;
-#ifdef __cpp_lib_is_constant_evaluated
-	if (std::is_constant_evaluated())
+#if __cplusplus >= 202002L
+	if (std::__is_constant_evaluated())
 	  return __gnu_cxx::char_traits<char_type>::assign(__s, __n, __a);
 #endif
 	return static_cast<char_type*>(__builtin_memset(__s, __a, __n));
@@ -476,8 +484,8 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       static _GLIBCXX17_CONSTEXPR void
       assign(char_type& __c1, const char_type& __c2) _GLIBCXX_NOEXCEPT
       {
-#if __cpp_constexpr_dynamic_alloc && __cpp_lib_is_constant_evaluated
-	if (std::is_constant_evaluated())
+#if __cpp_constexpr_dynamic_alloc
+	if (std::__is_constant_evaluated())
 	  std::construct_at(__builtin_addressof(__c1), __c2);
 	else
 #endif
@@ -497,8 +505,8 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       {
 	if (__n == 0)
 	  return 0;
-#if __cplusplus >= 201703L && _GLIBCXX_HAVE_BUILTIN_IS_CONSTANT_EVALUATED
-	if (__builtin_is_constant_evaluated())
+#if __cplusplus >= 201703L
+	if (std::__is_constant_evaluated())
 	  return __gnu_cxx::char_traits<char_type>::compare(__s1, __s2, __n);
 #endif
 	return wmemcmp(__s1, __s2, __n);
@@ -507,8 +515,8 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       static _GLIBCXX17_CONSTEXPR size_t
       length(const char_type* __s)
       {
-#if __cplusplus >= 201703L && _GLIBCXX_HAVE_BUILTIN_IS_CONSTANT_EVALUATED
-	if (__builtin_is_constant_evaluated())
+#if __cplusplus >= 201703L
+	if (std::__is_constant_evaluated())
 	  return __gnu_cxx::char_traits<char_type>::length(__s);
 #endif
 	return wcslen(__s);
@@ -519,8 +527,8 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       {
 	if (__n == 0)
 	  return 0;
-#if __cplusplus >= 201703L && _GLIBCXX_HAVE_BUILTIN_IS_CONSTANT_EVALUATED
-	if (__builtin_is_constant_evaluated())
+#if __cplusplus >= 201703L
+	if (std::__is_constant_evaluated())
 	  return __gnu_cxx::char_traits<char_type>::find(__s, __n, __a);
 #endif
 	return wmemchr(__s, __a, __n);
@@ -531,8 +539,8 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       {
 	if (__n == 0)
 	  return __s1;
-#ifdef __cpp_lib_is_constant_evaluated
-	if (std::is_constant_evaluated())
+#if __cplusplus >= 202002L
+	if (std::__is_constant_evaluated())
 	  return __gnu_cxx::char_traits<char_type>::move(__s1, __s2, __n);
 #endif
 	return wmemmove(__s1, __s2, __n);
@@ -543,8 +551,8 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       {
 	if (__n == 0)
 	  return __s1;
-#ifdef __cpp_lib_is_constant_evaluated
-	if (std::is_constant_evaluated())
+#if __cplusplus >= 202002L
+	if (std::__is_constant_evaluated())
 	  return __gnu_cxx::char_traits<char_type>::copy(__s1, __s2, __n);
 #endif
 	return wmemcpy(__s1, __s2, __n);
@@ -555,8 +563,8 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       {
 	if (__n == 0)
 	  return __s;
-#ifdef __cpp_lib_is_constant_evaluated
-	if (std::is_constant_evaluated())
+#if __cplusplus >= 202002L
+	if (std::__is_constant_evaluated())
 	  return __gnu_cxx::char_traits<char_type>::assign(__s, __n, __a);
 #endif
 	return wmemset(__s, __a, __n);
@@ -604,8 +612,8 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       static _GLIBCXX17_CONSTEXPR void
       assign(char_type& __c1, const char_type& __c2) _GLIBCXX_NOEXCEPT
       {
-#if __cpp_constexpr_dynamic_alloc && __cpp_lib_is_constant_evaluated
-	if (std::is_constant_evaluated())
+#if __cpp_constexpr_dynamic_alloc
+	if (std::__is_constant_evaluated())
 	  std::construct_at(__builtin_addressof(__c1), __c2);
 	else
 #endif
@@ -625,8 +633,8 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       {
 	if (__n == 0)
 	  return 0;
-#if __cplusplus >= 201703L && _GLIBCXX_HAVE_BUILTIN_IS_CONSTANT_EVALUATED
-	if (__builtin_is_constant_evaluated())
+#if __cplusplus >= 201703L
+	if (std::__is_constant_evaluated())
 	  return __gnu_cxx::char_traits<char_type>::compare(__s1, __s2, __n);
 #endif
 	return __builtin_memcmp(__s1, __s2, __n);
@@ -635,8 +643,8 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       static _GLIBCXX17_CONSTEXPR size_t
       length(const char_type* __s)
       {
-#if __cplusplus >= 201703L && _GLIBCXX_HAVE_BUILTIN_IS_CONSTANT_EVALUATED
-	if (__builtin_is_constant_evaluated())
+#if __cplusplus >= 201703L
+	if (std::__is_constant_evaluated())
 	  return __gnu_cxx::char_traits<char_type>::length(__s);
 #endif
 	size_t __i = 0;
@@ -650,8 +658,8 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       {
 	if (__n == 0)
 	  return 0;
-#if __cplusplus >= 201703L && _GLIBCXX_HAVE_BUILTIN_IS_CONSTANT_EVALUATED
-	if (__builtin_is_constant_evaluated())
+#if __cplusplus >= 201703L
+	if (std::__is_constant_evaluated())
 	  return __gnu_cxx::char_traits<char_type>::find(__s, __n, __a);
 #endif
 	return static_cast<const char_type*>(__builtin_memchr(__s, __a, __n));
@@ -662,8 +670,8 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       {
 	if (__n == 0)
 	  return __s1;
-#ifdef __cpp_lib_is_constant_evaluated
-	if (std::is_constant_evaluated())
+#if __cplusplus >= 202002L
+	if (std::__is_constant_evaluated())
 	  return __gnu_cxx::char_traits<char_type>::move(__s1, __s2, __n);
 #endif
 	return static_cast<char_type*>(__builtin_memmove(__s1, __s2, __n));
@@ -674,8 +682,8 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       {
 	if (__n == 0)
 	  return __s1;
-#ifdef __cpp_lib_is_constant_evaluated
-	if (std::is_constant_evaluated())
+#if __cplusplus >= 202002L
+	if (std::__is_constant_evaluated())
 	  return __gnu_cxx::char_traits<char_type>::copy(__s1, __s2, __n);
 #endif
 	return static_cast<char_type*>(__builtin_memcpy(__s1, __s2, __n));
@@ -686,8 +694,8 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       {
 	if (__n == 0)
 	  return __s;
-#ifdef __cpp_lib_is_constant_evaluated
-	if (std::is_constant_evaluated())
+#if __cplusplus >= 202002L
+	if (std::__is_constant_evaluated())
 	  return __gnu_cxx::char_traits<char_type>::assign(__s, __n, __a);
 #endif
 	return static_cast<char_type*>(__builtin_memset(__s, __a, __n));
@@ -747,8 +755,8 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       static _GLIBCXX17_CONSTEXPR void
       assign(char_type& __c1, const char_type& __c2) noexcept
       {
-#if __cpp_constexpr_dynamic_alloc && __cpp_lib_is_constant_evaluated
-	if (std::is_constant_evaluated())
+#if __cpp_constexpr_dynamic_alloc
+	if (std::__is_constant_evaluated())
 	  std::construct_at(__builtin_addressof(__c1), __c2);
 	else
 #endif
@@ -797,8 +805,8 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       {
 	if (__n == 0)
 	  return __s1;
-#ifdef __cpp_lib_is_constant_evaluated
-	if (std::is_constant_evaluated())
+#if __cplusplus >= 202002L
+	if (std::__is_constant_evaluated())
 	  return __gnu_cxx::char_traits<char_type>::move(__s1, __s2, __n);
 #endif
 	return (static_cast<char_type*>
@@ -810,8 +818,8 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       {
 	if (__n == 0)
 	  return __s1;
-#ifdef __cpp_lib_is_constant_evaluated
-	if (std::is_constant_evaluated())
+#if __cplusplus >= 202002L
+	if (std::__is_constant_evaluated())
 	  return __gnu_cxx::char_traits<char_type>::copy(__s1, __s2, __n);
 #endif
 	return (static_cast<char_type*>
@@ -868,8 +876,8 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       static _GLIBCXX17_CONSTEXPR void
       assign(char_type& __c1, const char_type& __c2) noexcept
       {
-#if __cpp_constexpr_dynamic_alloc && __cpp_lib_is_constant_evaluated
-	if (std::is_constant_evaluated())
+#if __cpp_constexpr_dynamic_alloc
+	if (std::__is_constant_evaluated())
 	  std::construct_at(__builtin_addressof(__c1), __c2);
 	else
 #endif
@@ -918,8 +926,8 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       {
 	if (__n == 0)
 	  return __s1;
-#ifdef __cpp_lib_is_constant_evaluated
-	if (std::is_constant_evaluated())
+#if __cplusplus >= 202002L
+	if (std::__is_constant_evaluated())
 	  return __gnu_cxx::char_traits<char_type>::move(__s1, __s2, __n);
 #endif
 	return (static_cast<char_type*>
@@ -931,8 +939,8 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       { 
 	if (__n == 0)
 	  return __s1;
-#ifdef __cpp_lib_is_constant_evaluated
-	if (std::is_constant_evaluated())
+#if __cplusplus >= 202002L
+	if (std::__is_constant_evaluated())
 	  return __gnu_cxx::char_traits<char_type>::copy(__s1, __s2, __n);
 #endif
 	return (static_cast<char_type*>
@@ -986,6 +994,8 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       }
   } // namespace __detail
 #endif // C++20
+
+#pragma GCC diagnostic pop
 
 _GLIBCXX_END_NAMESPACE_VERSION
 } // namespace

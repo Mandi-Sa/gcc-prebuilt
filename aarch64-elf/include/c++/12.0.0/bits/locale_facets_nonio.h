@@ -1,6 +1,6 @@
 // Locale support -*- C++ -*-
 
-// Copyright (C) 2007-2021 Free Software Foundation, Inc.
+// Copyright (C) 2007-2022 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the
@@ -241,6 +241,12 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       _M_am_pm_format(const _CharT*) const
       { /* Kept for ABI compatibility, see PR65927 */ }
 #endif
+
+      void
+      _M_am_pm_format(const _CharT** __ampm_format) const
+      {
+	__ampm_format[0] = _M_data->_M_am_pm_format;
+      }
 
       void
       _M_am_pm(const _CharT** __ampm) const

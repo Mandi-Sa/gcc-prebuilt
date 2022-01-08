@@ -1,6 +1,6 @@
 // Components for manipulating sequences of characters -*- C++ -*-
 
-// Copyright (C) 1997-2021 Free Software Foundation, Inc.
+// Copyright (C) 1997-2022 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the
@@ -59,7 +59,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CXX11
 #ifdef __cpp_lib_is_constant_evaluated
 // Support P0980R1 in C++20.
 # define __cpp_lib_constexpr_string 201907L
-#elif __cplusplus >= 201703L && _GLIBCXX_HAVE_BUILTIN_IS_CONSTANT_EVALUATED
+#elif __cplusplus >= 201703L && _GLIBCXX_HAVE_IS_CONSTANT_EVALUATED
 // Support P0426R1 changes to char_traits in C++17.
 # define __cpp_lib_constexpr_string 201611L
 #endif
@@ -101,7 +101,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CXX11
 	  allocate(_Char_alloc_type& __a, typename _Base::size_type __n)
 	  {
 	    pointer __p = _Base::allocate(__a, __n);
-	    if (__builtin_is_constant_evaluated())
+	    if (std::is_constant_evaluated())
 	      // Begin the lifetime of characters in allocated storage.
 	      for (size_type __i = 0; __i < __n; ++__i)
 		std::construct_at(__builtin_addressof(__p[__i]));
@@ -352,7 +352,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CXX11
       _M_use_local_data() _GLIBCXX_NOEXCEPT
       {
 #if __cpp_lib_is_constant_evaluated
-	if (__builtin_is_constant_evaluated())
+	if (std::is_constant_evaluated())
 	  _M_local_buf[0] = _CharT();
 #endif
 	return _M_local_data();
@@ -766,7 +766,8 @@ _GLIBCXX_BEGIN_NAMESPACE_CXX11
        *  @param  __n   The number of characters to copy from __t.
        *  @param  __a   Allocator to use.
        */
-      template<typename _Tp, typename = _If_sv<_Tp, void>>
+      template<typename _Tp,
+	       typename = enable_if_t<is_convertible_v<const _Tp&, __sv_type>>>
 	_GLIBCXX20_CONSTEXPR
 	basic_string(const _Tp& __t, size_type __pos, size_type __n,
 		     const _Alloc& __a = _Alloc())
@@ -1382,7 +1383,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CXX11
       _GLIBCXX20_CONSTEXPR
       basic_string&
       append(const basic_string& __str)
-      { return _M_append(__str._M_data(), __str.size()); }
+      { return this->append(__str._M_data(), __str.size()); }
 
       /**
        *  @brief  Append a substring.
@@ -1400,9 +1401,9 @@ _GLIBCXX_BEGIN_NAMESPACE_CXX11
       _GLIBCXX20_CONSTEXPR
       basic_string&
       append(const basic_string& __str, size_type __pos, size_type __n = npos)
-      { return _M_append(__str._M_data()
-			 + __str._M_check(__pos, "basic_string::append"),
-			 __str._M_limit(__pos, __n)); }
+      { return this->append(__str._M_data()
+			    + __str._M_check(__pos, "basic_string::append"),
+			    __str._M_limit(__pos, __n)); }
 
       /**
        *  @brief  Append a C substring.

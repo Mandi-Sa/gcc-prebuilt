@@ -1,5 +1,5 @@
 /* Definitions for CPP library.
-   Copyright (C) 1995-2021 Free Software Foundation, Inc.
+   Copyright (C) 1995-2022 Free Software Foundation, Inc.
    Written by Per Bothner, 1994-95.
 
 This program is free software; you can redistribute it and/or modify it
@@ -491,12 +491,8 @@ struct cpp_options
   unsigned char ext_numeric_literals;
 
   /* Nonzero means extended identifiers allow the characters specified
-     in C11 and C++11.  */
+     in C11.  */
   unsigned char c11_identifiers;
-
-  /* Nonzero means extended identifiers allow the characters specified
-     in C++23.  */
-  unsigned char cxx23_identifiers;
 
   /* Nonzero for C++ 2014 Standard binary constants.  */
   unsigned char binary_constants;

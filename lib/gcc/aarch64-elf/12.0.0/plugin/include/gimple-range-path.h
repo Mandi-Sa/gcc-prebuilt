@@ -1,5 +1,5 @@
 /* Header file for jump threading path solver.
-   Copyright (C) 2021 Free Software Foundation, Inc.
+   Copyright (C) 2021-2022 Free Software Foundation, Inc.
    Contributed by Aldy Hernandez <aldyh@redhat.com>.
 
 This file is part of GCC.
@@ -81,8 +81,6 @@ private:
 
   // Range cache for SSA names.
   ssa_global_cache *m_cache;
-
-  ssa_global_cache m_tmp_phi_cache;
 
   // Set for each SSA that has an active entry in the cache.
   bitmap m_has_cache_entry;

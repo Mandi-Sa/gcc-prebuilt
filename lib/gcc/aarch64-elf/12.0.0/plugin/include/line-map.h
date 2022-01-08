@@ -1,5 +1,5 @@
 /* Map (unsigned int) keys to (source file, line, column) triples.
-   Copyright (C) 2001-2021 Free Software Foundation, Inc.
+   Copyright (C) 2001-2022 Free Software Foundation, Inc.
 
 This program is free software; you can redistribute it and/or modify it
 under the terms of the GNU General Public License as published by the
@@ -803,11 +803,11 @@ public:
   unsigned int max_column_hint;
 
   /* The allocator to use when resizing 'maps', defaults to xrealloc.  */
-  line_map_realloc reallocator;
+  line_map_realloc GTY((callback)) reallocator;
 
   /* The allocators' function used to know the actual size it
      allocated, for a certain allocation size requested.  */
-  line_map_round_alloc_size_func round_alloc_size;
+  line_map_round_alloc_size_func GTY((callback)) round_alloc_size;
 
   struct location_adhoc_data_map location_adhoc_data_map;
 

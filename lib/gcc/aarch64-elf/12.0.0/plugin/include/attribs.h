@@ -1,5 +1,5 @@
 /* Declarations and definitions dealing with attribute handling.
-   Copyright (C) 2013-2021 Free Software Foundation, Inc.
+   Copyright (C) 2013-2022 Free Software Foundation, Inc.
 
 This file is part of GCC.
 
@@ -39,6 +39,8 @@ extern tree get_attribute_name (const_tree);
 extern tree get_attribute_namespace (const_tree);
 extern void apply_tm_attr (tree, tree);
 extern tree make_attribute (const char *, const char *, tree);
+extern bool attribute_ignored_p (tree);
+extern bool attribute_ignored_p (const attribute_spec *const);
 
 extern struct scoped_attributes* register_scoped_attributes (const struct attribute_spec *,
 							     const char *,
@@ -60,6 +62,7 @@ extern tree build_type_attribute_variant (tree, tree);
 extern tree build_decl_attribute_variant (tree, tree);
 extern tree build_type_attribute_qual_variant (tree, tree, int);
 
+extern bool simple_cst_list_equal (const_tree, const_tree);
 extern bool attribute_value_equal (const_tree, const_tree);
 
 /* Return 0 if the attributes for two types are incompatible, 1 if they

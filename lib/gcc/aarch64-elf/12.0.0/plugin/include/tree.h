@@ -1,5 +1,5 @@
 /* Definitions for the ubiquitous 'tree' type for GNU compilers.
-   Copyright (C) 1989-2021 Free Software Foundation, Inc.
+   Copyright (C) 1989-2022 Free Software Foundation, Inc.
 
 This file is part of GCC.
 
@@ -5110,8 +5110,6 @@ reverse_storage_order_for_component_p (tree t)
     default:
       return false;
     }
-
-  gcc_unreachable ();
 }
 
 /* Return true if T is a storage order barrier, i.e. a VIEW_CONVERT_EXPR

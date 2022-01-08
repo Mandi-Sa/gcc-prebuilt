@@ -1,5 +1,5 @@
 /* Header file for gimple ranger SSA cache.
-   Copyright (C) 2017-2021 Free Software Foundation, Inc.
+   Copyright (C) 2017-2022 Free Software Foundation, Inc.
    Contributed by Andrew MacLeod <amacleod@redhat.com>.
 
 This file is part of GCC.
@@ -98,9 +98,10 @@ public:
   virtual bool range_of_expr (irange &r, tree name, gimple *stmt);
   virtual bool range_on_edge (irange &r, edge e, tree expr);
   bool block_range (irange &r, basic_block bb, tree name, bool calc = true);
+  bool range_from_dom (irange &r, tree name, basic_block bb);
 
   bool get_global_range (irange &r, tree name) const;
-  bool get_non_stale_global_range (irange &r, tree name);
+  bool get_global_range (irange &r, tree name, bool &current_p);
   void set_global_range (tree name, const irange &r);
 
   void propagate_updated_value (tree name, basic_block bb);

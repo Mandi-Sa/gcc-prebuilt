@@ -1,6 +1,6 @@
 // Predefined symbols and macros -*- C++ -*-
 
-// Copyright (C) 1997-2021 Free Software Foundation, Inc.
+// Copyright (C) 1997-2022 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the
@@ -34,7 +34,7 @@
 #define _GLIBCXX_RELEASE 12
 
 // The datestamp of the C++ library in compressed ISO date format.
-#define __GLIBCXX__ 20211124
+#define __GLIBCXX__ 20220108
 
 // Macros for various attributes.
 //   _GLIBCXX_PURE
@@ -175,10 +175,18 @@
 #endif
 
 #ifndef _GLIBCXX20_CONSTEXPR
-# if __cplusplus > 201703L
+# if __cplusplus >= 202002L
 #  define _GLIBCXX20_CONSTEXPR constexpr
 # else
 #  define _GLIBCXX20_CONSTEXPR
+# endif
+#endif
+
+#ifndef _GLIBCXX23_CONSTEXPR
+# if __cplusplus >= 202100L
+#  define _GLIBCXX23_CONSTEXPR constexpr
+# else
+#  define _GLIBCXX23_CONSTEXPR
 # endif
 #endif
 
@@ -495,6 +503,27 @@ namespace std
 
 #endif // _GLIBCXX_LONG_DOUBLE_ALT128_COMPAT && IEEE128
 
+namespace std
+{
+  // Internal version of std::is_constant_evaluated().
+  // This can be used without checking if the compiler supports the feature.
+  // The macro _GLIBCXX_HAVE_IS_CONSTANT_EVALUATED can be used to check if
+  // the compiler support is present to make this function work as expected.
+  _GLIBCXX_CONSTEXPR inline bool
+  __is_constant_evaluated() _GLIBCXX_NOEXCEPT
+  {
+#if __cpp_if_consteval >= 202106L
+# define _GLIBCXX_HAVE_IS_CONSTANT_EVALUATED 1
+    if consteval { return true; } else { return false; }
+#elif __cplusplus >= 201103L && __has_builtin(__builtin_is_constant_evaluated)
+# define _GLIBCXX_HAVE_IS_CONSTANT_EVALUATED 1
+    return __builtin_is_constant_evaluated();
+#else
+    return false;
+#endif
+  }
+}
+
 // Debug Mode implies checking assertions.
 #if defined(_GLIBCXX_DEBUG) && !defined(_GLIBCXX_ASSERTIONS)
 # define _GLIBCXX_ASSERTIONS 1
@@ -507,9 +536,9 @@ namespace std
 #endif
 
 
-#if __has_builtin(__builtin_is_constant_evaluated)
+#if _GLIBCXX_HAVE_IS_CONSTANT_EVALUATED
 # define __glibcxx_constexpr_assert(cond) \
-  if (__builtin_is_constant_evaluated() && !bool(cond))	\
+  if (std::__is_constant_evaluated() && !bool(cond))	\
     __builtin_unreachable() /* precondition violation detected! */
 #else
 # define __glibcxx_constexpr_assert(unevaluated)
@@ -554,6 +583,15 @@ namespace std
 #else
 # define __glibcxx_assert(cond) \
   do { __glibcxx_constexpr_assert(cond); } while (false)
+#endif
+
+// Macro indicating that TSAN is in use.
+#if __SANITIZE_THREAD__
+#  define _GLIBCXX_TSAN 1
+#elif defined __has_feature
+# if __has_feature(thread_sanitizer)
+#  define _GLIBCXX_TSAN 1
+# endif
 #endif
 
 // Macros for race detectors.
@@ -762,10 +800,6 @@ namespace std
 # define _GLIBCXX_HAVE_BUILTIN_IS_AGGREGATE 1
 #endif
 
-#if _GLIBCXX_HAS_BUILTIN(__builtin_is_constant_evaluated)
-#  define _GLIBCXX_HAVE_BUILTIN_IS_CONSTANT_EVALUATED 1
-#endif
-
 #if _GLIBCXX_HAS_BUILTIN(__is_same)
 #  define _GLIBCXX_HAVE_BUILTIN_IS_SAME 1
 #endif
@@ -775,7 +809,6 @@ namespace std
 #endif
 
 #undef _GLIBCXX_HAS_BUILTIN
-
 
 // PSTL configuration
 
@@ -1521,9 +1554,6 @@ namespace std
    */
 #define LT_OBJDIR ".libs/"
 
-/* Defined if no way to sleep is available. */
-/* #undef NO_SLEEP */
-
 /* Name of package */
 /* #undef _GLIBCXX_PACKAGE */
 
@@ -1642,6 +1672,9 @@ namespace std
 
 /* Define if C99 llrint and llround functions are missing from <math.h>. */
 /* #undef _GLIBCXX_NO_C99_ROUNDING_FUNCS */
+
+/* Defined if no way to sleep is available. */
+/* #undef _GLIBCXX_NO_SLEEP */
 
 /* Define if ptrdiff_t is int. */
 /* #undef _GLIBCXX_PTRDIFF_T_IS_INT */
