@@ -128,11 +128,6 @@ ISO C++11 compiler
      existing GCC binary (version 4.8 or later) because source code for
      language frontends other than C might use GCC extensions.
 
-     Note that to bootstrap GCC with versions of GCC earlier than 4.8,
-     you may need to use '--disable-stage1-checking', though
-     bootstrapping the compiler with such earlier compilers is strongly
-     discouraged.
-
 C standard library and headers
 
      In order to build GCC, the C standard library and headers must be
@@ -152,7 +147,7 @@ C standard library and headers
 GNAT
 
      In order to build GNAT, the Ada compiler, you need a working GNAT
-     compiler (GCC version 4.7 or later).
+     compiler (GCC version 5.1 or later).
 
      This includes GNAT tools such as 'gnatmake' and 'gnatlink', since
      the Ada front end is written in Ada and uses some GNAT-specific
@@ -296,7 +291,7 @@ MPFR Library version 3.1.0 (or later)
 MPC Library version 1.0.1 (or later)
 
      Necessary to build GCC.  It can be downloaded from
-     <http://www.multiprecision.org/mpc/>.  If an MPC source
+     <https://www.multiprecision.org/mpc/>.  If an MPC source
      distribution is found in a subdirectory of your GCC sources named
      'mpc', it will be built together with GCC. Alternatively, if MPC is
      already installed but it is not in your default library search
@@ -581,15 +576,15 @@ It looks like this: 'CPU-COMPANY-SYSTEM'.
      aarch64, aarch64_be, alpha, alpha64, amdgcn, arc, arceb, arm,
      armeb, avr, bfin, bpf, cr16, cris, csky, epiphany, fido, fr30, frv,
      ft32, h8300, hppa, hppa2.0, hppa64, i486, i686, ia64, iq2000, lm32,
-     m32c, m32r, m32rle, m68k, mcore, microblaze, microblazeel, mips,
-     mips64, mips64el, mips64octeon, mips64orion, mips64vr, mipsel,
-     mipsisa32, mipsisa32r2, mipsisa64, mipsisa64r2, mipsisa64r2el,
-     mipsisa64sb1, mipsisa64sr71k, mipstx39, mmix, mn10300, moxie,
-     msp430, nds32be, nds32le, nios2, nvptx, or1k, pdp11, powerpc,
-     powerpc64, powerpc64le, powerpcle, pru, riscv32, riscv32be,
-     riscv64, riscv64be, rl78, rx, s390, s390x, sh, shle, sparc,
-     sparc64, tic6x, tilegx, tilegxbe, tilepro, v850, v850e, v850e1,
-     vax, visium, x86_64, xstormy16, xtensa
+     loongarch64, m32c, m32r, m32rle, m68k, mcore, microblaze,
+     microblazeel, mips, mips64, mips64el, mips64octeon, mips64orion,
+     mips64vr, mipsel, mipsisa32, mipsisa32r2, mipsisa64, mipsisa64r2,
+     mipsisa64r2el, mipsisa64sb1, mipsisa64sr71k, mipstx39, mmix,
+     mn10300, moxie, msp430, nds32be, nds32le, nios2, nvptx, or1k,
+     pdp11, powerpc, powerpc64, powerpc64le, powerpcle, pru, riscv32,
+     riscv32be, riscv64, riscv64be, rl78, rx, s390, s390x, sh, shle,
+     sparc, sparc64, tic6x, tilegx, tilegxbe, tilepro, v850, v850e,
+     v850e1, vax, visium, x86_64, xstormy16, xtensa
 
    Here is a list of system types:
 
@@ -978,9 +973,9 @@ option.
 '--without-multilib-list'
      Specify what multilibs to build.  LIST is a comma separated list of
      values, possibly consisting of a single value.  Currently only
-     implemented for aarch64*-*-*, arm*-*-*, riscv*-*-*, sh*-*-* and
-     x86-64-*-linux*.  The accepted values and meaning for each target
-     is given below.
+     implemented for aarch64*-*-*, arm*-*-*, loongarch64-*-*,
+     riscv*-*-*, sh*-*-* and x86-64-*-linux*.  The accepted values and
+     meaning for each target is given below.
 
      'aarch64*-*-*'
           LIST is a comma separated list of 'ilp32', and 'lp64' to
@@ -1043,6 +1038,15 @@ option.
           floating-point'-mfloat-abi=soft' '-mfloat-abi=soft'
           ABIs        '-mfloat-abi=softfp' '-mfloat-abi=softfp'
                       '-mfloat-abi=hard'   '-mfloat-abi=hard'
+
+     'loongarch*-*-*'
+          LIST is a comma-separated list of the following ABI
+          identifiers: 'lp64d[/base]' 'lp64f[/base]' 'lp64d[/base]',
+          where the '/base' suffix may be omitted, to enable their
+          respective run-time libraries.  If LIST is empty or 'default',
+          or if '--with-multilib-list' is not specified, then the
+          default ABI as specified by '--with-abi' or implied by
+          '--target' is selected.
 
      'riscv*-*-*'
           LIST is a single ABI name.  The target architecture must be
@@ -1360,6 +1364,19 @@ option.
      On certain targets this option sets the default stack clash
      protection guard size as a power of two in bytes.  On AArch64 SIZE
      is required to be either 12 (4KB) or 16 (64KB).
+
+'--with-isa-spec=ISA-SPEC-STRING'
+     On RISC-V targets specify the default version of the RISC-V
+     Unprivileged (formerly User-Level) ISA specification to produce
+     code conforming to.  The possibilities for ISA-SPEC-STRING are:
+     '2.2'
+          Produce code conforming to version 2.2.
+     '20190608'
+          Produce code conforming to version 20190608.
+     '20191213'
+          Produce code conforming to version 20191213.
+     In the absence of this configuration option the default version is
+     20191213.
 
 '--enable-__cxa_atexit'
      Define if you want to use __cxa_atexit, rather than atexit, to
@@ -3199,24 +3216,14 @@ configure GCC for building a CR16 uclinux cross-compiler.
 CRIS
 ====
 
-CRIS is the CPU architecture in Axis Communications ETRAX
-system-on-a-chip series.  These are used in embedded applications.
+CRIS is a CPU architecture in Axis Communications systems-on-a-chip, for
+example the ETRAX series.  These are used in embedded applications.
 
    *Note CRIS Options: (gcc)CRIS Options, for a list of CRIS-specific
 options.
 
-   There are a few different CRIS targets:
-'cris-axis-elf'
-     Mainly for monolithic embedded systems.  Includes a multilib for
-     the 'v10' core used in 'ETRAX 100 LX'.
-'cris-axis-linux-gnu'
-     A GNU/Linux port for the CRIS architecture, currently targeting
-     'ETRAX 100 LX' by default.
-
-   Pre-packaged tools can be obtained from
-<ftp://ftp.axis.com/pub/axis/tools/cris/compiler-kit/>.  More
-information about this platform is available at
-<http://developer.axis.com/>.
+   Use 'configure --target=cris-elf' to configure GCC for building a
+cross-compiler for CRIS.
 
 DOS
 ===
@@ -3683,6 +3690,28 @@ lm32-*-uclinux
 
 Lattice Mico32 processor.  This configuration is intended for embedded
 systems running uClinux.
+
+LoongArch
+=========
+
+LoongArch processor.  The following LoongArch targets are available:
+'loongarch64-linux-gnu*'
+     LoongArch processor running GNU/Linux.  This target triplet may be
+     coupled with a small set of possible suffixes to identify their
+     default ABI type:
+     'f64'
+          Uses 'lp64d/base' ABI by default.
+     'f32'
+          Uses 'lp64f/base' ABI by default.
+     'sf'
+          Uses 'lp64s/base' ABI by default.
+
+'loongarch64-linux-gnu'
+     Same as 'loongarch64-linux-gnuf64', but may be used with
+     '--with-abi=*' to configure the default ABI type.
+
+   More information about LoongArch can be found at
+<https://github.com/loongson/LoongArch-Documentation>.
 
 m32c-*-elf
 ==========
@@ -4213,8 +4242,8 @@ Intel 64-bit versions
 ---------------------
 
 GCC contains support for x86-64 using the mingw-w64 runtime library,
-available from <https://mingw-w64.org/doku.php>.  This library should be
-used with the target triple x86_64-pc-mingw32.
+available from <https://www.mingw-w64.org/downloads/>.  This library
+should be used with the target triple x86_64-pc-mingw32.
 
 Windows CE
 ----------
@@ -4805,7 +4834,7 @@ Concept Index
 * Menu:
 
 * Binaries:                              Binaries.           (line    6)
-* build_configargs:                      Configuration.      (line 1806)
+* build_configargs:                      Configuration.      (line 1828)
 * Configuration:                         Configuration.      (line    6)
 * Downloading GCC:                       Downloading the source.
                                                              (line    6)
@@ -4814,7 +4843,7 @@ Concept Index
 * FDL, GNU Free Documentation License:   GNU Free Documentation License.
                                                              (line    6)
 * Host specific installation:            Specific.           (line    6)
-* host_configargs:                       Configuration.      (line 1810)
+* host_configargs:                       Configuration.      (line 1832)
 * Installing GCC: Binaries:              Binaries.           (line    6)
 * Installing GCC: Building:              Building.           (line    6)
 * Installing GCC: Configuration:         Configuration.      (line    6)
@@ -4824,7 +4853,7 @@ Concept Index
 * Specific installation notes:           Specific.           (line    6)
 * Target specific installation:          Specific.           (line    6)
 * Target specific installation notes:    Specific.           (line    6)
-* target_configargs:                     Configuration.      (line 1814)
+* target_configargs:                     Configuration.      (line 1836)
 * Testing:                               Testing.            (line    6)
 * Testsuite:                             Testing.            (line    6)
 
@@ -4834,104 +4863,105 @@ Tag Table:
 Node: Top1696
 Node: Installing GCC2201
 Node: Prerequisites3837
-Ref: GNAT-prerequisite5903
-Ref: GDC-prerequisite7300
-Node: Downloading the source16651
-Node: Configuration18322
-Ref: with-gnu-as36609
-Ref: with-as37504
-Ref: with-gnu-ld38913
-Ref: WithAixSoname63620
-Ref: AixLdCommand64281
-Node: Building106446
-Node: Testing122653
-Node: Final install130484
-Node: Binaries135785
-Node: Specific136892
-Ref: aarch64-x-x137426
-Ref: alpha-x-x139446
-Ref: amd64-x-solaris2139660
-Ref: amdgcn-x-amdhsa139742
-Ref: arc-x-elf32140268
-Ref: arc-linux-uclibc140444
-Ref: arm-x-eabi140585
-Ref: avr140838
-Ref: bfin141419
-Ref: cr16141682
-Ref: cris142098
-Ref: dos142796
-Ref: epiphany-x-elf143119
-Ref: x-x-freebsd143224
-Ref: ft32-x-elf144872
-Ref: h8300-hms144970
-Ref: hppa-hp-hpux145322
-Ref: hppa-hp-hpux10147694
-Ref: hppa-hp-hpux11148107
-Ref: x-x-linux-gnu153509
-Ref: ix86-x-linux153832
-Ref: ix86-x-solaris2154145
-Ref: ia64-x-linux155221
-Ref: ia64-x-hpux155468
-Ref: x-ibm-aix156023
-Ref: TransferAixShobj159685
-Ref: iq2000-x-elf163495
-Ref: lm32-x-elf163635
-Ref: lm32-x-uclinux163739
-Ref: m32c-x-elf163867
-Ref: m32r-x-elf163969
-Ref: m68k-x-x164071
-Ref: m68k-x-uclinux165109
-Ref: microblaze-x-elf165354
-Ref: mips-x-x165473
-Ref: moxie-x-elf167383
-Ref: msp430-x-elf167430
-Ref: nds32le-x-elf167987
-Ref: nds32be-x-elf168059
-Ref: nvptx-x-none168128
-Ref: or1k-x-elf168691
-Ref: or1k-x-linux168822
-Ref: powerpc-x-x168903
-Ref: powerpc-x-darwin169094
-Ref: powerpc-x-elf169589
-Ref: powerpc-x-linux-gnu169674
-Ref: powerpc-x-netbsd169769
-Ref: powerpc-x-eabisim169857
-Ref: powerpc-x-eabi169983
-Ref: powerpcle-x-elf170059
-Ref: powerpcle-x-eabisim170151
-Ref: powerpcle-x-eabi170284
-Ref: rl78-x-elf170367
-Ref: riscv32-x-elf170473
-Ref: riscv32-x-linux170662
-Ref: riscv64-x-elf170819
-Ref: riscv64-x-linux171008
-Ref: rx-x-elf171165
-Ref: s390-x-linux171211
-Ref: s390x-x-linux171283
-Ref: s390x-ibm-tpf171370
-Ref: x-x-solaris2171501
-Ref: sparc-x-x174608
-Ref: sparc-sun-solaris2175110
-Ref: sparc-x-linux176253
-Ref: sparc64-x-solaris2176284
-Ref: sparcv9-x-solaris2177002
-Ref: c6x-x-x177089
-Ref: tilegx-*-linux177181
-Ref: tilegxbe-*-linux177323
-Ref: tilepro-*-linux177466
-Ref: visium-x-elf177587
-Ref: x-x-vxworks177695
-Ref: x86-64-x-x179218
-Ref: x86-64-x-solaris2179546
-Ref: xtensa-x-elf180196
-Ref: xtensa-x-linux180867
-Ref: windows181208
-Ref: x-x-cygwin182998
-Ref: x-x-mingw32183551
-Ref: older183933
-Ref: elf186050
-Node: GNU Free Documentation License186308
-Node: Concept Index211443
+Ref: GNAT-prerequisite5680
+Ref: GDC-prerequisite7077
+Node: Downloading the source16429
+Node: Configuration18100
+Ref: with-gnu-as36400
+Ref: with-as37295
+Ref: with-gnu-ld38704
+Ref: WithAixSoname64415
+Ref: AixLdCommand65076
+Node: Building107241
+Node: Testing123448
+Node: Final install131279
+Node: Binaries136580
+Node: Specific137687
+Ref: aarch64-x-x138221
+Ref: alpha-x-x140241
+Ref: amd64-x-solaris2140455
+Ref: amdgcn-x-amdhsa140537
+Ref: arc-x-elf32141063
+Ref: arc-linux-uclibc141239
+Ref: arm-x-eabi141380
+Ref: avr141633
+Ref: bfin142214
+Ref: cr16142477
+Ref: cris142893
+Ref: dos143219
+Ref: epiphany-x-elf143544
+Ref: x-x-freebsd143649
+Ref: ft32-x-elf145297
+Ref: h8300-hms145395
+Ref: hppa-hp-hpux145747
+Ref: hppa-hp-hpux10148119
+Ref: hppa-hp-hpux11148532
+Ref: x-x-linux-gnu153934
+Ref: ix86-x-linux154257
+Ref: ix86-x-solaris2154570
+Ref: ia64-x-linux155646
+Ref: ia64-x-hpux155893
+Ref: x-ibm-aix156448
+Ref: TransferAixShobj160110
+Ref: iq2000-x-elf163920
+Ref: lm32-x-elf164060
+Ref: lm32-x-uclinux164164
+Ref: loongarch164292
+Ref: m32c-x-elf164986
+Ref: m32r-x-elf165088
+Ref: m68k-x-x165190
+Ref: m68k-x-uclinux166228
+Ref: microblaze-x-elf166473
+Ref: mips-x-x166592
+Ref: moxie-x-elf168502
+Ref: msp430-x-elf168549
+Ref: nds32le-x-elf169106
+Ref: nds32be-x-elf169178
+Ref: nvptx-x-none169247
+Ref: or1k-x-elf169810
+Ref: or1k-x-linux169941
+Ref: powerpc-x-x170022
+Ref: powerpc-x-darwin170213
+Ref: powerpc-x-elf170708
+Ref: powerpc-x-linux-gnu170793
+Ref: powerpc-x-netbsd170888
+Ref: powerpc-x-eabisim170976
+Ref: powerpc-x-eabi171102
+Ref: powerpcle-x-elf171178
+Ref: powerpcle-x-eabisim171270
+Ref: powerpcle-x-eabi171403
+Ref: rl78-x-elf171486
+Ref: riscv32-x-elf171592
+Ref: riscv32-x-linux171781
+Ref: riscv64-x-elf171938
+Ref: riscv64-x-linux172127
+Ref: rx-x-elf172284
+Ref: s390-x-linux172330
+Ref: s390x-x-linux172402
+Ref: s390x-ibm-tpf172489
+Ref: x-x-solaris2172620
+Ref: sparc-x-x175727
+Ref: sparc-sun-solaris2176229
+Ref: sparc-x-linux177372
+Ref: sparc64-x-solaris2177403
+Ref: sparcv9-x-solaris2178121
+Ref: c6x-x-x178208
+Ref: tilegx-*-linux178300
+Ref: tilegxbe-*-linux178442
+Ref: tilepro-*-linux178585
+Ref: visium-x-elf178706
+Ref: x-x-vxworks178814
+Ref: x86-64-x-x180337
+Ref: x86-64-x-solaris2180665
+Ref: xtensa-x-elf181315
+Ref: xtensa-x-linux181986
+Ref: windows182327
+Ref: x-x-cygwin184123
+Ref: x-x-mingw32184676
+Ref: older185058
+Ref: elf187175
+Node: GNU Free Documentation License187433
+Node: Concept Index212568
 
 End Tag Table
 
