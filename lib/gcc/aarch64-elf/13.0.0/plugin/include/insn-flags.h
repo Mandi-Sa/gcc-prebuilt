@@ -56,6 +56,10 @@
 		 plus_constant (Pmode, \
 				XEXP (operands[1], 0), \
 				GET_MODE_SIZE (DImode))))
+#define HAVE_load_pair_dw_didd (rtx_equal_p (XEXP (operands[3], 0), \
+		 plus_constant (Pmode, \
+				XEXP (operands[1], 0), \
+				GET_MODE_SIZE (DImode))))
 #define HAVE_load_pair_dw_dfdi (rtx_equal_p (XEXP (operands[3], 0), \
 		 plus_constant (Pmode, \
 				XEXP (operands[1], 0), \
@@ -64,6 +68,22 @@
 		 plus_constant (Pmode, \
 				XEXP (operands[1], 0), \
 				GET_MODE_SIZE (DFmode))))
+#define HAVE_load_pair_dw_dfdd (rtx_equal_p (XEXP (operands[3], 0), \
+		 plus_constant (Pmode, \
+				XEXP (operands[1], 0), \
+				GET_MODE_SIZE (DFmode))))
+#define HAVE_load_pair_dw_dddi (rtx_equal_p (XEXP (operands[3], 0), \
+		 plus_constant (Pmode, \
+				XEXP (operands[1], 0), \
+				GET_MODE_SIZE (DDmode))))
+#define HAVE_load_pair_dw_dddf (rtx_equal_p (XEXP (operands[3], 0), \
+		 plus_constant (Pmode, \
+				XEXP (operands[1], 0), \
+				GET_MODE_SIZE (DDmode))))
+#define HAVE_load_pair_dw_dddd (rtx_equal_p (XEXP (operands[3], 0), \
+		 plus_constant (Pmode, \
+				XEXP (operands[1], 0), \
+				GET_MODE_SIZE (DDmode))))
 #define HAVE_load_pair_dw_tftf (TARGET_SIMD \
     && rtx_equal_p (XEXP (operands[3], 0), \
 		    plus_constant (Pmode, \
@@ -93,6 +113,10 @@
 		 plus_constant (Pmode, \
 				XEXP (operands[0], 0), \
 				GET_MODE_SIZE (DImode))))
+#define HAVE_store_pair_dw_didd (rtx_equal_p (XEXP (operands[2], 0), \
+		 plus_constant (Pmode, \
+				XEXP (operands[0], 0), \
+				GET_MODE_SIZE (DImode))))
 #define HAVE_store_pair_dw_dfdi (rtx_equal_p (XEXP (operands[2], 0), \
 		 plus_constant (Pmode, \
 				XEXP (operands[0], 0), \
@@ -101,6 +125,22 @@
 		 plus_constant (Pmode, \
 				XEXP (operands[0], 0), \
 				GET_MODE_SIZE (DFmode))))
+#define HAVE_store_pair_dw_dfdd (rtx_equal_p (XEXP (operands[2], 0), \
+		 plus_constant (Pmode, \
+				XEXP (operands[0], 0), \
+				GET_MODE_SIZE (DFmode))))
+#define HAVE_store_pair_dw_dddi (rtx_equal_p (XEXP (operands[2], 0), \
+		 plus_constant (Pmode, \
+				XEXP (operands[0], 0), \
+				GET_MODE_SIZE (DDmode))))
+#define HAVE_store_pair_dw_dddf (rtx_equal_p (XEXP (operands[2], 0), \
+		 plus_constant (Pmode, \
+				XEXP (operands[0], 0), \
+				GET_MODE_SIZE (DDmode))))
+#define HAVE_store_pair_dw_dddd (rtx_equal_p (XEXP (operands[2], 0), \
+		 plus_constant (Pmode, \
+				XEXP (operands[0], 0), \
+				GET_MODE_SIZE (DDmode))))
 #define HAVE_store_pair_dw_tftf (TARGET_SIMD && \
     rtx_equal_p (XEXP (operands[2], 0), \
 		 plus_constant (Pmode, \
@@ -116,8 +156,10 @@
 #define HAVE_loadwb_pairdf_di ((INTVAL (operands[5]) == GET_MODE_SIZE (DFmode)) && (ptr_mode == DImode || Pmode == DImode))
 #define HAVE_loadwb_pairti_si ((TARGET_SIMD && INTVAL (operands[5]) == GET_MODE_SIZE (TImode)) && (ptr_mode == SImode || Pmode == SImode))
 #define HAVE_loadwb_pairtf_si ((TARGET_SIMD && INTVAL (operands[5]) == GET_MODE_SIZE (TFmode)) && (ptr_mode == SImode || Pmode == SImode))
+#define HAVE_loadwb_pairtd_si ((TARGET_SIMD && INTVAL (operands[5]) == GET_MODE_SIZE (TDmode)) && (ptr_mode == SImode || Pmode == SImode))
 #define HAVE_loadwb_pairti_di ((TARGET_SIMD && INTVAL (operands[5]) == GET_MODE_SIZE (TImode)) && (ptr_mode == DImode || Pmode == DImode))
 #define HAVE_loadwb_pairtf_di ((TARGET_SIMD && INTVAL (operands[5]) == GET_MODE_SIZE (TFmode)) && (ptr_mode == DImode || Pmode == DImode))
+#define HAVE_loadwb_pairtd_di ((TARGET_SIMD && INTVAL (operands[5]) == GET_MODE_SIZE (TDmode)) && (ptr_mode == DImode || Pmode == DImode))
 #define HAVE_storewb_pairsi_si ((INTVAL (operands[5]) == INTVAL (operands[4]) + GET_MODE_SIZE (SImode)) && (ptr_mode == SImode || Pmode == SImode))
 #define HAVE_storewb_pairsi_di ((INTVAL (operands[5]) == INTVAL (operands[4]) + GET_MODE_SIZE (SImode)) && (ptr_mode == DImode || Pmode == DImode))
 #define HAVE_storewb_pairdi_si ((INTVAL (operands[5]) == INTVAL (operands[4]) + GET_MODE_SIZE (DImode)) && (ptr_mode == SImode || Pmode == SImode))
@@ -132,12 +174,18 @@
 #define HAVE_storewb_pairtf_si ((TARGET_SIMD \
    && INTVAL (operands[5]) \
       == INTVAL (operands[4]) + GET_MODE_SIZE (TFmode)) && (ptr_mode == SImode || Pmode == SImode))
+#define HAVE_storewb_pairtd_si ((TARGET_SIMD \
+   && INTVAL (operands[5]) \
+      == INTVAL (operands[4]) + GET_MODE_SIZE (TDmode)) && (ptr_mode == SImode || Pmode == SImode))
 #define HAVE_storewb_pairti_di ((TARGET_SIMD \
    && INTVAL (operands[5]) \
       == INTVAL (operands[4]) + GET_MODE_SIZE (TImode)) && (ptr_mode == DImode || Pmode == DImode))
 #define HAVE_storewb_pairtf_di ((TARGET_SIMD \
    && INTVAL (operands[5]) \
       == INTVAL (operands[4]) + GET_MODE_SIZE (TFmode)) && (ptr_mode == DImode || Pmode == DImode))
+#define HAVE_storewb_pairtd_di ((TARGET_SIMD \
+   && INTVAL (operands[5]) \
+      == INTVAL (operands[4]) + GET_MODE_SIZE (TDmode)) && (ptr_mode == DImode || Pmode == DImode))
 #define HAVE_addsi3_compare0 1
 #define HAVE_adddi3_compare0 1
 #define HAVE_addsi3_compareC 1
@@ -210,6 +258,8 @@
 #define HAVE_csinc3di_insn 1
 #define HAVE_csneg3si_insn 1
 #define HAVE_csneg3di_insn 1
+#define HAVE_aarch64_umaxsi3_insn (TARGET_CSSC)
+#define HAVE_aarch64_umaxdi3_insn (TARGET_CSSC)
 #define HAVE_aarch64_uqdecsi (TARGET_SVE)
 #define HAVE_aarch64_uqdecdi (TARGET_SVE)
 #define HAVE_andsi3 1
@@ -232,6 +282,9 @@
 #define HAVE_and_one_cmpl_rotrsi3 1
 #define HAVE_ior_one_cmpl_rotrsi3 1
 #define HAVE_xor_one_cmpl_rotrsi3 1
+#define HAVE_and_one_cmpl_rotlsi3 1
+#define HAVE_ior_one_cmpl_rotlsi3 1
+#define HAVE_xor_one_cmpl_rotlsi3 1
 #define HAVE_and_one_cmpl_ashldi3 1
 #define HAVE_ior_one_cmpl_ashldi3 1
 #define HAVE_xor_one_cmpl_ashldi3 1
@@ -244,17 +297,37 @@
 #define HAVE_and_one_cmpl_rotrdi3 1
 #define HAVE_ior_one_cmpl_rotrdi3 1
 #define HAVE_xor_one_cmpl_rotrdi3 1
+#define HAVE_and_one_cmpl_rotldi3 1
+#define HAVE_ior_one_cmpl_rotldi3 1
+#define HAVE_xor_one_cmpl_rotldi3 1
+#define HAVE_and_one_cmpl_ashlsidi_uxtw 1
+#define HAVE_ior_one_cmpl_ashlsidi_uxtw 1
+#define HAVE_xor_one_cmpl_ashlsidi_uxtw 1
+#define HAVE_and_one_cmpl_ashrsidi_uxtw 1
+#define HAVE_ior_one_cmpl_ashrsidi_uxtw 1
+#define HAVE_xor_one_cmpl_ashrsidi_uxtw 1
+#define HAVE_and_one_cmpl_lshrsidi_uxtw 1
+#define HAVE_ior_one_cmpl_lshrsidi_uxtw 1
+#define HAVE_xor_one_cmpl_lshrsidi_uxtw 1
+#define HAVE_and_one_cmpl_rotrsidi_uxtw 1
+#define HAVE_ior_one_cmpl_rotrsidi_uxtw 1
+#define HAVE_xor_one_cmpl_rotrsidi_uxtw 1
+#define HAVE_and_one_cmpl_rotlsidi_uxtw 1
+#define HAVE_ior_one_cmpl_rotlsidi_uxtw 1
+#define HAVE_xor_one_cmpl_rotlsidi_uxtw 1
 #define HAVE_clzsi2 1
 #define HAVE_clzdi2 1
 #define HAVE_clrsbsi2 1
 #define HAVE_clrsbdi2 1
-#define HAVE_rbitsi2 1
-#define HAVE_rbitdi2 1
+#define HAVE_aarch64_rbitsi 1
+#define HAVE_aarch64_rbitdi 1
 #define HAVE_ctzsi2 1
 #define HAVE_ctzdi2 1
 #define HAVE_bswapsi2 1
 #define HAVE_bswapdi2 1
 #define HAVE_bswaphi2 1
+#define HAVE_aarch64_rev16si 1
+#define HAVE_aarch64_rev16di 1
 #define HAVE_rev16si2 (aarch_rev16_shleft_mask_imm_p (operands[3], SImode) \
    && aarch_rev16_shright_mask_imm_p (operands[2], SImode))
 #define HAVE_rev16di2 (aarch_rev16_shleft_mask_imm_p (operands[3], DImode) \
@@ -409,6 +482,12 @@
 #define HAVE_abshf2 ((TARGET_FLOAT) && (AARCH64_ISA_F16))
 #define HAVE_abssf2 (TARGET_FLOAT)
 #define HAVE_absdf2 (TARGET_FLOAT)
+#define HAVE_smaxsi3 (TARGET_CSSC)
+#define HAVE_sminsi3 (TARGET_CSSC)
+#define HAVE_uminsi3 (TARGET_CSSC)
+#define HAVE_smaxdi3 (TARGET_CSSC)
+#define HAVE_smindi3 (TARGET_CSSC)
+#define HAVE_umindi3 (TARGET_CSSC)
 #define HAVE_smaxsf3 (TARGET_FLOAT)
 #define HAVE_smaxdf3 (TARGET_FLOAT)
 #define HAVE_sminsf3 (TARGET_FLOAT)
@@ -425,16 +504,20 @@
 #define HAVE_fmin_nandf3 (TARGET_FLOAT)
 #define HAVE_fmaxdf3 (TARGET_FLOAT)
 #define HAVE_fmindf3 (TARGET_FLOAT)
-#define HAVE_copysignsf3_insn (TARGET_FLOAT && TARGET_SIMD)
-#define HAVE_copysigndf3_insn (TARGET_FLOAT && TARGET_SIMD)
+#define HAVE_copysignsf3_insn (TARGET_SIMD)
+#define HAVE_copysigndf3_insn (TARGET_SIMD)
 #define HAVE_aarch64_movdi_tilow (TARGET_FLOAT && (reload_completed || reload_in_progress))
 #define HAVE_aarch64_movdi_tflow (TARGET_FLOAT && (reload_completed || reload_in_progress))
+#define HAVE_aarch64_movdi_tdlow (TARGET_FLOAT && (reload_completed || reload_in_progress))
 #define HAVE_aarch64_movdi_tihigh (TARGET_FLOAT && (reload_completed || reload_in_progress))
 #define HAVE_aarch64_movdi_tfhigh (TARGET_FLOAT && (reload_completed || reload_in_progress))
+#define HAVE_aarch64_movdi_tdhigh (TARGET_FLOAT && (reload_completed || reload_in_progress))
 #define HAVE_aarch64_movtihigh_di (TARGET_FLOAT && (reload_completed || reload_in_progress))
 #define HAVE_aarch64_movtfhigh_di (TARGET_FLOAT && (reload_completed || reload_in_progress))
+#define HAVE_aarch64_movtdhigh_di (TARGET_FLOAT && (reload_completed || reload_in_progress))
 #define HAVE_aarch64_movtilow_di (TARGET_FLOAT && (reload_completed || reload_in_progress))
 #define HAVE_aarch64_movtflow_di (TARGET_FLOAT && (reload_completed || reload_in_progress))
+#define HAVE_aarch64_movtdlow_di (TARGET_FLOAT && (reload_completed || reload_in_progress))
 #define HAVE_aarch64_movtilow_tilow (TARGET_FLOAT && (reload_completed || reload_in_progress))
 #define HAVE_add_losym_si (ptr_mode == SImode || Pmode == SImode)
 #define HAVE_add_losym_di (ptr_mode == DImode || Pmode == DImode)
@@ -560,6 +643,7 @@
 #define HAVE_st64b (TARGET_LS64)
 #define HAVE_st64bv (TARGET_LS64)
 #define HAVE_st64bv0 (TARGET_LS64)
+#define HAVE_patchable_area 1
 #define HAVE_aarch64_simd_dupv8qi (TARGET_SIMD)
 #define HAVE_aarch64_simd_dupv16qi (TARGET_SIMD)
 #define HAVE_aarch64_simd_dupv4hi (TARGET_SIMD)
@@ -567,6 +651,7 @@
 #define HAVE_aarch64_simd_dupv2si (TARGET_SIMD)
 #define HAVE_aarch64_simd_dupv4si (TARGET_SIMD)
 #define HAVE_aarch64_simd_dupv2di (TARGET_SIMD)
+#define HAVE_aarch64_simd_dupv2hf (TARGET_SIMD)
 #define HAVE_aarch64_simd_dupv4hf (TARGET_SIMD)
 #define HAVE_aarch64_simd_dupv8hf (TARGET_SIMD)
 #define HAVE_aarch64_simd_dupv2sf (TARGET_SIMD)
@@ -588,6 +673,7 @@
 #define HAVE_aarch64_dup_lanev2sf (TARGET_SIMD)
 #define HAVE_aarch64_dup_lanev4sf (TARGET_SIMD)
 #define HAVE_aarch64_dup_lanev2df (TARGET_SIMD)
+#define HAVE_aarch64_dup_lanev2hf ((TARGET_SIMD) && (TARGET_SIMD_F16INST))
 #define HAVE_aarch64_dup_lane_to_128v8qi (TARGET_SIMD)
 #define HAVE_aarch64_dup_lane_to_64v16qi (TARGET_SIMD)
 #define HAVE_aarch64_dup_lane_to_128v4hi (TARGET_SIMD)
@@ -626,954 +712,1020 @@
    && ENDIAN_LANE_N (4, INTVAL (operands[2])) == 0)
 #define HAVE_aarch64_store_lane0v2df (TARGET_SIMD \
    && ENDIAN_LANE_N (2, INTVAL (operands[2])) == 0)
-#define HAVE_load_pairv8qiv8qi (TARGET_SIMD \
+#define HAVE_aarch64_store_lane0v2hf ((TARGET_SIMD \
+   && ENDIAN_LANE_N (2, INTVAL (operands[2])) == 0) && (TARGET_SIMD_F16INST))
+#define HAVE_load_pairv8qiv8qi (TARGET_FLOAT \
    && rtx_equal_p (XEXP (operands[3], 0), \
 		   plus_constant (Pmode, \
 				  XEXP (operands[1], 0), \
 				  GET_MODE_SIZE (V8QImode))))
-#define HAVE_load_pairv4hiv8qi (TARGET_SIMD \
+#define HAVE_load_pairv4hiv8qi (TARGET_FLOAT \
    && rtx_equal_p (XEXP (operands[3], 0), \
 		   plus_constant (Pmode, \
 				  XEXP (operands[1], 0), \
 				  GET_MODE_SIZE (V4HImode))))
-#define HAVE_load_pairv4hfv8qi (TARGET_SIMD \
+#define HAVE_load_pairv4hfv8qi (TARGET_FLOAT \
    && rtx_equal_p (XEXP (operands[3], 0), \
 		   plus_constant (Pmode, \
 				  XEXP (operands[1], 0), \
 				  GET_MODE_SIZE (V4HFmode))))
-#define HAVE_load_pairv2siv8qi (TARGET_SIMD \
+#define HAVE_load_pairv2siv8qi (TARGET_FLOAT \
    && rtx_equal_p (XEXP (operands[3], 0), \
 		   plus_constant (Pmode, \
 				  XEXP (operands[1], 0), \
 				  GET_MODE_SIZE (V2SImode))))
-#define HAVE_load_pairv2sfv8qi (TARGET_SIMD \
+#define HAVE_load_pairv2sfv8qi (TARGET_FLOAT \
    && rtx_equal_p (XEXP (operands[3], 0), \
 		   plus_constant (Pmode, \
 				  XEXP (operands[1], 0), \
 				  GET_MODE_SIZE (V2SFmode))))
-#define HAVE_load_pairdfv8qi (TARGET_SIMD \
+#define HAVE_load_pairdfv8qi (TARGET_FLOAT \
    && rtx_equal_p (XEXP (operands[3], 0), \
 		   plus_constant (Pmode, \
 				  XEXP (operands[1], 0), \
 				  GET_MODE_SIZE (DFmode))))
-#define HAVE_load_pairv8qiv4hi (TARGET_SIMD \
+#define HAVE_load_pairv8qiv4hi (TARGET_FLOAT \
    && rtx_equal_p (XEXP (operands[3], 0), \
 		   plus_constant (Pmode, \
 				  XEXP (operands[1], 0), \
 				  GET_MODE_SIZE (V8QImode))))
-#define HAVE_load_pairv4hiv4hi (TARGET_SIMD \
+#define HAVE_load_pairv4hiv4hi (TARGET_FLOAT \
    && rtx_equal_p (XEXP (operands[3], 0), \
 		   plus_constant (Pmode, \
 				  XEXP (operands[1], 0), \
 				  GET_MODE_SIZE (V4HImode))))
-#define HAVE_load_pairv4hfv4hi (TARGET_SIMD \
+#define HAVE_load_pairv4hfv4hi (TARGET_FLOAT \
    && rtx_equal_p (XEXP (operands[3], 0), \
 		   plus_constant (Pmode, \
 				  XEXP (operands[1], 0), \
 				  GET_MODE_SIZE (V4HFmode))))
-#define HAVE_load_pairv2siv4hi (TARGET_SIMD \
+#define HAVE_load_pairv2siv4hi (TARGET_FLOAT \
    && rtx_equal_p (XEXP (operands[3], 0), \
 		   plus_constant (Pmode, \
 				  XEXP (operands[1], 0), \
 				  GET_MODE_SIZE (V2SImode))))
-#define HAVE_load_pairv2sfv4hi (TARGET_SIMD \
+#define HAVE_load_pairv2sfv4hi (TARGET_FLOAT \
    && rtx_equal_p (XEXP (operands[3], 0), \
 		   plus_constant (Pmode, \
 				  XEXP (operands[1], 0), \
 				  GET_MODE_SIZE (V2SFmode))))
-#define HAVE_load_pairdfv4hi (TARGET_SIMD \
+#define HAVE_load_pairdfv4hi (TARGET_FLOAT \
    && rtx_equal_p (XEXP (operands[3], 0), \
 		   plus_constant (Pmode, \
 				  XEXP (operands[1], 0), \
 				  GET_MODE_SIZE (DFmode))))
-#define HAVE_load_pairv8qiv4hf (TARGET_SIMD \
+#define HAVE_load_pairv8qiv4hf (TARGET_FLOAT \
    && rtx_equal_p (XEXP (operands[3], 0), \
 		   plus_constant (Pmode, \
 				  XEXP (operands[1], 0), \
 				  GET_MODE_SIZE (V8QImode))))
-#define HAVE_load_pairv4hiv4hf (TARGET_SIMD \
+#define HAVE_load_pairv4hiv4hf (TARGET_FLOAT \
    && rtx_equal_p (XEXP (operands[3], 0), \
 		   plus_constant (Pmode, \
 				  XEXP (operands[1], 0), \
 				  GET_MODE_SIZE (V4HImode))))
-#define HAVE_load_pairv4hfv4hf (TARGET_SIMD \
+#define HAVE_load_pairv4hfv4hf (TARGET_FLOAT \
    && rtx_equal_p (XEXP (operands[3], 0), \
 		   plus_constant (Pmode, \
 				  XEXP (operands[1], 0), \
 				  GET_MODE_SIZE (V4HFmode))))
-#define HAVE_load_pairv2siv4hf (TARGET_SIMD \
+#define HAVE_load_pairv2siv4hf (TARGET_FLOAT \
    && rtx_equal_p (XEXP (operands[3], 0), \
 		   plus_constant (Pmode, \
 				  XEXP (operands[1], 0), \
 				  GET_MODE_SIZE (V2SImode))))
-#define HAVE_load_pairv2sfv4hf (TARGET_SIMD \
+#define HAVE_load_pairv2sfv4hf (TARGET_FLOAT \
    && rtx_equal_p (XEXP (operands[3], 0), \
 		   plus_constant (Pmode, \
 				  XEXP (operands[1], 0), \
 				  GET_MODE_SIZE (V2SFmode))))
-#define HAVE_load_pairdfv4hf (TARGET_SIMD \
+#define HAVE_load_pairdfv4hf (TARGET_FLOAT \
    && rtx_equal_p (XEXP (operands[3], 0), \
 		   plus_constant (Pmode, \
 				  XEXP (operands[1], 0), \
 				  GET_MODE_SIZE (DFmode))))
-#define HAVE_load_pairv8qiv2si (TARGET_SIMD \
+#define HAVE_load_pairv8qiv2si (TARGET_FLOAT \
    && rtx_equal_p (XEXP (operands[3], 0), \
 		   plus_constant (Pmode, \
 				  XEXP (operands[1], 0), \
 				  GET_MODE_SIZE (V8QImode))))
-#define HAVE_load_pairv4hiv2si (TARGET_SIMD \
+#define HAVE_load_pairv4hiv2si (TARGET_FLOAT \
    && rtx_equal_p (XEXP (operands[3], 0), \
 		   plus_constant (Pmode, \
 				  XEXP (operands[1], 0), \
 				  GET_MODE_SIZE (V4HImode))))
-#define HAVE_load_pairv4hfv2si (TARGET_SIMD \
+#define HAVE_load_pairv4hfv2si (TARGET_FLOAT \
    && rtx_equal_p (XEXP (operands[3], 0), \
 		   plus_constant (Pmode, \
 				  XEXP (operands[1], 0), \
 				  GET_MODE_SIZE (V4HFmode))))
-#define HAVE_load_pairv2siv2si (TARGET_SIMD \
+#define HAVE_load_pairv2siv2si (TARGET_FLOAT \
    && rtx_equal_p (XEXP (operands[3], 0), \
 		   plus_constant (Pmode, \
 				  XEXP (operands[1], 0), \
 				  GET_MODE_SIZE (V2SImode))))
-#define HAVE_load_pairv2sfv2si (TARGET_SIMD \
+#define HAVE_load_pairv2sfv2si (TARGET_FLOAT \
    && rtx_equal_p (XEXP (operands[3], 0), \
 		   plus_constant (Pmode, \
 				  XEXP (operands[1], 0), \
 				  GET_MODE_SIZE (V2SFmode))))
-#define HAVE_load_pairdfv2si (TARGET_SIMD \
+#define HAVE_load_pairdfv2si (TARGET_FLOAT \
    && rtx_equal_p (XEXP (operands[3], 0), \
 		   plus_constant (Pmode, \
 				  XEXP (operands[1], 0), \
 				  GET_MODE_SIZE (DFmode))))
-#define HAVE_load_pairv8qiv2sf (TARGET_SIMD \
+#define HAVE_load_pairv8qiv2sf (TARGET_FLOAT \
    && rtx_equal_p (XEXP (operands[3], 0), \
 		   plus_constant (Pmode, \
 				  XEXP (operands[1], 0), \
 				  GET_MODE_SIZE (V8QImode))))
-#define HAVE_load_pairv4hiv2sf (TARGET_SIMD \
+#define HAVE_load_pairv4hiv2sf (TARGET_FLOAT \
    && rtx_equal_p (XEXP (operands[3], 0), \
 		   plus_constant (Pmode, \
 				  XEXP (operands[1], 0), \
 				  GET_MODE_SIZE (V4HImode))))
-#define HAVE_load_pairv4hfv2sf (TARGET_SIMD \
+#define HAVE_load_pairv4hfv2sf (TARGET_FLOAT \
    && rtx_equal_p (XEXP (operands[3], 0), \
 		   plus_constant (Pmode, \
 				  XEXP (operands[1], 0), \
 				  GET_MODE_SIZE (V4HFmode))))
-#define HAVE_load_pairv2siv2sf (TARGET_SIMD \
+#define HAVE_load_pairv2siv2sf (TARGET_FLOAT \
    && rtx_equal_p (XEXP (operands[3], 0), \
 		   plus_constant (Pmode, \
 				  XEXP (operands[1], 0), \
 				  GET_MODE_SIZE (V2SImode))))
-#define HAVE_load_pairv2sfv2sf (TARGET_SIMD \
+#define HAVE_load_pairv2sfv2sf (TARGET_FLOAT \
    && rtx_equal_p (XEXP (operands[3], 0), \
 		   plus_constant (Pmode, \
 				  XEXP (operands[1], 0), \
 				  GET_MODE_SIZE (V2SFmode))))
-#define HAVE_load_pairdfv2sf (TARGET_SIMD \
+#define HAVE_load_pairdfv2sf (TARGET_FLOAT \
    && rtx_equal_p (XEXP (operands[3], 0), \
 		   plus_constant (Pmode, \
 				  XEXP (operands[1], 0), \
 				  GET_MODE_SIZE (DFmode))))
-#define HAVE_load_pairv8qidf (TARGET_SIMD \
+#define HAVE_load_pairv8qidf (TARGET_FLOAT \
    && rtx_equal_p (XEXP (operands[3], 0), \
 		   plus_constant (Pmode, \
 				  XEXP (operands[1], 0), \
 				  GET_MODE_SIZE (V8QImode))))
-#define HAVE_load_pairv4hidf (TARGET_SIMD \
+#define HAVE_load_pairv4hidf (TARGET_FLOAT \
    && rtx_equal_p (XEXP (operands[3], 0), \
 		   plus_constant (Pmode, \
 				  XEXP (operands[1], 0), \
 				  GET_MODE_SIZE (V4HImode))))
-#define HAVE_load_pairv4hfdf (TARGET_SIMD \
+#define HAVE_load_pairv4hfdf (TARGET_FLOAT \
    && rtx_equal_p (XEXP (operands[3], 0), \
 		   plus_constant (Pmode, \
 				  XEXP (operands[1], 0), \
 				  GET_MODE_SIZE (V4HFmode))))
-#define HAVE_load_pairv2sidf (TARGET_SIMD \
+#define HAVE_load_pairv2sidf (TARGET_FLOAT \
    && rtx_equal_p (XEXP (operands[3], 0), \
 		   plus_constant (Pmode, \
 				  XEXP (operands[1], 0), \
 				  GET_MODE_SIZE (V2SImode))))
-#define HAVE_load_pairv2sfdf (TARGET_SIMD \
+#define HAVE_load_pairv2sfdf (TARGET_FLOAT \
    && rtx_equal_p (XEXP (operands[3], 0), \
 		   plus_constant (Pmode, \
 				  XEXP (operands[1], 0), \
 				  GET_MODE_SIZE (V2SFmode))))
-#define HAVE_load_pairdfdf (TARGET_SIMD \
+#define HAVE_load_pairdfdf (TARGET_FLOAT \
    && rtx_equal_p (XEXP (operands[3], 0), \
 		   plus_constant (Pmode, \
 				  XEXP (operands[1], 0), \
 				  GET_MODE_SIZE (DFmode))))
-#define HAVE_vec_store_pairv8qiv8qi (TARGET_SIMD \
+#define HAVE_vec_store_pairv8qiv8qi (TARGET_FLOAT \
    && rtx_equal_p (XEXP (operands[2], 0), \
 		   plus_constant (Pmode, \
 				  XEXP (operands[0], 0), \
 				  GET_MODE_SIZE (V8QImode))))
-#define HAVE_vec_store_pairv4hiv8qi (TARGET_SIMD \
+#define HAVE_vec_store_pairv4hiv8qi (TARGET_FLOAT \
    && rtx_equal_p (XEXP (operands[2], 0), \
 		   plus_constant (Pmode, \
 				  XEXP (operands[0], 0), \
 				  GET_MODE_SIZE (V4HImode))))
-#define HAVE_vec_store_pairv4hfv8qi (TARGET_SIMD \
+#define HAVE_vec_store_pairv4hfv8qi (TARGET_FLOAT \
    && rtx_equal_p (XEXP (operands[2], 0), \
 		   plus_constant (Pmode, \
 				  XEXP (operands[0], 0), \
 				  GET_MODE_SIZE (V4HFmode))))
-#define HAVE_vec_store_pairv2siv8qi (TARGET_SIMD \
+#define HAVE_vec_store_pairv2siv8qi (TARGET_FLOAT \
    && rtx_equal_p (XEXP (operands[2], 0), \
 		   plus_constant (Pmode, \
 				  XEXP (operands[0], 0), \
 				  GET_MODE_SIZE (V2SImode))))
-#define HAVE_vec_store_pairv2sfv8qi (TARGET_SIMD \
+#define HAVE_vec_store_pairv2sfv8qi (TARGET_FLOAT \
    && rtx_equal_p (XEXP (operands[2], 0), \
 		   plus_constant (Pmode, \
 				  XEXP (operands[0], 0), \
 				  GET_MODE_SIZE (V2SFmode))))
-#define HAVE_vec_store_pairdfv8qi (TARGET_SIMD \
+#define HAVE_vec_store_pairdfv8qi (TARGET_FLOAT \
    && rtx_equal_p (XEXP (operands[2], 0), \
 		   plus_constant (Pmode, \
 				  XEXP (operands[0], 0), \
 				  GET_MODE_SIZE (DFmode))))
-#define HAVE_vec_store_pairv8qiv4hi (TARGET_SIMD \
+#define HAVE_vec_store_pairv8qiv4hi (TARGET_FLOAT \
    && rtx_equal_p (XEXP (operands[2], 0), \
 		   plus_constant (Pmode, \
 				  XEXP (operands[0], 0), \
 				  GET_MODE_SIZE (V8QImode))))
-#define HAVE_vec_store_pairv4hiv4hi (TARGET_SIMD \
+#define HAVE_vec_store_pairv4hiv4hi (TARGET_FLOAT \
    && rtx_equal_p (XEXP (operands[2], 0), \
 		   plus_constant (Pmode, \
 				  XEXP (operands[0], 0), \
 				  GET_MODE_SIZE (V4HImode))))
-#define HAVE_vec_store_pairv4hfv4hi (TARGET_SIMD \
+#define HAVE_vec_store_pairv4hfv4hi (TARGET_FLOAT \
    && rtx_equal_p (XEXP (operands[2], 0), \
 		   plus_constant (Pmode, \
 				  XEXP (operands[0], 0), \
 				  GET_MODE_SIZE (V4HFmode))))
-#define HAVE_vec_store_pairv2siv4hi (TARGET_SIMD \
+#define HAVE_vec_store_pairv2siv4hi (TARGET_FLOAT \
    && rtx_equal_p (XEXP (operands[2], 0), \
 		   plus_constant (Pmode, \
 				  XEXP (operands[0], 0), \
 				  GET_MODE_SIZE (V2SImode))))
-#define HAVE_vec_store_pairv2sfv4hi (TARGET_SIMD \
+#define HAVE_vec_store_pairv2sfv4hi (TARGET_FLOAT \
    && rtx_equal_p (XEXP (operands[2], 0), \
 		   plus_constant (Pmode, \
 				  XEXP (operands[0], 0), \
 				  GET_MODE_SIZE (V2SFmode))))
-#define HAVE_vec_store_pairdfv4hi (TARGET_SIMD \
+#define HAVE_vec_store_pairdfv4hi (TARGET_FLOAT \
    && rtx_equal_p (XEXP (operands[2], 0), \
 		   plus_constant (Pmode, \
 				  XEXP (operands[0], 0), \
 				  GET_MODE_SIZE (DFmode))))
-#define HAVE_vec_store_pairv8qiv4hf (TARGET_SIMD \
+#define HAVE_vec_store_pairv8qiv4hf (TARGET_FLOAT \
    && rtx_equal_p (XEXP (operands[2], 0), \
 		   plus_constant (Pmode, \
 				  XEXP (operands[0], 0), \
 				  GET_MODE_SIZE (V8QImode))))
-#define HAVE_vec_store_pairv4hiv4hf (TARGET_SIMD \
+#define HAVE_vec_store_pairv4hiv4hf (TARGET_FLOAT \
    && rtx_equal_p (XEXP (operands[2], 0), \
 		   plus_constant (Pmode, \
 				  XEXP (operands[0], 0), \
 				  GET_MODE_SIZE (V4HImode))))
-#define HAVE_vec_store_pairv4hfv4hf (TARGET_SIMD \
+#define HAVE_vec_store_pairv4hfv4hf (TARGET_FLOAT \
    && rtx_equal_p (XEXP (operands[2], 0), \
 		   plus_constant (Pmode, \
 				  XEXP (operands[0], 0), \
 				  GET_MODE_SIZE (V4HFmode))))
-#define HAVE_vec_store_pairv2siv4hf (TARGET_SIMD \
+#define HAVE_vec_store_pairv2siv4hf (TARGET_FLOAT \
    && rtx_equal_p (XEXP (operands[2], 0), \
 		   plus_constant (Pmode, \
 				  XEXP (operands[0], 0), \
 				  GET_MODE_SIZE (V2SImode))))
-#define HAVE_vec_store_pairv2sfv4hf (TARGET_SIMD \
+#define HAVE_vec_store_pairv2sfv4hf (TARGET_FLOAT \
    && rtx_equal_p (XEXP (operands[2], 0), \
 		   plus_constant (Pmode, \
 				  XEXP (operands[0], 0), \
 				  GET_MODE_SIZE (V2SFmode))))
-#define HAVE_vec_store_pairdfv4hf (TARGET_SIMD \
+#define HAVE_vec_store_pairdfv4hf (TARGET_FLOAT \
    && rtx_equal_p (XEXP (operands[2], 0), \
 		   plus_constant (Pmode, \
 				  XEXP (operands[0], 0), \
 				  GET_MODE_SIZE (DFmode))))
-#define HAVE_vec_store_pairv8qiv2si (TARGET_SIMD \
+#define HAVE_vec_store_pairv8qiv2si (TARGET_FLOAT \
    && rtx_equal_p (XEXP (operands[2], 0), \
 		   plus_constant (Pmode, \
 				  XEXP (operands[0], 0), \
 				  GET_MODE_SIZE (V8QImode))))
-#define HAVE_vec_store_pairv4hiv2si (TARGET_SIMD \
+#define HAVE_vec_store_pairv4hiv2si (TARGET_FLOAT \
    && rtx_equal_p (XEXP (operands[2], 0), \
 		   plus_constant (Pmode, \
 				  XEXP (operands[0], 0), \
 				  GET_MODE_SIZE (V4HImode))))
-#define HAVE_vec_store_pairv4hfv2si (TARGET_SIMD \
+#define HAVE_vec_store_pairv4hfv2si (TARGET_FLOAT \
    && rtx_equal_p (XEXP (operands[2], 0), \
 		   plus_constant (Pmode, \
 				  XEXP (operands[0], 0), \
 				  GET_MODE_SIZE (V4HFmode))))
-#define HAVE_vec_store_pairv2siv2si (TARGET_SIMD \
+#define HAVE_vec_store_pairv2siv2si (TARGET_FLOAT \
    && rtx_equal_p (XEXP (operands[2], 0), \
 		   plus_constant (Pmode, \
 				  XEXP (operands[0], 0), \
 				  GET_MODE_SIZE (V2SImode))))
-#define HAVE_vec_store_pairv2sfv2si (TARGET_SIMD \
+#define HAVE_vec_store_pairv2sfv2si (TARGET_FLOAT \
    && rtx_equal_p (XEXP (operands[2], 0), \
 		   plus_constant (Pmode, \
 				  XEXP (operands[0], 0), \
 				  GET_MODE_SIZE (V2SFmode))))
-#define HAVE_vec_store_pairdfv2si (TARGET_SIMD \
+#define HAVE_vec_store_pairdfv2si (TARGET_FLOAT \
    && rtx_equal_p (XEXP (operands[2], 0), \
 		   plus_constant (Pmode, \
 				  XEXP (operands[0], 0), \
 				  GET_MODE_SIZE (DFmode))))
-#define HAVE_vec_store_pairv8qiv2sf (TARGET_SIMD \
+#define HAVE_vec_store_pairv8qiv2sf (TARGET_FLOAT \
    && rtx_equal_p (XEXP (operands[2], 0), \
 		   plus_constant (Pmode, \
 				  XEXP (operands[0], 0), \
 				  GET_MODE_SIZE (V8QImode))))
-#define HAVE_vec_store_pairv4hiv2sf (TARGET_SIMD \
+#define HAVE_vec_store_pairv4hiv2sf (TARGET_FLOAT \
    && rtx_equal_p (XEXP (operands[2], 0), \
 		   plus_constant (Pmode, \
 				  XEXP (operands[0], 0), \
 				  GET_MODE_SIZE (V4HImode))))
-#define HAVE_vec_store_pairv4hfv2sf (TARGET_SIMD \
+#define HAVE_vec_store_pairv4hfv2sf (TARGET_FLOAT \
    && rtx_equal_p (XEXP (operands[2], 0), \
 		   plus_constant (Pmode, \
 				  XEXP (operands[0], 0), \
 				  GET_MODE_SIZE (V4HFmode))))
-#define HAVE_vec_store_pairv2siv2sf (TARGET_SIMD \
+#define HAVE_vec_store_pairv2siv2sf (TARGET_FLOAT \
    && rtx_equal_p (XEXP (operands[2], 0), \
 		   plus_constant (Pmode, \
 				  XEXP (operands[0], 0), \
 				  GET_MODE_SIZE (V2SImode))))
-#define HAVE_vec_store_pairv2sfv2sf (TARGET_SIMD \
+#define HAVE_vec_store_pairv2sfv2sf (TARGET_FLOAT \
    && rtx_equal_p (XEXP (operands[2], 0), \
 		   plus_constant (Pmode, \
 				  XEXP (operands[0], 0), \
 				  GET_MODE_SIZE (V2SFmode))))
-#define HAVE_vec_store_pairdfv2sf (TARGET_SIMD \
+#define HAVE_vec_store_pairdfv2sf (TARGET_FLOAT \
    && rtx_equal_p (XEXP (operands[2], 0), \
 		   plus_constant (Pmode, \
 				  XEXP (operands[0], 0), \
 				  GET_MODE_SIZE (DFmode))))
-#define HAVE_vec_store_pairv8qidf (TARGET_SIMD \
+#define HAVE_vec_store_pairv8qidf (TARGET_FLOAT \
    && rtx_equal_p (XEXP (operands[2], 0), \
 		   plus_constant (Pmode, \
 				  XEXP (operands[0], 0), \
 				  GET_MODE_SIZE (V8QImode))))
-#define HAVE_vec_store_pairv4hidf (TARGET_SIMD \
+#define HAVE_vec_store_pairv4hidf (TARGET_FLOAT \
    && rtx_equal_p (XEXP (operands[2], 0), \
 		   plus_constant (Pmode, \
 				  XEXP (operands[0], 0), \
 				  GET_MODE_SIZE (V4HImode))))
-#define HAVE_vec_store_pairv4hfdf (TARGET_SIMD \
+#define HAVE_vec_store_pairv4hfdf (TARGET_FLOAT \
    && rtx_equal_p (XEXP (operands[2], 0), \
 		   plus_constant (Pmode, \
 				  XEXP (operands[0], 0), \
 				  GET_MODE_SIZE (V4HFmode))))
-#define HAVE_vec_store_pairv2sidf (TARGET_SIMD \
+#define HAVE_vec_store_pairv2sidf (TARGET_FLOAT \
    && rtx_equal_p (XEXP (operands[2], 0), \
 		   plus_constant (Pmode, \
 				  XEXP (operands[0], 0), \
 				  GET_MODE_SIZE (V2SImode))))
-#define HAVE_vec_store_pairv2sfdf (TARGET_SIMD \
+#define HAVE_vec_store_pairv2sfdf (TARGET_FLOAT \
    && rtx_equal_p (XEXP (operands[2], 0), \
 		   plus_constant (Pmode, \
 				  XEXP (operands[0], 0), \
 				  GET_MODE_SIZE (V2SFmode))))
-#define HAVE_vec_store_pairdfdf (TARGET_SIMD \
+#define HAVE_vec_store_pairdfdf (TARGET_FLOAT \
    && rtx_equal_p (XEXP (operands[2], 0), \
 		   plus_constant (Pmode, \
 				  XEXP (operands[0], 0), \
 				  GET_MODE_SIZE (DFmode))))
-#define HAVE_load_pairv16qiv16qi (TARGET_SIMD \
+#define HAVE_load_pairv16qiv16qi (TARGET_FLOAT \
     && rtx_equal_p (XEXP (operands[3], 0), \
 		    plus_constant (Pmode, \
 			       XEXP (operands[1], 0), \
 			       GET_MODE_SIZE (V16QImode))))
-#define HAVE_load_pairv16qiv8hi (TARGET_SIMD \
+#define HAVE_load_pairv16qiv8hi (TARGET_FLOAT \
     && rtx_equal_p (XEXP (operands[3], 0), \
 		    plus_constant (Pmode, \
 			       XEXP (operands[1], 0), \
 			       GET_MODE_SIZE (V16QImode))))
-#define HAVE_load_pairv16qiv4si (TARGET_SIMD \
+#define HAVE_load_pairv16qiv4si (TARGET_FLOAT \
     && rtx_equal_p (XEXP (operands[3], 0), \
 		    plus_constant (Pmode, \
 			       XEXP (operands[1], 0), \
 			       GET_MODE_SIZE (V16QImode))))
-#define HAVE_load_pairv16qiv2di (TARGET_SIMD \
+#define HAVE_load_pairv16qiv2di (TARGET_FLOAT \
     && rtx_equal_p (XEXP (operands[3], 0), \
 		    plus_constant (Pmode, \
 			       XEXP (operands[1], 0), \
 			       GET_MODE_SIZE (V16QImode))))
-#define HAVE_load_pairv16qiv8hf (TARGET_SIMD \
+#define HAVE_load_pairv16qiv8hf (TARGET_FLOAT \
     && rtx_equal_p (XEXP (operands[3], 0), \
 		    plus_constant (Pmode, \
 			       XEXP (operands[1], 0), \
 			       GET_MODE_SIZE (V16QImode))))
-#define HAVE_load_pairv16qiv8bf (TARGET_SIMD \
+#define HAVE_load_pairv16qiv8bf (TARGET_FLOAT \
     && rtx_equal_p (XEXP (operands[3], 0), \
 		    plus_constant (Pmode, \
 			       XEXP (operands[1], 0), \
 			       GET_MODE_SIZE (V16QImode))))
-#define HAVE_load_pairv16qiv4sf (TARGET_SIMD \
+#define HAVE_load_pairv16qiv4sf (TARGET_FLOAT \
     && rtx_equal_p (XEXP (operands[3], 0), \
 		    plus_constant (Pmode, \
 			       XEXP (operands[1], 0), \
 			       GET_MODE_SIZE (V16QImode))))
-#define HAVE_load_pairv16qiv2df (TARGET_SIMD \
+#define HAVE_load_pairv16qiv2df (TARGET_FLOAT \
     && rtx_equal_p (XEXP (operands[3], 0), \
 		    plus_constant (Pmode, \
 			       XEXP (operands[1], 0), \
 			       GET_MODE_SIZE (V16QImode))))
-#define HAVE_load_pairv8hiv16qi (TARGET_SIMD \
+#define HAVE_load_pairv8hiv16qi (TARGET_FLOAT \
     && rtx_equal_p (XEXP (operands[3], 0), \
 		    plus_constant (Pmode, \
 			       XEXP (operands[1], 0), \
 			       GET_MODE_SIZE (V8HImode))))
-#define HAVE_load_pairv8hiv8hi (TARGET_SIMD \
+#define HAVE_load_pairv8hiv8hi (TARGET_FLOAT \
     && rtx_equal_p (XEXP (operands[3], 0), \
 		    plus_constant (Pmode, \
 			       XEXP (operands[1], 0), \
 			       GET_MODE_SIZE (V8HImode))))
-#define HAVE_load_pairv8hiv4si (TARGET_SIMD \
+#define HAVE_load_pairv8hiv4si (TARGET_FLOAT \
     && rtx_equal_p (XEXP (operands[3], 0), \
 		    plus_constant (Pmode, \
 			       XEXP (operands[1], 0), \
 			       GET_MODE_SIZE (V8HImode))))
-#define HAVE_load_pairv8hiv2di (TARGET_SIMD \
+#define HAVE_load_pairv8hiv2di (TARGET_FLOAT \
     && rtx_equal_p (XEXP (operands[3], 0), \
 		    plus_constant (Pmode, \
 			       XEXP (operands[1], 0), \
 			       GET_MODE_SIZE (V8HImode))))
-#define HAVE_load_pairv8hiv8hf (TARGET_SIMD \
+#define HAVE_load_pairv8hiv8hf (TARGET_FLOAT \
     && rtx_equal_p (XEXP (operands[3], 0), \
 		    plus_constant (Pmode, \
 			       XEXP (operands[1], 0), \
 			       GET_MODE_SIZE (V8HImode))))
-#define HAVE_load_pairv8hiv8bf (TARGET_SIMD \
+#define HAVE_load_pairv8hiv8bf (TARGET_FLOAT \
     && rtx_equal_p (XEXP (operands[3], 0), \
 		    plus_constant (Pmode, \
 			       XEXP (operands[1], 0), \
 			       GET_MODE_SIZE (V8HImode))))
-#define HAVE_load_pairv8hiv4sf (TARGET_SIMD \
+#define HAVE_load_pairv8hiv4sf (TARGET_FLOAT \
     && rtx_equal_p (XEXP (operands[3], 0), \
 		    plus_constant (Pmode, \
 			       XEXP (operands[1], 0), \
 			       GET_MODE_SIZE (V8HImode))))
-#define HAVE_load_pairv8hiv2df (TARGET_SIMD \
+#define HAVE_load_pairv8hiv2df (TARGET_FLOAT \
     && rtx_equal_p (XEXP (operands[3], 0), \
 		    plus_constant (Pmode, \
 			       XEXP (operands[1], 0), \
 			       GET_MODE_SIZE (V8HImode))))
-#define HAVE_load_pairv4siv16qi (TARGET_SIMD \
+#define HAVE_load_pairv4siv16qi (TARGET_FLOAT \
     && rtx_equal_p (XEXP (operands[3], 0), \
 		    plus_constant (Pmode, \
 			       XEXP (operands[1], 0), \
 			       GET_MODE_SIZE (V4SImode))))
-#define HAVE_load_pairv4siv8hi (TARGET_SIMD \
+#define HAVE_load_pairv4siv8hi (TARGET_FLOAT \
     && rtx_equal_p (XEXP (operands[3], 0), \
 		    plus_constant (Pmode, \
 			       XEXP (operands[1], 0), \
 			       GET_MODE_SIZE (V4SImode))))
-#define HAVE_load_pairv4siv4si (TARGET_SIMD \
+#define HAVE_load_pairv4siv4si (TARGET_FLOAT \
     && rtx_equal_p (XEXP (operands[3], 0), \
 		    plus_constant (Pmode, \
 			       XEXP (operands[1], 0), \
 			       GET_MODE_SIZE (V4SImode))))
-#define HAVE_load_pairv4siv2di (TARGET_SIMD \
+#define HAVE_load_pairv4siv2di (TARGET_FLOAT \
     && rtx_equal_p (XEXP (operands[3], 0), \
 		    plus_constant (Pmode, \
 			       XEXP (operands[1], 0), \
 			       GET_MODE_SIZE (V4SImode))))
-#define HAVE_load_pairv4siv8hf (TARGET_SIMD \
+#define HAVE_load_pairv4siv8hf (TARGET_FLOAT \
     && rtx_equal_p (XEXP (operands[3], 0), \
 		    plus_constant (Pmode, \
 			       XEXP (operands[1], 0), \
 			       GET_MODE_SIZE (V4SImode))))
-#define HAVE_load_pairv4siv8bf (TARGET_SIMD \
+#define HAVE_load_pairv4siv8bf (TARGET_FLOAT \
     && rtx_equal_p (XEXP (operands[3], 0), \
 		    plus_constant (Pmode, \
 			       XEXP (operands[1], 0), \
 			       GET_MODE_SIZE (V4SImode))))
-#define HAVE_load_pairv4siv4sf (TARGET_SIMD \
+#define HAVE_load_pairv4siv4sf (TARGET_FLOAT \
     && rtx_equal_p (XEXP (operands[3], 0), \
 		    plus_constant (Pmode, \
 			       XEXP (operands[1], 0), \
 			       GET_MODE_SIZE (V4SImode))))
-#define HAVE_load_pairv4siv2df (TARGET_SIMD \
+#define HAVE_load_pairv4siv2df (TARGET_FLOAT \
     && rtx_equal_p (XEXP (operands[3], 0), \
 		    plus_constant (Pmode, \
 			       XEXP (operands[1], 0), \
 			       GET_MODE_SIZE (V4SImode))))
-#define HAVE_load_pairv2div16qi (TARGET_SIMD \
+#define HAVE_load_pairv2div16qi (TARGET_FLOAT \
     && rtx_equal_p (XEXP (operands[3], 0), \
 		    plus_constant (Pmode, \
 			       XEXP (operands[1], 0), \
 			       GET_MODE_SIZE (V2DImode))))
-#define HAVE_load_pairv2div8hi (TARGET_SIMD \
+#define HAVE_load_pairv2div8hi (TARGET_FLOAT \
     && rtx_equal_p (XEXP (operands[3], 0), \
 		    plus_constant (Pmode, \
 			       XEXP (operands[1], 0), \
 			       GET_MODE_SIZE (V2DImode))))
-#define HAVE_load_pairv2div4si (TARGET_SIMD \
+#define HAVE_load_pairv2div4si (TARGET_FLOAT \
     && rtx_equal_p (XEXP (operands[3], 0), \
 		    plus_constant (Pmode, \
 			       XEXP (operands[1], 0), \
 			       GET_MODE_SIZE (V2DImode))))
-#define HAVE_load_pairv2div2di (TARGET_SIMD \
+#define HAVE_load_pairv2div2di (TARGET_FLOAT \
     && rtx_equal_p (XEXP (operands[3], 0), \
 		    plus_constant (Pmode, \
 			       XEXP (operands[1], 0), \
 			       GET_MODE_SIZE (V2DImode))))
-#define HAVE_load_pairv2div8hf (TARGET_SIMD \
+#define HAVE_load_pairv2div8hf (TARGET_FLOAT \
     && rtx_equal_p (XEXP (operands[3], 0), \
 		    plus_constant (Pmode, \
 			       XEXP (operands[1], 0), \
 			       GET_MODE_SIZE (V2DImode))))
-#define HAVE_load_pairv2div8bf (TARGET_SIMD \
+#define HAVE_load_pairv2div8bf (TARGET_FLOAT \
     && rtx_equal_p (XEXP (operands[3], 0), \
 		    plus_constant (Pmode, \
 			       XEXP (operands[1], 0), \
 			       GET_MODE_SIZE (V2DImode))))
-#define HAVE_load_pairv2div4sf (TARGET_SIMD \
+#define HAVE_load_pairv2div4sf (TARGET_FLOAT \
     && rtx_equal_p (XEXP (operands[3], 0), \
 		    plus_constant (Pmode, \
 			       XEXP (operands[1], 0), \
 			       GET_MODE_SIZE (V2DImode))))
-#define HAVE_load_pairv2div2df (TARGET_SIMD \
+#define HAVE_load_pairv2div2df (TARGET_FLOAT \
     && rtx_equal_p (XEXP (operands[3], 0), \
 		    plus_constant (Pmode, \
 			       XEXP (operands[1], 0), \
 			       GET_MODE_SIZE (V2DImode))))
-#define HAVE_load_pairv8hfv16qi (TARGET_SIMD \
+#define HAVE_load_pairv8hfv16qi (TARGET_FLOAT \
     && rtx_equal_p (XEXP (operands[3], 0), \
 		    plus_constant (Pmode, \
 			       XEXP (operands[1], 0), \
 			       GET_MODE_SIZE (V8HFmode))))
-#define HAVE_load_pairv8hfv8hi (TARGET_SIMD \
+#define HAVE_load_pairv8hfv8hi (TARGET_FLOAT \
     && rtx_equal_p (XEXP (operands[3], 0), \
 		    plus_constant (Pmode, \
 			       XEXP (operands[1], 0), \
 			       GET_MODE_SIZE (V8HFmode))))
-#define HAVE_load_pairv8hfv4si (TARGET_SIMD \
+#define HAVE_load_pairv8hfv4si (TARGET_FLOAT \
     && rtx_equal_p (XEXP (operands[3], 0), \
 		    plus_constant (Pmode, \
 			       XEXP (operands[1], 0), \
 			       GET_MODE_SIZE (V8HFmode))))
-#define HAVE_load_pairv8hfv2di (TARGET_SIMD \
+#define HAVE_load_pairv8hfv2di (TARGET_FLOAT \
     && rtx_equal_p (XEXP (operands[3], 0), \
 		    plus_constant (Pmode, \
 			       XEXP (operands[1], 0), \
 			       GET_MODE_SIZE (V8HFmode))))
-#define HAVE_load_pairv8hfv8hf (TARGET_SIMD \
+#define HAVE_load_pairv8hfv8hf (TARGET_FLOAT \
     && rtx_equal_p (XEXP (operands[3], 0), \
 		    plus_constant (Pmode, \
 			       XEXP (operands[1], 0), \
 			       GET_MODE_SIZE (V8HFmode))))
-#define HAVE_load_pairv8hfv8bf (TARGET_SIMD \
+#define HAVE_load_pairv8hfv8bf (TARGET_FLOAT \
     && rtx_equal_p (XEXP (operands[3], 0), \
 		    plus_constant (Pmode, \
 			       XEXP (operands[1], 0), \
 			       GET_MODE_SIZE (V8HFmode))))
-#define HAVE_load_pairv8hfv4sf (TARGET_SIMD \
+#define HAVE_load_pairv8hfv4sf (TARGET_FLOAT \
     && rtx_equal_p (XEXP (operands[3], 0), \
 		    plus_constant (Pmode, \
 			       XEXP (operands[1], 0), \
 			       GET_MODE_SIZE (V8HFmode))))
-#define HAVE_load_pairv8hfv2df (TARGET_SIMD \
+#define HAVE_load_pairv8hfv2df (TARGET_FLOAT \
     && rtx_equal_p (XEXP (operands[3], 0), \
 		    plus_constant (Pmode, \
 			       XEXP (operands[1], 0), \
 			       GET_MODE_SIZE (V8HFmode))))
-#define HAVE_load_pairv4sfv16qi (TARGET_SIMD \
+#define HAVE_load_pairv4sfv16qi (TARGET_FLOAT \
     && rtx_equal_p (XEXP (operands[3], 0), \
 		    plus_constant (Pmode, \
 			       XEXP (operands[1], 0), \
 			       GET_MODE_SIZE (V4SFmode))))
-#define HAVE_load_pairv4sfv8hi (TARGET_SIMD \
+#define HAVE_load_pairv4sfv8hi (TARGET_FLOAT \
     && rtx_equal_p (XEXP (operands[3], 0), \
 		    plus_constant (Pmode, \
 			       XEXP (operands[1], 0), \
 			       GET_MODE_SIZE (V4SFmode))))
-#define HAVE_load_pairv4sfv4si (TARGET_SIMD \
+#define HAVE_load_pairv4sfv4si (TARGET_FLOAT \
     && rtx_equal_p (XEXP (operands[3], 0), \
 		    plus_constant (Pmode, \
 			       XEXP (operands[1], 0), \
 			       GET_MODE_SIZE (V4SFmode))))
-#define HAVE_load_pairv4sfv2di (TARGET_SIMD \
+#define HAVE_load_pairv4sfv2di (TARGET_FLOAT \
     && rtx_equal_p (XEXP (operands[3], 0), \
 		    plus_constant (Pmode, \
 			       XEXP (operands[1], 0), \
 			       GET_MODE_SIZE (V4SFmode))))
-#define HAVE_load_pairv4sfv8hf (TARGET_SIMD \
+#define HAVE_load_pairv4sfv8hf (TARGET_FLOAT \
     && rtx_equal_p (XEXP (operands[3], 0), \
 		    plus_constant (Pmode, \
 			       XEXP (operands[1], 0), \
 			       GET_MODE_SIZE (V4SFmode))))
-#define HAVE_load_pairv4sfv8bf (TARGET_SIMD \
+#define HAVE_load_pairv4sfv8bf (TARGET_FLOAT \
     && rtx_equal_p (XEXP (operands[3], 0), \
 		    plus_constant (Pmode, \
 			       XEXP (operands[1], 0), \
 			       GET_MODE_SIZE (V4SFmode))))
-#define HAVE_load_pairv4sfv4sf (TARGET_SIMD \
+#define HAVE_load_pairv4sfv4sf (TARGET_FLOAT \
     && rtx_equal_p (XEXP (operands[3], 0), \
 		    plus_constant (Pmode, \
 			       XEXP (operands[1], 0), \
 			       GET_MODE_SIZE (V4SFmode))))
-#define HAVE_load_pairv4sfv2df (TARGET_SIMD \
+#define HAVE_load_pairv4sfv2df (TARGET_FLOAT \
     && rtx_equal_p (XEXP (operands[3], 0), \
 		    plus_constant (Pmode, \
 			       XEXP (operands[1], 0), \
 			       GET_MODE_SIZE (V4SFmode))))
-#define HAVE_load_pairv2dfv16qi (TARGET_SIMD \
+#define HAVE_load_pairv2dfv16qi (TARGET_FLOAT \
     && rtx_equal_p (XEXP (operands[3], 0), \
 		    plus_constant (Pmode, \
 			       XEXP (operands[1], 0), \
 			       GET_MODE_SIZE (V2DFmode))))
-#define HAVE_load_pairv2dfv8hi (TARGET_SIMD \
+#define HAVE_load_pairv2dfv8hi (TARGET_FLOAT \
     && rtx_equal_p (XEXP (operands[3], 0), \
 		    plus_constant (Pmode, \
 			       XEXP (operands[1], 0), \
 			       GET_MODE_SIZE (V2DFmode))))
-#define HAVE_load_pairv2dfv4si (TARGET_SIMD \
+#define HAVE_load_pairv2dfv4si (TARGET_FLOAT \
     && rtx_equal_p (XEXP (operands[3], 0), \
 		    plus_constant (Pmode, \
 			       XEXP (operands[1], 0), \
 			       GET_MODE_SIZE (V2DFmode))))
-#define HAVE_load_pairv2dfv2di (TARGET_SIMD \
+#define HAVE_load_pairv2dfv2di (TARGET_FLOAT \
     && rtx_equal_p (XEXP (operands[3], 0), \
 		    plus_constant (Pmode, \
 			       XEXP (operands[1], 0), \
 			       GET_MODE_SIZE (V2DFmode))))
-#define HAVE_load_pairv2dfv8hf (TARGET_SIMD \
+#define HAVE_load_pairv2dfv8hf (TARGET_FLOAT \
     && rtx_equal_p (XEXP (operands[3], 0), \
 		    plus_constant (Pmode, \
 			       XEXP (operands[1], 0), \
 			       GET_MODE_SIZE (V2DFmode))))
-#define HAVE_load_pairv2dfv8bf (TARGET_SIMD \
+#define HAVE_load_pairv2dfv8bf (TARGET_FLOAT \
     && rtx_equal_p (XEXP (operands[3], 0), \
 		    plus_constant (Pmode, \
 			       XEXP (operands[1], 0), \
 			       GET_MODE_SIZE (V2DFmode))))
-#define HAVE_load_pairv2dfv4sf (TARGET_SIMD \
+#define HAVE_load_pairv2dfv4sf (TARGET_FLOAT \
     && rtx_equal_p (XEXP (operands[3], 0), \
 		    plus_constant (Pmode, \
 			       XEXP (operands[1], 0), \
 			       GET_MODE_SIZE (V2DFmode))))
-#define HAVE_load_pairv2dfv2df (TARGET_SIMD \
+#define HAVE_load_pairv2dfv2df (TARGET_FLOAT \
     && rtx_equal_p (XEXP (operands[3], 0), \
 		    plus_constant (Pmode, \
 			       XEXP (operands[1], 0), \
 			       GET_MODE_SIZE (V2DFmode))))
-#define HAVE_load_pairv8bfv16qi (TARGET_SIMD \
+#define HAVE_load_pairv8bfv16qi (TARGET_FLOAT \
     && rtx_equal_p (XEXP (operands[3], 0), \
 		    plus_constant (Pmode, \
 			       XEXP (operands[1], 0), \
 			       GET_MODE_SIZE (V8BFmode))))
-#define HAVE_load_pairv8bfv8hi (TARGET_SIMD \
+#define HAVE_load_pairv8bfv8hi (TARGET_FLOAT \
     && rtx_equal_p (XEXP (operands[3], 0), \
 		    plus_constant (Pmode, \
 			       XEXP (operands[1], 0), \
 			       GET_MODE_SIZE (V8BFmode))))
-#define HAVE_load_pairv8bfv4si (TARGET_SIMD \
+#define HAVE_load_pairv8bfv4si (TARGET_FLOAT \
     && rtx_equal_p (XEXP (operands[3], 0), \
 		    plus_constant (Pmode, \
 			       XEXP (operands[1], 0), \
 			       GET_MODE_SIZE (V8BFmode))))
-#define HAVE_load_pairv8bfv2di (TARGET_SIMD \
+#define HAVE_load_pairv8bfv2di (TARGET_FLOAT \
     && rtx_equal_p (XEXP (operands[3], 0), \
 		    plus_constant (Pmode, \
 			       XEXP (operands[1], 0), \
 			       GET_MODE_SIZE (V8BFmode))))
-#define HAVE_load_pairv8bfv8hf (TARGET_SIMD \
+#define HAVE_load_pairv8bfv8hf (TARGET_FLOAT \
     && rtx_equal_p (XEXP (operands[3], 0), \
 		    plus_constant (Pmode, \
 			       XEXP (operands[1], 0), \
 			       GET_MODE_SIZE (V8BFmode))))
-#define HAVE_load_pairv8bfv8bf (TARGET_SIMD \
+#define HAVE_load_pairv8bfv8bf (TARGET_FLOAT \
     && rtx_equal_p (XEXP (operands[3], 0), \
 		    plus_constant (Pmode, \
 			       XEXP (operands[1], 0), \
 			       GET_MODE_SIZE (V8BFmode))))
-#define HAVE_load_pairv8bfv4sf (TARGET_SIMD \
+#define HAVE_load_pairv8bfv4sf (TARGET_FLOAT \
     && rtx_equal_p (XEXP (operands[3], 0), \
 		    plus_constant (Pmode, \
 			       XEXP (operands[1], 0), \
 			       GET_MODE_SIZE (V8BFmode))))
-#define HAVE_load_pairv8bfv2df (TARGET_SIMD \
+#define HAVE_load_pairv8bfv2df (TARGET_FLOAT \
     && rtx_equal_p (XEXP (operands[3], 0), \
 		    plus_constant (Pmode, \
 			       XEXP (operands[1], 0), \
 			       GET_MODE_SIZE (V8BFmode))))
-#define HAVE_vec_store_pairv16qiv16qi (TARGET_SIMD && rtx_equal_p (XEXP (operands[2], 0), \
-		plus_constant (Pmode, \
-			       XEXP (operands[0], 0), \
-			       GET_MODE_SIZE (V16QImode))))
-#define HAVE_vec_store_pairv16qiv8hi (TARGET_SIMD && rtx_equal_p (XEXP (operands[2], 0), \
-		plus_constant (Pmode, \
-			       XEXP (operands[0], 0), \
-			       GET_MODE_SIZE (V16QImode))))
-#define HAVE_vec_store_pairv16qiv4si (TARGET_SIMD && rtx_equal_p (XEXP (operands[2], 0), \
-		plus_constant (Pmode, \
-			       XEXP (operands[0], 0), \
-			       GET_MODE_SIZE (V16QImode))))
-#define HAVE_vec_store_pairv16qiv2di (TARGET_SIMD && rtx_equal_p (XEXP (operands[2], 0), \
-		plus_constant (Pmode, \
-			       XEXP (operands[0], 0), \
-			       GET_MODE_SIZE (V16QImode))))
-#define HAVE_vec_store_pairv16qiv8hf (TARGET_SIMD && rtx_equal_p (XEXP (operands[2], 0), \
-		plus_constant (Pmode, \
-			       XEXP (operands[0], 0), \
-			       GET_MODE_SIZE (V16QImode))))
-#define HAVE_vec_store_pairv16qiv8bf (TARGET_SIMD && rtx_equal_p (XEXP (operands[2], 0), \
-		plus_constant (Pmode, \
-			       XEXP (operands[0], 0), \
-			       GET_MODE_SIZE (V16QImode))))
-#define HAVE_vec_store_pairv16qiv4sf (TARGET_SIMD && rtx_equal_p (XEXP (operands[2], 0), \
-		plus_constant (Pmode, \
-			       XEXP (operands[0], 0), \
-			       GET_MODE_SIZE (V16QImode))))
-#define HAVE_vec_store_pairv16qiv2df (TARGET_SIMD && rtx_equal_p (XEXP (operands[2], 0), \
-		plus_constant (Pmode, \
-			       XEXP (operands[0], 0), \
-			       GET_MODE_SIZE (V16QImode))))
-#define HAVE_vec_store_pairv8hiv16qi (TARGET_SIMD && rtx_equal_p (XEXP (operands[2], 0), \
-		plus_constant (Pmode, \
-			       XEXP (operands[0], 0), \
-			       GET_MODE_SIZE (V8HImode))))
-#define HAVE_vec_store_pairv8hiv8hi (TARGET_SIMD && rtx_equal_p (XEXP (operands[2], 0), \
-		plus_constant (Pmode, \
-			       XEXP (operands[0], 0), \
-			       GET_MODE_SIZE (V8HImode))))
-#define HAVE_vec_store_pairv8hiv4si (TARGET_SIMD && rtx_equal_p (XEXP (operands[2], 0), \
-		plus_constant (Pmode, \
-			       XEXP (operands[0], 0), \
-			       GET_MODE_SIZE (V8HImode))))
-#define HAVE_vec_store_pairv8hiv2di (TARGET_SIMD && rtx_equal_p (XEXP (operands[2], 0), \
-		plus_constant (Pmode, \
-			       XEXP (operands[0], 0), \
-			       GET_MODE_SIZE (V8HImode))))
-#define HAVE_vec_store_pairv8hiv8hf (TARGET_SIMD && rtx_equal_p (XEXP (operands[2], 0), \
-		plus_constant (Pmode, \
-			       XEXP (operands[0], 0), \
-			       GET_MODE_SIZE (V8HImode))))
-#define HAVE_vec_store_pairv8hiv8bf (TARGET_SIMD && rtx_equal_p (XEXP (operands[2], 0), \
-		plus_constant (Pmode, \
-			       XEXP (operands[0], 0), \
-			       GET_MODE_SIZE (V8HImode))))
-#define HAVE_vec_store_pairv8hiv4sf (TARGET_SIMD && rtx_equal_p (XEXP (operands[2], 0), \
-		plus_constant (Pmode, \
-			       XEXP (operands[0], 0), \
-			       GET_MODE_SIZE (V8HImode))))
-#define HAVE_vec_store_pairv8hiv2df (TARGET_SIMD && rtx_equal_p (XEXP (operands[2], 0), \
-		plus_constant (Pmode, \
-			       XEXP (operands[0], 0), \
-			       GET_MODE_SIZE (V8HImode))))
-#define HAVE_vec_store_pairv4siv16qi (TARGET_SIMD && rtx_equal_p (XEXP (operands[2], 0), \
-		plus_constant (Pmode, \
-			       XEXP (operands[0], 0), \
-			       GET_MODE_SIZE (V4SImode))))
-#define HAVE_vec_store_pairv4siv8hi (TARGET_SIMD && rtx_equal_p (XEXP (operands[2], 0), \
-		plus_constant (Pmode, \
-			       XEXP (operands[0], 0), \
-			       GET_MODE_SIZE (V4SImode))))
-#define HAVE_vec_store_pairv4siv4si (TARGET_SIMD && rtx_equal_p (XEXP (operands[2], 0), \
-		plus_constant (Pmode, \
-			       XEXP (operands[0], 0), \
-			       GET_MODE_SIZE (V4SImode))))
-#define HAVE_vec_store_pairv4siv2di (TARGET_SIMD && rtx_equal_p (XEXP (operands[2], 0), \
-		plus_constant (Pmode, \
-			       XEXP (operands[0], 0), \
-			       GET_MODE_SIZE (V4SImode))))
-#define HAVE_vec_store_pairv4siv8hf (TARGET_SIMD && rtx_equal_p (XEXP (operands[2], 0), \
-		plus_constant (Pmode, \
-			       XEXP (operands[0], 0), \
-			       GET_MODE_SIZE (V4SImode))))
-#define HAVE_vec_store_pairv4siv8bf (TARGET_SIMD && rtx_equal_p (XEXP (operands[2], 0), \
-		plus_constant (Pmode, \
-			       XEXP (operands[0], 0), \
-			       GET_MODE_SIZE (V4SImode))))
-#define HAVE_vec_store_pairv4siv4sf (TARGET_SIMD && rtx_equal_p (XEXP (operands[2], 0), \
-		plus_constant (Pmode, \
-			       XEXP (operands[0], 0), \
-			       GET_MODE_SIZE (V4SImode))))
-#define HAVE_vec_store_pairv4siv2df (TARGET_SIMD && rtx_equal_p (XEXP (operands[2], 0), \
-		plus_constant (Pmode, \
-			       XEXP (operands[0], 0), \
-			       GET_MODE_SIZE (V4SImode))))
-#define HAVE_vec_store_pairv2div16qi (TARGET_SIMD && rtx_equal_p (XEXP (operands[2], 0), \
-		plus_constant (Pmode, \
-			       XEXP (operands[0], 0), \
-			       GET_MODE_SIZE (V2DImode))))
-#define HAVE_vec_store_pairv2div8hi (TARGET_SIMD && rtx_equal_p (XEXP (operands[2], 0), \
-		plus_constant (Pmode, \
-			       XEXP (operands[0], 0), \
-			       GET_MODE_SIZE (V2DImode))))
-#define HAVE_vec_store_pairv2div4si (TARGET_SIMD && rtx_equal_p (XEXP (operands[2], 0), \
-		plus_constant (Pmode, \
-			       XEXP (operands[0], 0), \
-			       GET_MODE_SIZE (V2DImode))))
-#define HAVE_vec_store_pairv2div2di (TARGET_SIMD && rtx_equal_p (XEXP (operands[2], 0), \
-		plus_constant (Pmode, \
-			       XEXP (operands[0], 0), \
-			       GET_MODE_SIZE (V2DImode))))
-#define HAVE_vec_store_pairv2div8hf (TARGET_SIMD && rtx_equal_p (XEXP (operands[2], 0), \
-		plus_constant (Pmode, \
-			       XEXP (operands[0], 0), \
-			       GET_MODE_SIZE (V2DImode))))
-#define HAVE_vec_store_pairv2div8bf (TARGET_SIMD && rtx_equal_p (XEXP (operands[2], 0), \
-		plus_constant (Pmode, \
-			       XEXP (operands[0], 0), \
-			       GET_MODE_SIZE (V2DImode))))
-#define HAVE_vec_store_pairv2div4sf (TARGET_SIMD && rtx_equal_p (XEXP (operands[2], 0), \
-		plus_constant (Pmode, \
-			       XEXP (operands[0], 0), \
-			       GET_MODE_SIZE (V2DImode))))
-#define HAVE_vec_store_pairv2div2df (TARGET_SIMD && rtx_equal_p (XEXP (operands[2], 0), \
-		plus_constant (Pmode, \
-			       XEXP (operands[0], 0), \
-			       GET_MODE_SIZE (V2DImode))))
-#define HAVE_vec_store_pairv8hfv16qi (TARGET_SIMD && rtx_equal_p (XEXP (operands[2], 0), \
-		plus_constant (Pmode, \
-			       XEXP (operands[0], 0), \
-			       GET_MODE_SIZE (V8HFmode))))
-#define HAVE_vec_store_pairv8hfv8hi (TARGET_SIMD && rtx_equal_p (XEXP (operands[2], 0), \
-		plus_constant (Pmode, \
-			       XEXP (operands[0], 0), \
-			       GET_MODE_SIZE (V8HFmode))))
-#define HAVE_vec_store_pairv8hfv4si (TARGET_SIMD && rtx_equal_p (XEXP (operands[2], 0), \
-		plus_constant (Pmode, \
-			       XEXP (operands[0], 0), \
-			       GET_MODE_SIZE (V8HFmode))))
-#define HAVE_vec_store_pairv8hfv2di (TARGET_SIMD && rtx_equal_p (XEXP (operands[2], 0), \
-		plus_constant (Pmode, \
-			       XEXP (operands[0], 0), \
-			       GET_MODE_SIZE (V8HFmode))))
-#define HAVE_vec_store_pairv8hfv8hf (TARGET_SIMD && rtx_equal_p (XEXP (operands[2], 0), \
-		plus_constant (Pmode, \
-			       XEXP (operands[0], 0), \
-			       GET_MODE_SIZE (V8HFmode))))
-#define HAVE_vec_store_pairv8hfv8bf (TARGET_SIMD && rtx_equal_p (XEXP (operands[2], 0), \
-		plus_constant (Pmode, \
-			       XEXP (operands[0], 0), \
-			       GET_MODE_SIZE (V8HFmode))))
-#define HAVE_vec_store_pairv8hfv4sf (TARGET_SIMD && rtx_equal_p (XEXP (operands[2], 0), \
-		plus_constant (Pmode, \
-			       XEXP (operands[0], 0), \
-			       GET_MODE_SIZE (V8HFmode))))
-#define HAVE_vec_store_pairv8hfv2df (TARGET_SIMD && rtx_equal_p (XEXP (operands[2], 0), \
-		plus_constant (Pmode, \
-			       XEXP (operands[0], 0), \
-			       GET_MODE_SIZE (V8HFmode))))
-#define HAVE_vec_store_pairv4sfv16qi (TARGET_SIMD && rtx_equal_p (XEXP (operands[2], 0), \
-		plus_constant (Pmode, \
-			       XEXP (operands[0], 0), \
-			       GET_MODE_SIZE (V4SFmode))))
-#define HAVE_vec_store_pairv4sfv8hi (TARGET_SIMD && rtx_equal_p (XEXP (operands[2], 0), \
-		plus_constant (Pmode, \
-			       XEXP (operands[0], 0), \
-			       GET_MODE_SIZE (V4SFmode))))
-#define HAVE_vec_store_pairv4sfv4si (TARGET_SIMD && rtx_equal_p (XEXP (operands[2], 0), \
-		plus_constant (Pmode, \
-			       XEXP (operands[0], 0), \
-			       GET_MODE_SIZE (V4SFmode))))
-#define HAVE_vec_store_pairv4sfv2di (TARGET_SIMD && rtx_equal_p (XEXP (operands[2], 0), \
-		plus_constant (Pmode, \
-			       XEXP (operands[0], 0), \
-			       GET_MODE_SIZE (V4SFmode))))
-#define HAVE_vec_store_pairv4sfv8hf (TARGET_SIMD && rtx_equal_p (XEXP (operands[2], 0), \
-		plus_constant (Pmode, \
-			       XEXP (operands[0], 0), \
-			       GET_MODE_SIZE (V4SFmode))))
-#define HAVE_vec_store_pairv4sfv8bf (TARGET_SIMD && rtx_equal_p (XEXP (operands[2], 0), \
-		plus_constant (Pmode, \
-			       XEXP (operands[0], 0), \
-			       GET_MODE_SIZE (V4SFmode))))
-#define HAVE_vec_store_pairv4sfv4sf (TARGET_SIMD && rtx_equal_p (XEXP (operands[2], 0), \
-		plus_constant (Pmode, \
-			       XEXP (operands[0], 0), \
-			       GET_MODE_SIZE (V4SFmode))))
-#define HAVE_vec_store_pairv4sfv2df (TARGET_SIMD && rtx_equal_p (XEXP (operands[2], 0), \
-		plus_constant (Pmode, \
-			       XEXP (operands[0], 0), \
-			       GET_MODE_SIZE (V4SFmode))))
-#define HAVE_vec_store_pairv2dfv16qi (TARGET_SIMD && rtx_equal_p (XEXP (operands[2], 0), \
-		plus_constant (Pmode, \
-			       XEXP (operands[0], 0), \
-			       GET_MODE_SIZE (V2DFmode))))
-#define HAVE_vec_store_pairv2dfv8hi (TARGET_SIMD && rtx_equal_p (XEXP (operands[2], 0), \
-		plus_constant (Pmode, \
-			       XEXP (operands[0], 0), \
-			       GET_MODE_SIZE (V2DFmode))))
-#define HAVE_vec_store_pairv2dfv4si (TARGET_SIMD && rtx_equal_p (XEXP (operands[2], 0), \
-		plus_constant (Pmode, \
-			       XEXP (operands[0], 0), \
-			       GET_MODE_SIZE (V2DFmode))))
-#define HAVE_vec_store_pairv2dfv2di (TARGET_SIMD && rtx_equal_p (XEXP (operands[2], 0), \
-		plus_constant (Pmode, \
-			       XEXP (operands[0], 0), \
-			       GET_MODE_SIZE (V2DFmode))))
-#define HAVE_vec_store_pairv2dfv8hf (TARGET_SIMD && rtx_equal_p (XEXP (operands[2], 0), \
-		plus_constant (Pmode, \
-			       XEXP (operands[0], 0), \
-			       GET_MODE_SIZE (V2DFmode))))
-#define HAVE_vec_store_pairv2dfv8bf (TARGET_SIMD && rtx_equal_p (XEXP (operands[2], 0), \
-		plus_constant (Pmode, \
-			       XEXP (operands[0], 0), \
-			       GET_MODE_SIZE (V2DFmode))))
-#define HAVE_vec_store_pairv2dfv4sf (TARGET_SIMD && rtx_equal_p (XEXP (operands[2], 0), \
-		plus_constant (Pmode, \
-			       XEXP (operands[0], 0), \
-			       GET_MODE_SIZE (V2DFmode))))
-#define HAVE_vec_store_pairv2dfv2df (TARGET_SIMD && rtx_equal_p (XEXP (operands[2], 0), \
-		plus_constant (Pmode, \
-			       XEXP (operands[0], 0), \
-			       GET_MODE_SIZE (V2DFmode))))
-#define HAVE_vec_store_pairv8bfv16qi (TARGET_SIMD && rtx_equal_p (XEXP (operands[2], 0), \
-		plus_constant (Pmode, \
-			       XEXP (operands[0], 0), \
-			       GET_MODE_SIZE (V8BFmode))))
-#define HAVE_vec_store_pairv8bfv8hi (TARGET_SIMD && rtx_equal_p (XEXP (operands[2], 0), \
-		plus_constant (Pmode, \
-			       XEXP (operands[0], 0), \
-			       GET_MODE_SIZE (V8BFmode))))
-#define HAVE_vec_store_pairv8bfv4si (TARGET_SIMD && rtx_equal_p (XEXP (operands[2], 0), \
-		plus_constant (Pmode, \
-			       XEXP (operands[0], 0), \
-			       GET_MODE_SIZE (V8BFmode))))
-#define HAVE_vec_store_pairv8bfv2di (TARGET_SIMD && rtx_equal_p (XEXP (operands[2], 0), \
-		plus_constant (Pmode, \
-			       XEXP (operands[0], 0), \
-			       GET_MODE_SIZE (V8BFmode))))
-#define HAVE_vec_store_pairv8bfv8hf (TARGET_SIMD && rtx_equal_p (XEXP (operands[2], 0), \
-		plus_constant (Pmode, \
-			       XEXP (operands[0], 0), \
-			       GET_MODE_SIZE (V8BFmode))))
-#define HAVE_vec_store_pairv8bfv8bf (TARGET_SIMD && rtx_equal_p (XEXP (operands[2], 0), \
-		plus_constant (Pmode, \
-			       XEXP (operands[0], 0), \
-			       GET_MODE_SIZE (V8BFmode))))
-#define HAVE_vec_store_pairv8bfv4sf (TARGET_SIMD && rtx_equal_p (XEXP (operands[2], 0), \
-		plus_constant (Pmode, \
-			       XEXP (operands[0], 0), \
-			       GET_MODE_SIZE (V8BFmode))))
-#define HAVE_vec_store_pairv8bfv2df (TARGET_SIMD && rtx_equal_p (XEXP (operands[2], 0), \
-		plus_constant (Pmode, \
-			       XEXP (operands[0], 0), \
-			       GET_MODE_SIZE (V8BFmode))))
+#define HAVE_vec_store_pairv16qiv16qi (TARGET_FLOAT \
+   && rtx_equal_p (XEXP (operands[2], 0), \
+		   plus_constant (Pmode, \
+				  XEXP (operands[0], 0), \
+				  GET_MODE_SIZE (V16QImode))))
+#define HAVE_vec_store_pairv16qiv8hi (TARGET_FLOAT \
+   && rtx_equal_p (XEXP (operands[2], 0), \
+		   plus_constant (Pmode, \
+				  XEXP (operands[0], 0), \
+				  GET_MODE_SIZE (V16QImode))))
+#define HAVE_vec_store_pairv16qiv4si (TARGET_FLOAT \
+   && rtx_equal_p (XEXP (operands[2], 0), \
+		   plus_constant (Pmode, \
+				  XEXP (operands[0], 0), \
+				  GET_MODE_SIZE (V16QImode))))
+#define HAVE_vec_store_pairv16qiv2di (TARGET_FLOAT \
+   && rtx_equal_p (XEXP (operands[2], 0), \
+		   plus_constant (Pmode, \
+				  XEXP (operands[0], 0), \
+				  GET_MODE_SIZE (V16QImode))))
+#define HAVE_vec_store_pairv16qiv8hf (TARGET_FLOAT \
+   && rtx_equal_p (XEXP (operands[2], 0), \
+		   plus_constant (Pmode, \
+				  XEXP (operands[0], 0), \
+				  GET_MODE_SIZE (V16QImode))))
+#define HAVE_vec_store_pairv16qiv8bf (TARGET_FLOAT \
+   && rtx_equal_p (XEXP (operands[2], 0), \
+		   plus_constant (Pmode, \
+				  XEXP (operands[0], 0), \
+				  GET_MODE_SIZE (V16QImode))))
+#define HAVE_vec_store_pairv16qiv4sf (TARGET_FLOAT \
+   && rtx_equal_p (XEXP (operands[2], 0), \
+		   plus_constant (Pmode, \
+				  XEXP (operands[0], 0), \
+				  GET_MODE_SIZE (V16QImode))))
+#define HAVE_vec_store_pairv16qiv2df (TARGET_FLOAT \
+   && rtx_equal_p (XEXP (operands[2], 0), \
+		   plus_constant (Pmode, \
+				  XEXP (operands[0], 0), \
+				  GET_MODE_SIZE (V16QImode))))
+#define HAVE_vec_store_pairv8hiv16qi (TARGET_FLOAT \
+   && rtx_equal_p (XEXP (operands[2], 0), \
+		   plus_constant (Pmode, \
+				  XEXP (operands[0], 0), \
+				  GET_MODE_SIZE (V8HImode))))
+#define HAVE_vec_store_pairv8hiv8hi (TARGET_FLOAT \
+   && rtx_equal_p (XEXP (operands[2], 0), \
+		   plus_constant (Pmode, \
+				  XEXP (operands[0], 0), \
+				  GET_MODE_SIZE (V8HImode))))
+#define HAVE_vec_store_pairv8hiv4si (TARGET_FLOAT \
+   && rtx_equal_p (XEXP (operands[2], 0), \
+		   plus_constant (Pmode, \
+				  XEXP (operands[0], 0), \
+				  GET_MODE_SIZE (V8HImode))))
+#define HAVE_vec_store_pairv8hiv2di (TARGET_FLOAT \
+   && rtx_equal_p (XEXP (operands[2], 0), \
+		   plus_constant (Pmode, \
+				  XEXP (operands[0], 0), \
+				  GET_MODE_SIZE (V8HImode))))
+#define HAVE_vec_store_pairv8hiv8hf (TARGET_FLOAT \
+   && rtx_equal_p (XEXP (operands[2], 0), \
+		   plus_constant (Pmode, \
+				  XEXP (operands[0], 0), \
+				  GET_MODE_SIZE (V8HImode))))
+#define HAVE_vec_store_pairv8hiv8bf (TARGET_FLOAT \
+   && rtx_equal_p (XEXP (operands[2], 0), \
+		   plus_constant (Pmode, \
+				  XEXP (operands[0], 0), \
+				  GET_MODE_SIZE (V8HImode))))
+#define HAVE_vec_store_pairv8hiv4sf (TARGET_FLOAT \
+   && rtx_equal_p (XEXP (operands[2], 0), \
+		   plus_constant (Pmode, \
+				  XEXP (operands[0], 0), \
+				  GET_MODE_SIZE (V8HImode))))
+#define HAVE_vec_store_pairv8hiv2df (TARGET_FLOAT \
+   && rtx_equal_p (XEXP (operands[2], 0), \
+		   plus_constant (Pmode, \
+				  XEXP (operands[0], 0), \
+				  GET_MODE_SIZE (V8HImode))))
+#define HAVE_vec_store_pairv4siv16qi (TARGET_FLOAT \
+   && rtx_equal_p (XEXP (operands[2], 0), \
+		   plus_constant (Pmode, \
+				  XEXP (operands[0], 0), \
+				  GET_MODE_SIZE (V4SImode))))
+#define HAVE_vec_store_pairv4siv8hi (TARGET_FLOAT \
+   && rtx_equal_p (XEXP (operands[2], 0), \
+		   plus_constant (Pmode, \
+				  XEXP (operands[0], 0), \
+				  GET_MODE_SIZE (V4SImode))))
+#define HAVE_vec_store_pairv4siv4si (TARGET_FLOAT \
+   && rtx_equal_p (XEXP (operands[2], 0), \
+		   plus_constant (Pmode, \
+				  XEXP (operands[0], 0), \
+				  GET_MODE_SIZE (V4SImode))))
+#define HAVE_vec_store_pairv4siv2di (TARGET_FLOAT \
+   && rtx_equal_p (XEXP (operands[2], 0), \
+		   plus_constant (Pmode, \
+				  XEXP (operands[0], 0), \
+				  GET_MODE_SIZE (V4SImode))))
+#define HAVE_vec_store_pairv4siv8hf (TARGET_FLOAT \
+   && rtx_equal_p (XEXP (operands[2], 0), \
+		   plus_constant (Pmode, \
+				  XEXP (operands[0], 0), \
+				  GET_MODE_SIZE (V4SImode))))
+#define HAVE_vec_store_pairv4siv8bf (TARGET_FLOAT \
+   && rtx_equal_p (XEXP (operands[2], 0), \
+		   plus_constant (Pmode, \
+				  XEXP (operands[0], 0), \
+				  GET_MODE_SIZE (V4SImode))))
+#define HAVE_vec_store_pairv4siv4sf (TARGET_FLOAT \
+   && rtx_equal_p (XEXP (operands[2], 0), \
+		   plus_constant (Pmode, \
+				  XEXP (operands[0], 0), \
+				  GET_MODE_SIZE (V4SImode))))
+#define HAVE_vec_store_pairv4siv2df (TARGET_FLOAT \
+   && rtx_equal_p (XEXP (operands[2], 0), \
+		   plus_constant (Pmode, \
+				  XEXP (operands[0], 0), \
+				  GET_MODE_SIZE (V4SImode))))
+#define HAVE_vec_store_pairv2div16qi (TARGET_FLOAT \
+   && rtx_equal_p (XEXP (operands[2], 0), \
+		   plus_constant (Pmode, \
+				  XEXP (operands[0], 0), \
+				  GET_MODE_SIZE (V2DImode))))
+#define HAVE_vec_store_pairv2div8hi (TARGET_FLOAT \
+   && rtx_equal_p (XEXP (operands[2], 0), \
+		   plus_constant (Pmode, \
+				  XEXP (operands[0], 0), \
+				  GET_MODE_SIZE (V2DImode))))
+#define HAVE_vec_store_pairv2div4si (TARGET_FLOAT \
+   && rtx_equal_p (XEXP (operands[2], 0), \
+		   plus_constant (Pmode, \
+				  XEXP (operands[0], 0), \
+				  GET_MODE_SIZE (V2DImode))))
+#define HAVE_vec_store_pairv2div2di (TARGET_FLOAT \
+   && rtx_equal_p (XEXP (operands[2], 0), \
+		   plus_constant (Pmode, \
+				  XEXP (operands[0], 0), \
+				  GET_MODE_SIZE (V2DImode))))
+#define HAVE_vec_store_pairv2div8hf (TARGET_FLOAT \
+   && rtx_equal_p (XEXP (operands[2], 0), \
+		   plus_constant (Pmode, \
+				  XEXP (operands[0], 0), \
+				  GET_MODE_SIZE (V2DImode))))
+#define HAVE_vec_store_pairv2div8bf (TARGET_FLOAT \
+   && rtx_equal_p (XEXP (operands[2], 0), \
+		   plus_constant (Pmode, \
+				  XEXP (operands[0], 0), \
+				  GET_MODE_SIZE (V2DImode))))
+#define HAVE_vec_store_pairv2div4sf (TARGET_FLOAT \
+   && rtx_equal_p (XEXP (operands[2], 0), \
+		   plus_constant (Pmode, \
+				  XEXP (operands[0], 0), \
+				  GET_MODE_SIZE (V2DImode))))
+#define HAVE_vec_store_pairv2div2df (TARGET_FLOAT \
+   && rtx_equal_p (XEXP (operands[2], 0), \
+		   plus_constant (Pmode, \
+				  XEXP (operands[0], 0), \
+				  GET_MODE_SIZE (V2DImode))))
+#define HAVE_vec_store_pairv8hfv16qi (TARGET_FLOAT \
+   && rtx_equal_p (XEXP (operands[2], 0), \
+		   plus_constant (Pmode, \
+				  XEXP (operands[0], 0), \
+				  GET_MODE_SIZE (V8HFmode))))
+#define HAVE_vec_store_pairv8hfv8hi (TARGET_FLOAT \
+   && rtx_equal_p (XEXP (operands[2], 0), \
+		   plus_constant (Pmode, \
+				  XEXP (operands[0], 0), \
+				  GET_MODE_SIZE (V8HFmode))))
+#define HAVE_vec_store_pairv8hfv4si (TARGET_FLOAT \
+   && rtx_equal_p (XEXP (operands[2], 0), \
+		   plus_constant (Pmode, \
+				  XEXP (operands[0], 0), \
+				  GET_MODE_SIZE (V8HFmode))))
+#define HAVE_vec_store_pairv8hfv2di (TARGET_FLOAT \
+   && rtx_equal_p (XEXP (operands[2], 0), \
+		   plus_constant (Pmode, \
+				  XEXP (operands[0], 0), \
+				  GET_MODE_SIZE (V8HFmode))))
+#define HAVE_vec_store_pairv8hfv8hf (TARGET_FLOAT \
+   && rtx_equal_p (XEXP (operands[2], 0), \
+		   plus_constant (Pmode, \
+				  XEXP (operands[0], 0), \
+				  GET_MODE_SIZE (V8HFmode))))
+#define HAVE_vec_store_pairv8hfv8bf (TARGET_FLOAT \
+   && rtx_equal_p (XEXP (operands[2], 0), \
+		   plus_constant (Pmode, \
+				  XEXP (operands[0], 0), \
+				  GET_MODE_SIZE (V8HFmode))))
+#define HAVE_vec_store_pairv8hfv4sf (TARGET_FLOAT \
+   && rtx_equal_p (XEXP (operands[2], 0), \
+		   plus_constant (Pmode, \
+				  XEXP (operands[0], 0), \
+				  GET_MODE_SIZE (V8HFmode))))
+#define HAVE_vec_store_pairv8hfv2df (TARGET_FLOAT \
+   && rtx_equal_p (XEXP (operands[2], 0), \
+		   plus_constant (Pmode, \
+				  XEXP (operands[0], 0), \
+				  GET_MODE_SIZE (V8HFmode))))
+#define HAVE_vec_store_pairv4sfv16qi (TARGET_FLOAT \
+   && rtx_equal_p (XEXP (operands[2], 0), \
+		   plus_constant (Pmode, \
+				  XEXP (operands[0], 0), \
+				  GET_MODE_SIZE (V4SFmode))))
+#define HAVE_vec_store_pairv4sfv8hi (TARGET_FLOAT \
+   && rtx_equal_p (XEXP (operands[2], 0), \
+		   plus_constant (Pmode, \
+				  XEXP (operands[0], 0), \
+				  GET_MODE_SIZE (V4SFmode))))
+#define HAVE_vec_store_pairv4sfv4si (TARGET_FLOAT \
+   && rtx_equal_p (XEXP (operands[2], 0), \
+		   plus_constant (Pmode, \
+				  XEXP (operands[0], 0), \
+				  GET_MODE_SIZE (V4SFmode))))
+#define HAVE_vec_store_pairv4sfv2di (TARGET_FLOAT \
+   && rtx_equal_p (XEXP (operands[2], 0), \
+		   plus_constant (Pmode, \
+				  XEXP (operands[0], 0), \
+				  GET_MODE_SIZE (V4SFmode))))
+#define HAVE_vec_store_pairv4sfv8hf (TARGET_FLOAT \
+   && rtx_equal_p (XEXP (operands[2], 0), \
+		   plus_constant (Pmode, \
+				  XEXP (operands[0], 0), \
+				  GET_MODE_SIZE (V4SFmode))))
+#define HAVE_vec_store_pairv4sfv8bf (TARGET_FLOAT \
+   && rtx_equal_p (XEXP (operands[2], 0), \
+		   plus_constant (Pmode, \
+				  XEXP (operands[0], 0), \
+				  GET_MODE_SIZE (V4SFmode))))
+#define HAVE_vec_store_pairv4sfv4sf (TARGET_FLOAT \
+   && rtx_equal_p (XEXP (operands[2], 0), \
+		   plus_constant (Pmode, \
+				  XEXP (operands[0], 0), \
+				  GET_MODE_SIZE (V4SFmode))))
+#define HAVE_vec_store_pairv4sfv2df (TARGET_FLOAT \
+   && rtx_equal_p (XEXP (operands[2], 0), \
+		   plus_constant (Pmode, \
+				  XEXP (operands[0], 0), \
+				  GET_MODE_SIZE (V4SFmode))))
+#define HAVE_vec_store_pairv2dfv16qi (TARGET_FLOAT \
+   && rtx_equal_p (XEXP (operands[2], 0), \
+		   plus_constant (Pmode, \
+				  XEXP (operands[0], 0), \
+				  GET_MODE_SIZE (V2DFmode))))
+#define HAVE_vec_store_pairv2dfv8hi (TARGET_FLOAT \
+   && rtx_equal_p (XEXP (operands[2], 0), \
+		   plus_constant (Pmode, \
+				  XEXP (operands[0], 0), \
+				  GET_MODE_SIZE (V2DFmode))))
+#define HAVE_vec_store_pairv2dfv4si (TARGET_FLOAT \
+   && rtx_equal_p (XEXP (operands[2], 0), \
+		   plus_constant (Pmode, \
+				  XEXP (operands[0], 0), \
+				  GET_MODE_SIZE (V2DFmode))))
+#define HAVE_vec_store_pairv2dfv2di (TARGET_FLOAT \
+   && rtx_equal_p (XEXP (operands[2], 0), \
+		   plus_constant (Pmode, \
+				  XEXP (operands[0], 0), \
+				  GET_MODE_SIZE (V2DFmode))))
+#define HAVE_vec_store_pairv2dfv8hf (TARGET_FLOAT \
+   && rtx_equal_p (XEXP (operands[2], 0), \
+		   plus_constant (Pmode, \
+				  XEXP (operands[0], 0), \
+				  GET_MODE_SIZE (V2DFmode))))
+#define HAVE_vec_store_pairv2dfv8bf (TARGET_FLOAT \
+   && rtx_equal_p (XEXP (operands[2], 0), \
+		   plus_constant (Pmode, \
+				  XEXP (operands[0], 0), \
+				  GET_MODE_SIZE (V2DFmode))))
+#define HAVE_vec_store_pairv2dfv4sf (TARGET_FLOAT \
+   && rtx_equal_p (XEXP (operands[2], 0), \
+		   plus_constant (Pmode, \
+				  XEXP (operands[0], 0), \
+				  GET_MODE_SIZE (V2DFmode))))
+#define HAVE_vec_store_pairv2dfv2df (TARGET_FLOAT \
+   && rtx_equal_p (XEXP (operands[2], 0), \
+		   plus_constant (Pmode, \
+				  XEXP (operands[0], 0), \
+				  GET_MODE_SIZE (V2DFmode))))
+#define HAVE_vec_store_pairv8bfv16qi (TARGET_FLOAT \
+   && rtx_equal_p (XEXP (operands[2], 0), \
+		   plus_constant (Pmode, \
+				  XEXP (operands[0], 0), \
+				  GET_MODE_SIZE (V8BFmode))))
+#define HAVE_vec_store_pairv8bfv8hi (TARGET_FLOAT \
+   && rtx_equal_p (XEXP (operands[2], 0), \
+		   plus_constant (Pmode, \
+				  XEXP (operands[0], 0), \
+				  GET_MODE_SIZE (V8BFmode))))
+#define HAVE_vec_store_pairv8bfv4si (TARGET_FLOAT \
+   && rtx_equal_p (XEXP (operands[2], 0), \
+		   plus_constant (Pmode, \
+				  XEXP (operands[0], 0), \
+				  GET_MODE_SIZE (V8BFmode))))
+#define HAVE_vec_store_pairv8bfv2di (TARGET_FLOAT \
+   && rtx_equal_p (XEXP (operands[2], 0), \
+		   plus_constant (Pmode, \
+				  XEXP (operands[0], 0), \
+				  GET_MODE_SIZE (V8BFmode))))
+#define HAVE_vec_store_pairv8bfv8hf (TARGET_FLOAT \
+   && rtx_equal_p (XEXP (operands[2], 0), \
+		   plus_constant (Pmode, \
+				  XEXP (operands[0], 0), \
+				  GET_MODE_SIZE (V8BFmode))))
+#define HAVE_vec_store_pairv8bfv8bf (TARGET_FLOAT \
+   && rtx_equal_p (XEXP (operands[2], 0), \
+		   plus_constant (Pmode, \
+				  XEXP (operands[0], 0), \
+				  GET_MODE_SIZE (V8BFmode))))
+#define HAVE_vec_store_pairv8bfv4sf (TARGET_FLOAT \
+   && rtx_equal_p (XEXP (operands[2], 0), \
+		   plus_constant (Pmode, \
+				  XEXP (operands[0], 0), \
+				  GET_MODE_SIZE (V8BFmode))))
+#define HAVE_vec_store_pairv8bfv2df (TARGET_FLOAT \
+   && rtx_equal_p (XEXP (operands[2], 0), \
+		   plus_constant (Pmode, \
+				  XEXP (operands[0], 0), \
+				  GET_MODE_SIZE (V8BFmode))))
 #define HAVE_aarch64_simd_mov_from_v16qilow (TARGET_SIMD)
 #define HAVE_aarch64_simd_mov_from_v8hilow (TARGET_SIMD)
 #define HAVE_aarch64_simd_mov_from_v4silow (TARGET_SIMD)
 #define HAVE_aarch64_simd_mov_from_v8hflow (TARGET_SIMD)
 #define HAVE_aarch64_simd_mov_from_v8bflow (TARGET_SIMD)
 #define HAVE_aarch64_simd_mov_from_v4sflow (TARGET_SIMD)
-#define HAVE_aarch64_simd_mov_from_v16qihigh (TARGET_SIMD)
-#define HAVE_aarch64_simd_mov_from_v8hihigh (TARGET_SIMD)
-#define HAVE_aarch64_simd_mov_from_v4sihigh (TARGET_SIMD)
-#define HAVE_aarch64_simd_mov_from_v8hfhigh (TARGET_SIMD)
-#define HAVE_aarch64_simd_mov_from_v8bfhigh (TARGET_SIMD)
-#define HAVE_aarch64_simd_mov_from_v4sfhigh (TARGET_SIMD)
+#define HAVE_aarch64_simd_mov_from_v16qihigh (TARGET_FLOAT)
+#define HAVE_aarch64_simd_mov_from_v8hihigh (TARGET_FLOAT)
+#define HAVE_aarch64_simd_mov_from_v4sihigh (TARGET_FLOAT)
+#define HAVE_aarch64_simd_mov_from_v8hfhigh (TARGET_FLOAT)
+#define HAVE_aarch64_simd_mov_from_v8bfhigh (TARGET_FLOAT)
+#define HAVE_aarch64_simd_mov_from_v4sfhigh (TARGET_FLOAT)
 #define HAVE_ornv8qi3 (TARGET_SIMD)
 #define HAVE_ornv16qi3 (TARGET_SIMD)
 #define HAVE_ornv4hi3 (TARGET_SIMD)
@@ -1875,6 +2027,7 @@
 #define HAVE_aarch64_simd_vec_setv2sf (TARGET_SIMD)
 #define HAVE_aarch64_simd_vec_setv4sf (TARGET_SIMD)
 #define HAVE_aarch64_simd_vec_setv2df (TARGET_SIMD)
+#define HAVE_aarch64_simd_vec_setv2hf ((TARGET_SIMD) && (TARGET_SIMD_F16INST))
 #define HAVE_aarch64_simd_vec_copy_lanev8qi (TARGET_SIMD)
 #define HAVE_aarch64_simd_vec_copy_lanev16qi (TARGET_SIMD)
 #define HAVE_aarch64_simd_vec_copy_lanev4hi (TARGET_SIMD)
@@ -1889,6 +2042,7 @@
 #define HAVE_aarch64_simd_vec_copy_lanev2sf (TARGET_SIMD)
 #define HAVE_aarch64_simd_vec_copy_lanev4sf (TARGET_SIMD)
 #define HAVE_aarch64_simd_vec_copy_lanev2df (TARGET_SIMD)
+#define HAVE_aarch64_simd_vec_copy_lanev2hf ((TARGET_SIMD) && (TARGET_SIMD_F16INST))
 #define HAVE_aarch64_simd_lshrv8qi (TARGET_SIMD)
 #define HAVE_aarch64_simd_lshrv16qi (TARGET_SIMD)
 #define HAVE_aarch64_simd_lshrv4hi (TARGET_SIMD)
@@ -2419,6 +2573,7 @@
 #define HAVE_aarch64_zero_extenddi_reduc_plus_v8hi (TARGET_SIMD)
 #define HAVE_reduc_plus_scal_v2sf (TARGET_SIMD)
 #define HAVE_reduc_plus_scal_v2df (TARGET_SIMD)
+#define HAVE_reduc_plus_scal_v2hf (TARGET_SIMD)
 #define HAVE_aarch64_saddlvv8qi (TARGET_SIMD)
 #define HAVE_aarch64_uaddlvv8qi (TARGET_SIMD)
 #define HAVE_aarch64_saddlvv16qi (TARGET_SIMD)
@@ -2501,6 +2656,10 @@
 #define HAVE_aarch64_reduc_smin_nan_internalv2df (TARGET_SIMD)
 #define HAVE_aarch64_reduc_smax_internalv2df (TARGET_SIMD)
 #define HAVE_aarch64_reduc_smin_internalv2df (TARGET_SIMD)
+#define HAVE_aarch64_reduc_smax_nan_internalv2hf ((TARGET_SIMD) && (TARGET_SIMD_F16INST))
+#define HAVE_aarch64_reduc_smin_nan_internalv2hf ((TARGET_SIMD) && (TARGET_SIMD_F16INST))
+#define HAVE_aarch64_reduc_smax_internalv2hf ((TARGET_SIMD) && (TARGET_SIMD_F16INST))
+#define HAVE_aarch64_reduc_smin_internalv2hf ((TARGET_SIMD) && (TARGET_SIMD_F16INST))
 #define HAVE_aarch64_simd_bslv8qi_internal (TARGET_SIMD)
 #define HAVE_aarch64_simd_bslv16qi_internal (TARGET_SIMD)
 #define HAVE_aarch64_simd_bslv4hi_internal (TARGET_SIMD)
@@ -2524,36 +2683,37 @@
 #define HAVE_aarch64_get_lanev2sf (TARGET_SIMD)
 #define HAVE_aarch64_get_lanev4sf (TARGET_SIMD)
 #define HAVE_aarch64_get_lanev2df (TARGET_SIMD)
-#define HAVE_load_pair_lanesv8qi (TARGET_SIMD \
+#define HAVE_aarch64_get_lanev2hf ((TARGET_SIMD) && (TARGET_SIMD_F16INST))
+#define HAVE_load_pair_lanesv8qi (TARGET_FLOAT \
    && aarch64_mergeable_load_pair_p (V16QImode, operands[1], operands[2]))
-#define HAVE_load_pair_lanesv4hi (TARGET_SIMD \
+#define HAVE_load_pair_lanesv4hi (TARGET_FLOAT \
    && aarch64_mergeable_load_pair_p (V8HImode, operands[1], operands[2]))
-#define HAVE_load_pair_lanesv4bf (TARGET_SIMD \
+#define HAVE_load_pair_lanesv4bf (TARGET_FLOAT \
    && aarch64_mergeable_load_pair_p (V8BFmode, operands[1], operands[2]))
-#define HAVE_load_pair_lanesv4hf (TARGET_SIMD \
+#define HAVE_load_pair_lanesv4hf (TARGET_FLOAT \
    && aarch64_mergeable_load_pair_p (V8HFmode, operands[1], operands[2]))
-#define HAVE_load_pair_lanesv2si (TARGET_SIMD \
+#define HAVE_load_pair_lanesv2si (TARGET_FLOAT \
    && aarch64_mergeable_load_pair_p (V4SImode, operands[1], operands[2]))
-#define HAVE_load_pair_lanesv2sf (TARGET_SIMD \
+#define HAVE_load_pair_lanesv2sf (TARGET_FLOAT \
    && aarch64_mergeable_load_pair_p (V4SFmode, operands[1], operands[2]))
-#define HAVE_load_pair_lanessi (TARGET_SIMD \
+#define HAVE_load_pair_lanessi (TARGET_FLOAT \
    && aarch64_mergeable_load_pair_p (V2SImode, operands[1], operands[2]))
-#define HAVE_load_pair_lanessf (TARGET_SIMD \
+#define HAVE_load_pair_lanessf (TARGET_FLOAT \
    && aarch64_mergeable_load_pair_p (V2SFmode, operands[1], operands[2]))
-#define HAVE_load_pair_lanesdi (TARGET_SIMD \
+#define HAVE_load_pair_lanesdi (TARGET_FLOAT \
    && aarch64_mergeable_load_pair_p (V2DImode, operands[1], operands[2]))
-#define HAVE_load_pair_lanesdf (TARGET_SIMD \
+#define HAVE_load_pair_lanesdf (TARGET_FLOAT \
    && aarch64_mergeable_load_pair_p (V2DFmode, operands[1], operands[2]))
-#define HAVE_store_pair_lanesv8qi (TARGET_SIMD)
-#define HAVE_store_pair_lanesv4hi (TARGET_SIMD)
-#define HAVE_store_pair_lanesv4bf (TARGET_SIMD)
-#define HAVE_store_pair_lanesv4hf (TARGET_SIMD)
-#define HAVE_store_pair_lanesv2si (TARGET_SIMD)
-#define HAVE_store_pair_lanesv2sf (TARGET_SIMD)
-#define HAVE_store_pair_lanessi (TARGET_SIMD)
-#define HAVE_store_pair_lanessf (TARGET_SIMD)
-#define HAVE_store_pair_lanesdi (TARGET_SIMD)
-#define HAVE_store_pair_lanesdf (TARGET_SIMD)
+#define HAVE_store_pair_lanesv8qi (TARGET_FLOAT)
+#define HAVE_store_pair_lanesv4hi (TARGET_FLOAT)
+#define HAVE_store_pair_lanesv4bf (TARGET_FLOAT)
+#define HAVE_store_pair_lanesv4hf (TARGET_FLOAT)
+#define HAVE_store_pair_lanesv2si (TARGET_FLOAT)
+#define HAVE_store_pair_lanesv2sf (TARGET_FLOAT)
+#define HAVE_store_pair_lanessi (TARGET_FLOAT)
+#define HAVE_store_pair_lanessf (TARGET_FLOAT)
+#define HAVE_store_pair_lanesdi (TARGET_FLOAT)
+#define HAVE_store_pair_lanesdf (TARGET_FLOAT)
 #define HAVE_aarch64_saddlv16qi_hi_internal (TARGET_SIMD)
 #define HAVE_aarch64_ssublv16qi_hi_internal (TARGET_SIMD)
 #define HAVE_aarch64_uaddlv16qi_hi_internal (TARGET_SIMD)
@@ -4056,45 +4216,45 @@
 #define HAVE_aarch64_frecpsdf (TARGET_SIMD)
 #define HAVE_aarch64_urecpev2si (TARGET_SIMD)
 #define HAVE_aarch64_urecpev4si (TARGET_SIMD)
-#define HAVE_aarch64_crypto_aesev16qi (TARGET_SIMD && TARGET_AES)
-#define HAVE_aarch64_crypto_aesdv16qi (TARGET_SIMD && TARGET_AES)
-#define HAVE_aarch64_crypto_aesmcv16qi (TARGET_SIMD && TARGET_AES)
-#define HAVE_aarch64_crypto_aesimcv16qi (TARGET_SIMD && TARGET_AES)
-#define HAVE_aarch64_crypto_sha1hsi (TARGET_SIMD && TARGET_SHA2)
-#define HAVE_aarch64_crypto_sha1hv4si (TARGET_SIMD && TARGET_SHA2 && !BYTES_BIG_ENDIAN)
-#define HAVE_aarch64_be_crypto_sha1hv4si (TARGET_SIMD && TARGET_SHA2 && BYTES_BIG_ENDIAN)
-#define HAVE_aarch64_crypto_sha1su1v4si (TARGET_SIMD && TARGET_SHA2)
-#define HAVE_aarch64_crypto_sha1cv4si (TARGET_SIMD && TARGET_SHA2)
-#define HAVE_aarch64_crypto_sha1mv4si (TARGET_SIMD && TARGET_SHA2)
-#define HAVE_aarch64_crypto_sha1pv4si (TARGET_SIMD && TARGET_SHA2)
-#define HAVE_aarch64_crypto_sha1su0v4si (TARGET_SIMD && TARGET_SHA2)
-#define HAVE_aarch64_crypto_sha256hv4si (TARGET_SIMD && TARGET_SHA2)
-#define HAVE_aarch64_crypto_sha256h2v4si (TARGET_SIMD && TARGET_SHA2)
-#define HAVE_aarch64_crypto_sha256su0v4si (TARGET_SIMD && TARGET_SHA2)
-#define HAVE_aarch64_crypto_sha256su1v4si (TARGET_SIMD && TARGET_SHA2)
-#define HAVE_aarch64_crypto_sha512hqv2di (TARGET_SIMD && TARGET_SHA3)
-#define HAVE_aarch64_crypto_sha512h2qv2di (TARGET_SIMD && TARGET_SHA3)
-#define HAVE_aarch64_crypto_sha512su0qv2di (TARGET_SIMD && TARGET_SHA3)
-#define HAVE_aarch64_crypto_sha512su1qv2di (TARGET_SIMD && TARGET_SHA3)
-#define HAVE_eor3qv16qi4 (TARGET_SIMD && TARGET_SHA3)
-#define HAVE_eor3qv8hi4 (TARGET_SIMD && TARGET_SHA3)
-#define HAVE_eor3qv4si4 (TARGET_SIMD && TARGET_SHA3)
-#define HAVE_eor3qv2di4 (TARGET_SIMD && TARGET_SHA3)
-#define HAVE_aarch64_rax1qv2di (TARGET_SIMD && TARGET_SHA3)
-#define HAVE_aarch64_xarqv2di (TARGET_SIMD && TARGET_SHA3)
-#define HAVE_bcaxqv16qi4 (TARGET_SIMD && TARGET_SHA3)
-#define HAVE_bcaxqv8hi4 (TARGET_SIMD && TARGET_SHA3)
-#define HAVE_bcaxqv4si4 (TARGET_SIMD && TARGET_SHA3)
-#define HAVE_bcaxqv2di4 (TARGET_SIMD && TARGET_SHA3)
-#define HAVE_aarch64_sm3ss1qv4si (TARGET_SIMD && TARGET_SM4)
-#define HAVE_aarch64_sm3tt1aqv4si (TARGET_SIMD && TARGET_SM4)
-#define HAVE_aarch64_sm3tt1bqv4si (TARGET_SIMD && TARGET_SM4)
-#define HAVE_aarch64_sm3tt2aqv4si (TARGET_SIMD && TARGET_SM4)
-#define HAVE_aarch64_sm3tt2bqv4si (TARGET_SIMD && TARGET_SM4)
-#define HAVE_aarch64_sm3partw1qv4si (TARGET_SIMD && TARGET_SM4)
-#define HAVE_aarch64_sm3partw2qv4si (TARGET_SIMD && TARGET_SM4)
-#define HAVE_aarch64_sm4eqv4si (TARGET_SIMD && TARGET_SM4)
-#define HAVE_aarch64_sm4ekeyqv4si (TARGET_SIMD && TARGET_SM4)
+#define HAVE_aarch64_crypto_aesev16qi (TARGET_AES)
+#define HAVE_aarch64_crypto_aesdv16qi (TARGET_AES)
+#define HAVE_aarch64_crypto_aesmcv16qi (TARGET_AES)
+#define HAVE_aarch64_crypto_aesimcv16qi (TARGET_AES)
+#define HAVE_aarch64_crypto_sha1hsi (TARGET_SHA2)
+#define HAVE_aarch64_crypto_sha1hv4si (TARGET_SHA2 && !BYTES_BIG_ENDIAN)
+#define HAVE_aarch64_be_crypto_sha1hv4si (TARGET_SHA2 && BYTES_BIG_ENDIAN)
+#define HAVE_aarch64_crypto_sha1su1v4si (TARGET_SHA2)
+#define HAVE_aarch64_crypto_sha1cv4si (TARGET_SHA2)
+#define HAVE_aarch64_crypto_sha1mv4si (TARGET_SHA2)
+#define HAVE_aarch64_crypto_sha1pv4si (TARGET_SHA2)
+#define HAVE_aarch64_crypto_sha1su0v4si (TARGET_SHA2)
+#define HAVE_aarch64_crypto_sha256hv4si (TARGET_SHA2)
+#define HAVE_aarch64_crypto_sha256h2v4si (TARGET_SHA2)
+#define HAVE_aarch64_crypto_sha256su0v4si (TARGET_SHA2)
+#define HAVE_aarch64_crypto_sha256su1v4si (TARGET_SHA2)
+#define HAVE_aarch64_crypto_sha512hqv2di (TARGET_SHA3)
+#define HAVE_aarch64_crypto_sha512h2qv2di (TARGET_SHA3)
+#define HAVE_aarch64_crypto_sha512su0qv2di (TARGET_SHA3)
+#define HAVE_aarch64_crypto_sha512su1qv2di (TARGET_SHA3)
+#define HAVE_eor3qv16qi4 (TARGET_SHA3)
+#define HAVE_eor3qv8hi4 (TARGET_SHA3)
+#define HAVE_eor3qv4si4 (TARGET_SHA3)
+#define HAVE_eor3qv2di4 (TARGET_SHA3)
+#define HAVE_aarch64_rax1qv2di (TARGET_SHA3)
+#define HAVE_aarch64_xarqv2di (TARGET_SHA3)
+#define HAVE_bcaxqv16qi4 (TARGET_SHA3)
+#define HAVE_bcaxqv8hi4 (TARGET_SHA3)
+#define HAVE_bcaxqv4si4 (TARGET_SHA3)
+#define HAVE_bcaxqv2di4 (TARGET_SHA3)
+#define HAVE_aarch64_sm3ss1qv4si (TARGET_SM4)
+#define HAVE_aarch64_sm3tt1aqv4si (TARGET_SM4)
+#define HAVE_aarch64_sm3tt1bqv4si (TARGET_SM4)
+#define HAVE_aarch64_sm3tt2aqv4si (TARGET_SM4)
+#define HAVE_aarch64_sm3tt2bqv4si (TARGET_SM4)
+#define HAVE_aarch64_sm3partw1qv4si (TARGET_SM4)
+#define HAVE_aarch64_sm3partw2qv4si (TARGET_SM4)
+#define HAVE_aarch64_sm4eqv4si (TARGET_SM4)
+#define HAVE_aarch64_sm4ekeyqv4si (TARGET_SM4)
 #define HAVE_aarch64_simd_fmlal_lowv2sf (TARGET_F16FML)
 #define HAVE_aarch64_simd_fmlalq_lowv4sf (TARGET_F16FML)
 #define HAVE_aarch64_simd_fmlsl_lowv2sf (TARGET_F16FML)
@@ -4119,8 +4279,8 @@
 #define HAVE_aarch64_simd_fmlslq_lane_lowv4sf (TARGET_F16FML)
 #define HAVE_aarch64_simd_fmlalq_lane_highv4sf (TARGET_F16FML)
 #define HAVE_aarch64_simd_fmlslq_lane_highv4sf (TARGET_F16FML)
-#define HAVE_aarch64_crypto_pmulldi (TARGET_SIMD && TARGET_AES)
-#define HAVE_aarch64_crypto_pmullv2di (TARGET_SIMD && TARGET_AES)
+#define HAVE_aarch64_crypto_pmulldi (TARGET_AES)
+#define HAVE_aarch64_crypto_pmullv2di (TARGET_AES)
 #define HAVE_extendv8qiv8hi2 (TARGET_SIMD)
 #define HAVE_zero_extendv8qiv8hi2 (TARGET_SIMD)
 #define HAVE_extendv4hiv4si2 (TARGET_SIMD)
@@ -4276,10 +4436,14 @@
 #define HAVE_atomic_nand_fetchhi 1
 #define HAVE_atomic_nand_fetchsi 1
 #define HAVE_atomic_nand_fetchdi 1
-#define HAVE_atomic_loadqi 1
-#define HAVE_atomic_loadhi 1
-#define HAVE_atomic_loadsi 1
-#define HAVE_atomic_loaddi 1
+#define HAVE_aarch64_atomic_loadqi_rcpc (TARGET_RCPC)
+#define HAVE_aarch64_atomic_loadhi_rcpc (TARGET_RCPC)
+#define HAVE_aarch64_atomic_loadsi_rcpc (TARGET_RCPC)
+#define HAVE_aarch64_atomic_loaddi_rcpc (TARGET_RCPC)
+#define HAVE_aarch64_atomic_loadqi 1
+#define HAVE_aarch64_atomic_loadhi 1
+#define HAVE_aarch64_atomic_loadsi 1
+#define HAVE_aarch64_atomic_loaddi 1
 #define HAVE_atomic_storeqi 1
 #define HAVE_atomic_storehi 1
 #define HAVE_atomic_storesi 1
@@ -4600,10 +4764,10 @@
 #define HAVE_aarch64_gather_load_zero_extendvnx2hivnx2qi (TARGET_SVE && (~0x21 & 0x21) == 0)
 #define HAVE_aarch64_gather_load_extendvnx2sivnx2qi (TARGET_SVE && (~0x23 & 0x21) == 0)
 #define HAVE_aarch64_gather_load_zero_extendvnx2sivnx2qi (TARGET_SVE && (~0x23 & 0x21) == 0)
-#define HAVE_aarch64_gather_load_extendvnx2sivnx2hi (TARGET_SVE && (~0x23 & 0x22) == 0)
-#define HAVE_aarch64_gather_load_zero_extendvnx2sivnx2hi (TARGET_SVE && (~0x23 & 0x22) == 0)
 #define HAVE_aarch64_gather_load_extendvnx2divnx2qi (TARGET_SVE && (~0x27 & 0x21) == 0)
 #define HAVE_aarch64_gather_load_zero_extendvnx2divnx2qi (TARGET_SVE && (~0x27 & 0x21) == 0)
+#define HAVE_aarch64_gather_load_extendvnx2sivnx2hi (TARGET_SVE && (~0x23 & 0x22) == 0)
+#define HAVE_aarch64_gather_load_zero_extendvnx2sivnx2hi (TARGET_SVE && (~0x23 & 0x22) == 0)
 #define HAVE_aarch64_gather_load_extendvnx2divnx2hi (TARGET_SVE && (~0x27 & 0x22) == 0)
 #define HAVE_aarch64_gather_load_zero_extendvnx2divnx2hi (TARGET_SVE && (~0x27 & 0x22) == 0)
 #define HAVE_aarch64_gather_load_extendvnx2divnx2si (TARGET_SVE && (~0x27 & 0x24) == 0)
@@ -6903,6 +7067,14 @@
 #define HAVE_epilogue 1
 #define HAVE_sibcall_epilogue 1
 #define HAVE_return (aarch64_use_return_insn_p ())
+#define HAVE_tbranch_eqqi3 1
+#define HAVE_tbranch_neqi3 1
+#define HAVE_tbranch_eqhi3 1
+#define HAVE_tbranch_nehi3 1
+#define HAVE_tbranch_eqsi3 1
+#define HAVE_tbranch_nesi3 1
+#define HAVE_tbranch_eqdi3 1
+#define HAVE_tbranch_nedi3 1
 #define HAVE_call 1
 #define HAVE_call_value 1
 #define HAVE_sibcall 1
@@ -6918,6 +7090,9 @@
 #define HAVE_movsf 1
 #define HAVE_movdf 1
 #define HAVE_movtf 1
+#define HAVE_movsd 1
+#define HAVE_movdd 1
+#define HAVE_movtd 1
 #define HAVE_aarch64_cpymemdi (TARGET_MOPS)
 #define HAVE_cpymemdi (!STRICT_ALIGNMENT || TARGET_MOPS)
 #define HAVE_movmemdi (TARGET_MOPS)
@@ -6994,12 +7169,12 @@
 #define HAVE_notsicc 1
 #define HAVE_negdicc 1
 #define HAVE_notdicc 1
-#define HAVE_umaxsi3 (TARGET_SVE)
-#define HAVE_umaxdi3 (TARGET_SVE)
+#define HAVE_umaxsi3 (TARGET_SVE || TARGET_CSSC)
+#define HAVE_umaxdi3 (TARGET_SVE || TARGET_CSSC)
 #define HAVE_ffssi2 1
 #define HAVE_ffsdi2 1
-#define HAVE_popcountsi2 (TARGET_SIMD)
-#define HAVE_popcountdi2 (TARGET_SIMD)
+#define HAVE_popcountsi2 (TARGET_CSSC || TARGET_SIMD)
+#define HAVE_popcountdi2 (TARGET_CSSC || TARGET_SIMD)
 #define HAVE_ashlsi3 1
 #define HAVE_ashrsi3 1
 #define HAVE_lshrsi3 1
@@ -7028,8 +7203,8 @@
 #define HAVE_fnmsdf4 (TARGET_FLOAT)
 #define HAVE_floatsihf2 (TARGET_FLOAT)
 #define HAVE_floatunssihf2 (TARGET_FLOAT)
-#define HAVE_floatdihf2 (TARGET_FLOAT && (TARGET_FP_F16INST || TARGET_SIMD))
-#define HAVE_floatunsdihf2 (TARGET_FLOAT && (TARGET_FP_F16INST || TARGET_SIMD))
+#define HAVE_floatdihf2 (TARGET_FP_F16INST || TARGET_SIMD)
+#define HAVE_floatunsdihf2 (TARGET_FP_F16INST || TARGET_SIMD)
 #define HAVE_divhf3 ((TARGET_FLOAT) && (AARCH64_ISA_F16))
 #define HAVE_divsf3 (TARGET_FLOAT)
 #define HAVE_divdf3 (TARGET_FLOAT)
@@ -7048,16 +7223,22 @@
 #define HAVE_lrintdfdi2 (TARGET_FLOAT \
    && ((GET_MODE_BITSIZE (DFmode) <= LONG_TYPE_SIZE) \
    || !flag_trapping_math || flag_fp_int_builtin_inexact))
-#define HAVE_copysignsf3 (TARGET_FLOAT && TARGET_SIMD)
-#define HAVE_copysigndf3 (TARGET_FLOAT && TARGET_SIMD)
-#define HAVE_xorsignsf3 (TARGET_FLOAT && TARGET_SIMD)
-#define HAVE_xorsigndf3 (TARGET_FLOAT && TARGET_SIMD)
+#define HAVE_copysignsf3 (TARGET_SIMD)
+#define HAVE_copysigndf3 (TARGET_SIMD)
+#define HAVE_xorsignsf3 (TARGET_SIMD)
+#define HAVE_xorsigndf3 (TARGET_SIMD)
 #define HAVE_aarch64_reload_movcpsfsi ((TARGET_FLOAT) && (ptr_mode == SImode || Pmode == SImode))
 #define HAVE_aarch64_reload_movcpsfdi ((TARGET_FLOAT) && (ptr_mode == DImode || Pmode == DImode))
 #define HAVE_aarch64_reload_movcpdfsi ((TARGET_FLOAT) && (ptr_mode == SImode || Pmode == SImode))
 #define HAVE_aarch64_reload_movcpdfdi ((TARGET_FLOAT) && (ptr_mode == DImode || Pmode == DImode))
 #define HAVE_aarch64_reload_movcptfsi ((TARGET_FLOAT) && (ptr_mode == SImode || Pmode == SImode))
 #define HAVE_aarch64_reload_movcptfdi ((TARGET_FLOAT) && (ptr_mode == DImode || Pmode == DImode))
+#define HAVE_aarch64_reload_movcpsdsi ((TARGET_FLOAT) && (ptr_mode == SImode || Pmode == SImode))
+#define HAVE_aarch64_reload_movcpsddi ((TARGET_FLOAT) && (ptr_mode == DImode || Pmode == DImode))
+#define HAVE_aarch64_reload_movcpddsi ((TARGET_FLOAT) && (ptr_mode == SImode || Pmode == SImode))
+#define HAVE_aarch64_reload_movcpdddi ((TARGET_FLOAT) && (ptr_mode == DImode || Pmode == DImode))
+#define HAVE_aarch64_reload_movcptdsi ((TARGET_FLOAT) && (ptr_mode == SImode || Pmode == SImode))
+#define HAVE_aarch64_reload_movcptddi ((TARGET_FLOAT) && (ptr_mode == DImode || Pmode == DImode))
 #define HAVE_aarch64_reload_movcpv8qisi ((TARGET_FLOAT) && (ptr_mode == SImode || Pmode == SImode))
 #define HAVE_aarch64_reload_movcpv8qidi ((TARGET_FLOAT) && (ptr_mode == DImode || Pmode == DImode))
 #define HAVE_aarch64_reload_movcpv16qisi ((TARGET_FLOAT) && (ptr_mode == SImode || Pmode == SImode))
@@ -7080,6 +7261,15 @@
 #define HAVE_aarch64_reload_movcpv2dfdi ((TARGET_FLOAT) && (ptr_mode == DImode || Pmode == DImode))
 #define HAVE_aarch64_reload_movti (TARGET_FLOAT)
 #define HAVE_aarch64_reload_movtf (TARGET_FLOAT)
+#define HAVE_aarch64_reload_movtd (TARGET_FLOAT)
+#define HAVE_aarch64_reload_movv16qi (TARGET_FLOAT)
+#define HAVE_aarch64_reload_movv8hi (TARGET_FLOAT)
+#define HAVE_aarch64_reload_movv4si (TARGET_FLOAT)
+#define HAVE_aarch64_reload_movv2di (TARGET_FLOAT)
+#define HAVE_aarch64_reload_movv8hf (TARGET_FLOAT)
+#define HAVE_aarch64_reload_movv4sf (TARGET_FLOAT)
+#define HAVE_aarch64_reload_movv2df (TARGET_FLOAT)
+#define HAVE_aarch64_reload_movv8bf (TARGET_FLOAT)
 #define HAVE_add_losym 1
 #define HAVE_tlsgd_small_si (ptr_mode == SImode)
 #define HAVE_tlsgd_small_di (ptr_mode == DImode)
@@ -7098,66 +7288,68 @@
 #define HAVE_despeculate_copysi 1
 #define HAVE_despeculate_copydi 1
 #define HAVE_despeculate_copyti 1
-#define HAVE_movv8qi (TARGET_SIMD)
-#define HAVE_movv16qi (TARGET_SIMD)
-#define HAVE_movv4hi (TARGET_SIMD)
-#define HAVE_movv8hi (TARGET_SIMD)
-#define HAVE_movv2si (TARGET_SIMD)
-#define HAVE_movv4si (TARGET_SIMD)
-#define HAVE_movv2di (TARGET_SIMD)
-#define HAVE_movv4hf (TARGET_SIMD)
-#define HAVE_movv8hf (TARGET_SIMD)
-#define HAVE_movv4bf (TARGET_SIMD)
-#define HAVE_movv8bf (TARGET_SIMD)
-#define HAVE_movv2sf (TARGET_SIMD)
-#define HAVE_movv4sf (TARGET_SIMD)
-#define HAVE_movv2df (TARGET_SIMD)
-#define HAVE_movmisalignv8qi (TARGET_SIMD && !STRICT_ALIGNMENT)
-#define HAVE_movmisalignv16qi (TARGET_SIMD && !STRICT_ALIGNMENT)
-#define HAVE_movmisalignv4hi (TARGET_SIMD && !STRICT_ALIGNMENT)
-#define HAVE_movmisalignv8hi (TARGET_SIMD && !STRICT_ALIGNMENT)
-#define HAVE_movmisalignv2si (TARGET_SIMD && !STRICT_ALIGNMENT)
-#define HAVE_movmisalignv4si (TARGET_SIMD && !STRICT_ALIGNMENT)
-#define HAVE_movmisalignv2di (TARGET_SIMD && !STRICT_ALIGNMENT)
-#define HAVE_movmisalignv4hf (TARGET_SIMD && !STRICT_ALIGNMENT)
-#define HAVE_movmisalignv8hf (TARGET_SIMD && !STRICT_ALIGNMENT)
-#define HAVE_movmisalignv4bf (TARGET_SIMD && !STRICT_ALIGNMENT)
-#define HAVE_movmisalignv8bf (TARGET_SIMD && !STRICT_ALIGNMENT)
-#define HAVE_movmisalignv2sf (TARGET_SIMD && !STRICT_ALIGNMENT)
-#define HAVE_movmisalignv4sf (TARGET_SIMD && !STRICT_ALIGNMENT)
-#define HAVE_movmisalignv2df (TARGET_SIMD && !STRICT_ALIGNMENT)
-#define HAVE_aarch64_split_simd_movv16qi (TARGET_SIMD)
-#define HAVE_aarch64_split_simd_movv8hi (TARGET_SIMD)
-#define HAVE_aarch64_split_simd_movv4si (TARGET_SIMD)
-#define HAVE_aarch64_split_simd_movv2di (TARGET_SIMD)
-#define HAVE_aarch64_split_simd_movv8hf (TARGET_SIMD)
-#define HAVE_aarch64_split_simd_movv8bf (TARGET_SIMD)
-#define HAVE_aarch64_split_simd_movv4sf (TARGET_SIMD)
-#define HAVE_aarch64_split_simd_movv2df (TARGET_SIMD)
-#define HAVE_aarch64_get_halfv16qi (TARGET_SIMD)
-#define HAVE_aarch64_get_halfv8hi (TARGET_SIMD)
-#define HAVE_aarch64_get_halfv4si (TARGET_SIMD)
-#define HAVE_aarch64_get_halfv2di (TARGET_SIMD)
-#define HAVE_aarch64_get_halfv8hf (TARGET_SIMD)
-#define HAVE_aarch64_get_halfv8bf (TARGET_SIMD)
-#define HAVE_aarch64_get_halfv4sf (TARGET_SIMD)
-#define HAVE_aarch64_get_halfv2df (TARGET_SIMD)
-#define HAVE_aarch64_get_lowv16qi (TARGET_SIMD)
-#define HAVE_aarch64_get_lowv8hi (TARGET_SIMD)
-#define HAVE_aarch64_get_lowv4si (TARGET_SIMD)
-#define HAVE_aarch64_get_lowv2di (TARGET_SIMD)
-#define HAVE_aarch64_get_lowv8hf (TARGET_SIMD)
-#define HAVE_aarch64_get_lowv8bf (TARGET_SIMD)
-#define HAVE_aarch64_get_lowv4sf (TARGET_SIMD)
-#define HAVE_aarch64_get_lowv2df (TARGET_SIMD)
-#define HAVE_aarch64_get_highv16qi (TARGET_SIMD)
-#define HAVE_aarch64_get_highv8hi (TARGET_SIMD)
-#define HAVE_aarch64_get_highv4si (TARGET_SIMD)
-#define HAVE_aarch64_get_highv2di (TARGET_SIMD)
-#define HAVE_aarch64_get_highv8hf (TARGET_SIMD)
-#define HAVE_aarch64_get_highv8bf (TARGET_SIMD)
-#define HAVE_aarch64_get_highv4sf (TARGET_SIMD)
-#define HAVE_aarch64_get_highv2df (TARGET_SIMD)
+#define HAVE_movv8qi (TARGET_FLOAT)
+#define HAVE_movv16qi (TARGET_FLOAT)
+#define HAVE_movv4hi (TARGET_FLOAT)
+#define HAVE_movv8hi (TARGET_FLOAT)
+#define HAVE_movv2si (TARGET_FLOAT)
+#define HAVE_movv4si (TARGET_FLOAT)
+#define HAVE_movv2di (TARGET_FLOAT)
+#define HAVE_movv4hf (TARGET_FLOAT)
+#define HAVE_movv8hf (TARGET_FLOAT)
+#define HAVE_movv4bf (TARGET_FLOAT)
+#define HAVE_movv8bf (TARGET_FLOAT)
+#define HAVE_movv2sf (TARGET_FLOAT)
+#define HAVE_movv4sf (TARGET_FLOAT)
+#define HAVE_movv2df (TARGET_FLOAT)
+#define HAVE_movv2hf ((TARGET_FLOAT) && (TARGET_SIMD_F16INST))
+#define HAVE_movmisalignv8qi (TARGET_FLOAT && !STRICT_ALIGNMENT)
+#define HAVE_movmisalignv16qi (TARGET_FLOAT && !STRICT_ALIGNMENT)
+#define HAVE_movmisalignv4hi (TARGET_FLOAT && !STRICT_ALIGNMENT)
+#define HAVE_movmisalignv8hi (TARGET_FLOAT && !STRICT_ALIGNMENT)
+#define HAVE_movmisalignv2si (TARGET_FLOAT && !STRICT_ALIGNMENT)
+#define HAVE_movmisalignv4si (TARGET_FLOAT && !STRICT_ALIGNMENT)
+#define HAVE_movmisalignv2di (TARGET_FLOAT && !STRICT_ALIGNMENT)
+#define HAVE_movmisalignv4hf (TARGET_FLOAT && !STRICT_ALIGNMENT)
+#define HAVE_movmisalignv8hf (TARGET_FLOAT && !STRICT_ALIGNMENT)
+#define HAVE_movmisalignv4bf (TARGET_FLOAT && !STRICT_ALIGNMENT)
+#define HAVE_movmisalignv8bf (TARGET_FLOAT && !STRICT_ALIGNMENT)
+#define HAVE_movmisalignv2sf (TARGET_FLOAT && !STRICT_ALIGNMENT)
+#define HAVE_movmisalignv4sf (TARGET_FLOAT && !STRICT_ALIGNMENT)
+#define HAVE_movmisalignv2df (TARGET_FLOAT && !STRICT_ALIGNMENT)
+#define HAVE_movmisalignv2hf ((TARGET_FLOAT && !STRICT_ALIGNMENT) && (TARGET_SIMD_F16INST))
+#define HAVE_aarch64_split_simd_movv16qi (TARGET_FLOAT)
+#define HAVE_aarch64_split_simd_movv8hi (TARGET_FLOAT)
+#define HAVE_aarch64_split_simd_movv4si (TARGET_FLOAT)
+#define HAVE_aarch64_split_simd_movv2di (TARGET_FLOAT)
+#define HAVE_aarch64_split_simd_movv8hf (TARGET_FLOAT)
+#define HAVE_aarch64_split_simd_movv8bf (TARGET_FLOAT)
+#define HAVE_aarch64_split_simd_movv4sf (TARGET_FLOAT)
+#define HAVE_aarch64_split_simd_movv2df (TARGET_FLOAT)
+#define HAVE_aarch64_get_halfv16qi (TARGET_FLOAT)
+#define HAVE_aarch64_get_halfv8hi (TARGET_FLOAT)
+#define HAVE_aarch64_get_halfv4si (TARGET_FLOAT)
+#define HAVE_aarch64_get_halfv2di (TARGET_FLOAT)
+#define HAVE_aarch64_get_halfv8hf (TARGET_FLOAT)
+#define HAVE_aarch64_get_halfv8bf (TARGET_FLOAT)
+#define HAVE_aarch64_get_halfv4sf (TARGET_FLOAT)
+#define HAVE_aarch64_get_halfv2df (TARGET_FLOAT)
+#define HAVE_aarch64_get_lowv16qi (TARGET_FLOAT)
+#define HAVE_aarch64_get_lowv8hi (TARGET_FLOAT)
+#define HAVE_aarch64_get_lowv4si (TARGET_FLOAT)
+#define HAVE_aarch64_get_lowv2di (TARGET_FLOAT)
+#define HAVE_aarch64_get_lowv8hf (TARGET_FLOAT)
+#define HAVE_aarch64_get_lowv8bf (TARGET_FLOAT)
+#define HAVE_aarch64_get_lowv4sf (TARGET_FLOAT)
+#define HAVE_aarch64_get_lowv2df (TARGET_FLOAT)
+#define HAVE_aarch64_get_highv16qi (TARGET_FLOAT)
+#define HAVE_aarch64_get_highv8hi (TARGET_FLOAT)
+#define HAVE_aarch64_get_highv4si (TARGET_FLOAT)
+#define HAVE_aarch64_get_highv2di (TARGET_FLOAT)
+#define HAVE_aarch64_get_highv8hf (TARGET_FLOAT)
+#define HAVE_aarch64_get_highv8bf (TARGET_FLOAT)
+#define HAVE_aarch64_get_highv4sf (TARGET_FLOAT)
+#define HAVE_aarch64_get_highv2df (TARGET_FLOAT)
 #define HAVE_ctzv2si2 (TARGET_SIMD)
 #define HAVE_ctzv4si2 (TARGET_SIMD)
 #define HAVE_xorsignv4hf3 ((TARGET_SIMD) && (TARGET_SIMD_F16INST))
@@ -7205,11 +7397,11 @@
 #define HAVE_cmul_conjv4sf3 (TARGET_COMPLEX && !BYTES_BIG_ENDIAN)
 #define HAVE_cmulv2df3 (TARGET_COMPLEX && !BYTES_BIG_ENDIAN)
 #define HAVE_cmul_conjv2df3 (TARGET_COMPLEX && !BYTES_BIG_ENDIAN)
-#define HAVE_copysignv4hf3 ((TARGET_FLOAT && TARGET_SIMD) && (TARGET_SIMD_F16INST))
-#define HAVE_copysignv8hf3 ((TARGET_FLOAT && TARGET_SIMD) && (TARGET_SIMD_F16INST))
-#define HAVE_copysignv2sf3 (TARGET_FLOAT && TARGET_SIMD)
-#define HAVE_copysignv4sf3 (TARGET_FLOAT && TARGET_SIMD)
-#define HAVE_copysignv2df3 (TARGET_FLOAT && TARGET_SIMD)
+#define HAVE_copysignv4hf3 ((TARGET_SIMD) && (TARGET_SIMD_F16INST))
+#define HAVE_copysignv8hf3 ((TARGET_SIMD) && (TARGET_SIMD_F16INST))
+#define HAVE_copysignv2sf3 (TARGET_SIMD)
+#define HAVE_copysignv4sf3 (TARGET_SIMD)
+#define HAVE_copysignv2df3 (TARGET_SIMD)
 #define HAVE_rsqrtv2sf2 (TARGET_SIMD)
 #define HAVE_rsqrtv4sf2 (TARGET_SIMD)
 #define HAVE_rsqrtv2df2 (TARGET_SIMD)
@@ -7277,6 +7469,7 @@
 #define HAVE_vec_setv2sf (TARGET_SIMD)
 #define HAVE_vec_setv4sf (TARGET_SIMD)
 #define HAVE_vec_setv2df (TARGET_SIMD)
+#define HAVE_vec_setv2hf ((TARGET_SIMD) && (TARGET_SIMD_F16INST))
 #define HAVE_smaxv2di3 (TARGET_SIMD)
 #define HAVE_sminv2di3 (TARGET_SIMD)
 #define HAVE_umaxv2di3 (TARGET_SIMD)
@@ -7457,6 +7650,10 @@
 #define HAVE_reduc_smin_nan_scal_v2df (TARGET_SIMD)
 #define HAVE_reduc_smax_scal_v2df (TARGET_SIMD)
 #define HAVE_reduc_smin_scal_v2df (TARGET_SIMD)
+#define HAVE_reduc_smax_nan_scal_v2hf ((TARGET_SIMD) && (TARGET_SIMD_F16INST))
+#define HAVE_reduc_smin_nan_scal_v2hf ((TARGET_SIMD) && (TARGET_SIMD_F16INST))
+#define HAVE_reduc_smax_scal_v2hf ((TARGET_SIMD) && (TARGET_SIMD_F16INST))
+#define HAVE_reduc_smin_scal_v2hf ((TARGET_SIMD) && (TARGET_SIMD_F16INST))
 #define HAVE_reduc_fmax_scal_v4hf ((TARGET_SIMD) && (TARGET_SIMD_F16INST))
 #define HAVE_reduc_fmin_scal_v4hf ((TARGET_SIMD) && (TARGET_SIMD_F16INST))
 #define HAVE_reduc_fmax_scal_v8hf ((TARGET_SIMD) && (TARGET_SIMD_F16INST))
@@ -7467,6 +7664,8 @@
 #define HAVE_reduc_fmin_scal_v4sf (TARGET_SIMD)
 #define HAVE_reduc_fmax_scal_v2df (TARGET_SIMD)
 #define HAVE_reduc_fmin_scal_v2df (TARGET_SIMD)
+#define HAVE_reduc_fmax_scal_v2hf ((TARGET_SIMD) && (TARGET_SIMD_F16INST))
+#define HAVE_reduc_fmin_scal_v2hf ((TARGET_SIMD) && (TARGET_SIMD_F16INST))
 #define HAVE_reduc_umax_scal_v8qi (TARGET_SIMD)
 #define HAVE_reduc_umin_scal_v8qi (TARGET_SIMD)
 #define HAVE_reduc_smax_scal_v8qi (TARGET_SIMD)
@@ -7565,24 +7764,24 @@
 #define HAVE_vconduv2sfv2si (TARGET_SIMD)
 #define HAVE_vconduv4sfv4si (TARGET_SIMD)
 #define HAVE_vconduv2dfv2di (TARGET_SIMD)
-#define HAVE_aarch64_vec_concatv8qi (TARGET_SIMD)
-#define HAVE_aarch64_vec_concatv4hi (TARGET_SIMD)
-#define HAVE_aarch64_vec_concatv4bf (TARGET_SIMD)
-#define HAVE_aarch64_vec_concatv4hf (TARGET_SIMD)
-#define HAVE_aarch64_vec_concatv2si (TARGET_SIMD)
-#define HAVE_aarch64_vec_concatv2sf (TARGET_SIMD)
-#define HAVE_aarch64_vec_concatsi (TARGET_SIMD)
-#define HAVE_aarch64_vec_concatsf (TARGET_SIMD)
-#define HAVE_aarch64_vec_concatdi (TARGET_SIMD)
-#define HAVE_aarch64_vec_concatdf (TARGET_SIMD)
-#define HAVE_aarch64_combinev8qi (TARGET_SIMD)
-#define HAVE_aarch64_combinev4hi (TARGET_SIMD)
-#define HAVE_aarch64_combinev4bf (TARGET_SIMD)
-#define HAVE_aarch64_combinev4hf (TARGET_SIMD)
-#define HAVE_aarch64_combinev2si (TARGET_SIMD)
-#define HAVE_aarch64_combinev2sf (TARGET_SIMD)
-#define HAVE_aarch64_combinedi (TARGET_SIMD)
-#define HAVE_aarch64_combinedf (TARGET_SIMD)
+#define HAVE_aarch64_vec_concatv8qi (TARGET_FLOAT)
+#define HAVE_aarch64_vec_concatv4hi (TARGET_FLOAT)
+#define HAVE_aarch64_vec_concatv4bf (TARGET_FLOAT)
+#define HAVE_aarch64_vec_concatv4hf (TARGET_FLOAT)
+#define HAVE_aarch64_vec_concatv2si (TARGET_FLOAT)
+#define HAVE_aarch64_vec_concatv2sf (TARGET_FLOAT)
+#define HAVE_aarch64_vec_concatsi (TARGET_FLOAT)
+#define HAVE_aarch64_vec_concatsf (TARGET_FLOAT)
+#define HAVE_aarch64_vec_concatdi (TARGET_FLOAT)
+#define HAVE_aarch64_vec_concatdf (TARGET_FLOAT)
+#define HAVE_aarch64_combinev8qi (TARGET_FLOAT)
+#define HAVE_aarch64_combinev4hi (TARGET_FLOAT)
+#define HAVE_aarch64_combinev4bf (TARGET_FLOAT)
+#define HAVE_aarch64_combinev4hf (TARGET_FLOAT)
+#define HAVE_aarch64_combinev2si (TARGET_FLOAT)
+#define HAVE_aarch64_combinev2sf (TARGET_FLOAT)
+#define HAVE_aarch64_combinedi (TARGET_FLOAT)
+#define HAVE_aarch64_combinedf (TARGET_FLOAT)
 #define HAVE_vec_widen_saddl_lo_v16qi (TARGET_SIMD)
 #define HAVE_vec_widen_uaddl_lo_v16qi (TARGET_SIMD)
 #define HAVE_vec_widen_saddl_lo_v8hi (TARGET_SIMD)
@@ -7691,6 +7890,9 @@
 #define HAVE_aarch64_raddhn2v2di (TARGET_SIMD)
 #define HAVE_aarch64_subhn2v2di (TARGET_SIMD)
 #define HAVE_aarch64_rsubhn2v2di (TARGET_SIMD)
+#define HAVE_aarch64_bitmask_udivv8hi3 (TARGET_SIMD)
+#define HAVE_aarch64_bitmask_udivv4si3 (TARGET_SIMD)
+#define HAVE_aarch64_bitmask_udivv2di3 (TARGET_SIMD)
 #define HAVE_aarch64_pmull_hiv16qi (TARGET_SIMD)
 #define HAVE_aarch64_sqmovnv8hi (TARGET_SIMD)
 #define HAVE_aarch64_uqmovnv8hi (TARGET_SIMD)
@@ -7835,58 +8037,58 @@
 #define HAVE_vec_store_lanesv4x4sfv4sf (TARGET_SIMD)
 #define HAVE_vec_store_lanesv4x2dfv2df (TARGET_SIMD)
 #define HAVE_vec_store_lanesv4x8bfv8bf (TARGET_SIMD)
-#define HAVE_movv2x8qi (TARGET_SIMD)
-#define HAVE_movv2x4hi (TARGET_SIMD)
-#define HAVE_movv2x2si (TARGET_SIMD)
-#define HAVE_movv2x1di (TARGET_SIMD)
-#define HAVE_movv2x4hf (TARGET_SIMD)
-#define HAVE_movv2x2sf (TARGET_SIMD)
-#define HAVE_movv2x1df (TARGET_SIMD)
-#define HAVE_movv2x4bf (TARGET_SIMD)
-#define HAVE_movv3x8qi (TARGET_SIMD)
-#define HAVE_movv3x4hi (TARGET_SIMD)
-#define HAVE_movv3x2si (TARGET_SIMD)
-#define HAVE_movv3x1di (TARGET_SIMD)
-#define HAVE_movv3x4hf (TARGET_SIMD)
-#define HAVE_movv3x2sf (TARGET_SIMD)
-#define HAVE_movv3x1df (TARGET_SIMD)
-#define HAVE_movv3x4bf (TARGET_SIMD)
-#define HAVE_movv4x8qi (TARGET_SIMD)
-#define HAVE_movv4x4hi (TARGET_SIMD)
-#define HAVE_movv4x2si (TARGET_SIMD)
-#define HAVE_movv4x1di (TARGET_SIMD)
-#define HAVE_movv4x4hf (TARGET_SIMD)
-#define HAVE_movv4x2sf (TARGET_SIMD)
-#define HAVE_movv4x1df (TARGET_SIMD)
-#define HAVE_movv4x4bf (TARGET_SIMD)
-#define HAVE_movv2x16qi (TARGET_SIMD)
-#define HAVE_movv2x8hi (TARGET_SIMD)
-#define HAVE_movv2x4si (TARGET_SIMD)
-#define HAVE_movv2x2di (TARGET_SIMD)
-#define HAVE_movv2x8hf (TARGET_SIMD)
-#define HAVE_movv2x4sf (TARGET_SIMD)
-#define HAVE_movv2x2df (TARGET_SIMD)
-#define HAVE_movv2x8bf (TARGET_SIMD)
-#define HAVE_movv3x16qi (TARGET_SIMD)
-#define HAVE_movv3x8hi (TARGET_SIMD)
-#define HAVE_movv3x4si (TARGET_SIMD)
-#define HAVE_movv3x2di (TARGET_SIMD)
-#define HAVE_movv3x8hf (TARGET_SIMD)
-#define HAVE_movv3x4sf (TARGET_SIMD)
-#define HAVE_movv3x2df (TARGET_SIMD)
-#define HAVE_movv3x8bf (TARGET_SIMD)
-#define HAVE_movv4x16qi (TARGET_SIMD)
-#define HAVE_movv4x8hi (TARGET_SIMD)
-#define HAVE_movv4x4si (TARGET_SIMD)
-#define HAVE_movv4x2di (TARGET_SIMD)
-#define HAVE_movv4x8hf (TARGET_SIMD)
-#define HAVE_movv4x4sf (TARGET_SIMD)
-#define HAVE_movv4x2df (TARGET_SIMD)
-#define HAVE_movv4x8bf (TARGET_SIMD)
-#define HAVE_movoi (TARGET_SIMD)
-#define HAVE_movci (TARGET_SIMD)
-#define HAVE_movxi (TARGET_SIMD)
-#define HAVE_movv8di (TARGET_SIMD)
+#define HAVE_movv2x8qi (TARGET_FLOAT)
+#define HAVE_movv2x4hi (TARGET_FLOAT)
+#define HAVE_movv2x2si (TARGET_FLOAT)
+#define HAVE_movv2x1di (TARGET_FLOAT)
+#define HAVE_movv2x4hf (TARGET_FLOAT)
+#define HAVE_movv2x2sf (TARGET_FLOAT)
+#define HAVE_movv2x1df (TARGET_FLOAT)
+#define HAVE_movv2x4bf (TARGET_FLOAT)
+#define HAVE_movv3x8qi (TARGET_FLOAT)
+#define HAVE_movv3x4hi (TARGET_FLOAT)
+#define HAVE_movv3x2si (TARGET_FLOAT)
+#define HAVE_movv3x1di (TARGET_FLOAT)
+#define HAVE_movv3x4hf (TARGET_FLOAT)
+#define HAVE_movv3x2sf (TARGET_FLOAT)
+#define HAVE_movv3x1df (TARGET_FLOAT)
+#define HAVE_movv3x4bf (TARGET_FLOAT)
+#define HAVE_movv4x8qi (TARGET_FLOAT)
+#define HAVE_movv4x4hi (TARGET_FLOAT)
+#define HAVE_movv4x2si (TARGET_FLOAT)
+#define HAVE_movv4x1di (TARGET_FLOAT)
+#define HAVE_movv4x4hf (TARGET_FLOAT)
+#define HAVE_movv4x2sf (TARGET_FLOAT)
+#define HAVE_movv4x1df (TARGET_FLOAT)
+#define HAVE_movv4x4bf (TARGET_FLOAT)
+#define HAVE_movv2x16qi (TARGET_FLOAT)
+#define HAVE_movv2x8hi (TARGET_FLOAT)
+#define HAVE_movv2x4si (TARGET_FLOAT)
+#define HAVE_movv2x2di (TARGET_FLOAT)
+#define HAVE_movv2x8hf (TARGET_FLOAT)
+#define HAVE_movv2x4sf (TARGET_FLOAT)
+#define HAVE_movv2x2df (TARGET_FLOAT)
+#define HAVE_movv2x8bf (TARGET_FLOAT)
+#define HAVE_movv3x16qi (TARGET_FLOAT)
+#define HAVE_movv3x8hi (TARGET_FLOAT)
+#define HAVE_movv3x4si (TARGET_FLOAT)
+#define HAVE_movv3x2di (TARGET_FLOAT)
+#define HAVE_movv3x8hf (TARGET_FLOAT)
+#define HAVE_movv3x4sf (TARGET_FLOAT)
+#define HAVE_movv3x2df (TARGET_FLOAT)
+#define HAVE_movv3x8bf (TARGET_FLOAT)
+#define HAVE_movv4x16qi (TARGET_FLOAT)
+#define HAVE_movv4x8hi (TARGET_FLOAT)
+#define HAVE_movv4x4si (TARGET_FLOAT)
+#define HAVE_movv4x2di (TARGET_FLOAT)
+#define HAVE_movv4x8hf (TARGET_FLOAT)
+#define HAVE_movv4x4sf (TARGET_FLOAT)
+#define HAVE_movv4x2df (TARGET_FLOAT)
+#define HAVE_movv4x8bf (TARGET_FLOAT)
+#define HAVE_movoi (TARGET_FLOAT)
+#define HAVE_movci (TARGET_FLOAT)
+#define HAVE_movxi (TARGET_FLOAT)
+#define HAVE_movv8di 1
 #define HAVE_aarch64_ld1x3v8qi (TARGET_SIMD)
 #define HAVE_aarch64_ld1x3v4hi (TARGET_SIMD)
 #define HAVE_aarch64_ld1x3v2si (TARGET_SIMD)
@@ -8267,6 +8469,7 @@
 #define HAVE_vec_initv2sfsf (TARGET_SIMD)
 #define HAVE_vec_initv4sfsf (TARGET_SIMD)
 #define HAVE_vec_initv2dfdf (TARGET_SIMD)
+#define HAVE_vec_initv2hfhf ((TARGET_SIMD) && (TARGET_SIMD_F16INST))
 #define HAVE_vec_initv16qiv8qi (TARGET_SIMD)
 #define HAVE_vec_initv8hiv4hi (TARGET_SIMD)
 #define HAVE_vec_initv4siv2si (TARGET_SIMD)
@@ -8287,12 +8490,14 @@
 #define HAVE_vec_extractv2sfsf (TARGET_SIMD)
 #define HAVE_vec_extractv4sfsf (TARGET_SIMD)
 #define HAVE_vec_extractv2dfdf (TARGET_SIMD)
+#define HAVE_vec_extractv2hfhf ((TARGET_SIMD) && (TARGET_SIMD_F16INST))
 #define HAVE_vec_extractv16qiv8qi (TARGET_SIMD)
 #define HAVE_vec_extractv8hiv4hi (TARGET_SIMD)
 #define HAVE_vec_extractv4siv2si (TARGET_SIMD)
 #define HAVE_vec_extractv8hfv4hf (TARGET_SIMD)
 #define HAVE_vec_extractv8bfv4bf (TARGET_SIMD)
 #define HAVE_vec_extractv4sfv2sf (TARGET_SIMD)
+#define HAVE_vec_extractv2div1di (TARGET_SIMD)
 #define HAVE_vec_extractv2dfv1df (TARGET_SIMD)
 #define HAVE_aarch64_fmlal_lowv2sf (TARGET_F16FML)
 #define HAVE_aarch64_fmlsl_lowv2sf (TARGET_F16FML)
@@ -8395,6 +8600,10 @@
 #define HAVE_atomic_or_fetchdi 1
 #define HAVE_atomic_xor_fetchdi 1
 #define HAVE_atomic_and_fetchdi 1
+#define HAVE_atomic_loadqi 1
+#define HAVE_atomic_loadhi 1
+#define HAVE_atomic_loadsi 1
+#define HAVE_atomic_loaddi 1
 #define HAVE_mem_thread_fence 1
 #define HAVE_dmb 1
 #define HAVE_movvnx16qi (TARGET_SVE)
@@ -10050,6 +10259,9 @@
 #define HAVE_cond_flogbvnx8hf (TARGET_SVE2)
 #define HAVE_cond_flogbvnx4sf (TARGET_SVE2)
 #define HAVE_cond_flogbvnx2df (TARGET_SVE2)
+#define HAVE_aarch64_bitmask_udivvnx8hi3 (TARGET_SVE2)
+#define HAVE_aarch64_bitmask_udivvnx4si3 (TARGET_SVE2)
+#define HAVE_aarch64_bitmask_udivvnx2di3 (TARGET_SVE2)
 #define HAVE_check_raw_ptrssi (TARGET_SVE2)
 #define HAVE_check_war_ptrssi (TARGET_SVE2)
 #define HAVE_check_raw_ptrsdi (TARGET_SVE2)
@@ -10084,8 +10296,13 @@ extern rtx        gen_load_pair_sw_sisf                              (rtx, rtx, 
 extern rtx        gen_load_pair_sw_sfsf                              (rtx, rtx, rtx, rtx);
 extern rtx        gen_load_pair_dw_didi                              (rtx, rtx, rtx, rtx);
 extern rtx        gen_load_pair_dw_didf                              (rtx, rtx, rtx, rtx);
+extern rtx        gen_load_pair_dw_didd                              (rtx, rtx, rtx, rtx);
 extern rtx        gen_load_pair_dw_dfdi                              (rtx, rtx, rtx, rtx);
 extern rtx        gen_load_pair_dw_dfdf                              (rtx, rtx, rtx, rtx);
+extern rtx        gen_load_pair_dw_dfdd                              (rtx, rtx, rtx, rtx);
+extern rtx        gen_load_pair_dw_dddi                              (rtx, rtx, rtx, rtx);
+extern rtx        gen_load_pair_dw_dddf                              (rtx, rtx, rtx, rtx);
+extern rtx        gen_load_pair_dw_dddd                              (rtx, rtx, rtx, rtx);
 extern rtx        gen_load_pair_dw_tftf                              (rtx, rtx, rtx, rtx);
 extern rtx        gen_store_pair_sw_sisi                             (rtx, rtx, rtx, rtx);
 extern rtx        gen_store_pair_sw_sfsi                             (rtx, rtx, rtx, rtx);
@@ -10093,8 +10310,13 @@ extern rtx        gen_store_pair_sw_sisf                             (rtx, rtx, 
 extern rtx        gen_store_pair_sw_sfsf                             (rtx, rtx, rtx, rtx);
 extern rtx        gen_store_pair_dw_didi                             (rtx, rtx, rtx, rtx);
 extern rtx        gen_store_pair_dw_didf                             (rtx, rtx, rtx, rtx);
+extern rtx        gen_store_pair_dw_didd                             (rtx, rtx, rtx, rtx);
 extern rtx        gen_store_pair_dw_dfdi                             (rtx, rtx, rtx, rtx);
 extern rtx        gen_store_pair_dw_dfdf                             (rtx, rtx, rtx, rtx);
+extern rtx        gen_store_pair_dw_dfdd                             (rtx, rtx, rtx, rtx);
+extern rtx        gen_store_pair_dw_dddi                             (rtx, rtx, rtx, rtx);
+extern rtx        gen_store_pair_dw_dddf                             (rtx, rtx, rtx, rtx);
+extern rtx        gen_store_pair_dw_dddd                             (rtx, rtx, rtx, rtx);
 extern rtx        gen_store_pair_dw_tftf                             (rtx, rtx, rtx, rtx);
 extern rtx        gen_loadwb_pairsi_si                               (rtx, rtx, rtx, rtx, rtx, rtx);
 extern rtx        gen_loadwb_pairsi_di                               (rtx, rtx, rtx, rtx, rtx, rtx);
@@ -10106,8 +10328,10 @@ extern rtx        gen_loadwb_pairsf_di                               (rtx, rtx, 
 extern rtx        gen_loadwb_pairdf_di                               (rtx, rtx, rtx, rtx, rtx, rtx);
 extern rtx        gen_loadwb_pairti_si                               (rtx, rtx, rtx, rtx, rtx, rtx);
 extern rtx        gen_loadwb_pairtf_si                               (rtx, rtx, rtx, rtx, rtx, rtx);
+extern rtx        gen_loadwb_pairtd_si                               (rtx, rtx, rtx, rtx, rtx, rtx);
 extern rtx        gen_loadwb_pairti_di                               (rtx, rtx, rtx, rtx, rtx, rtx);
 extern rtx        gen_loadwb_pairtf_di                               (rtx, rtx, rtx, rtx, rtx, rtx);
+extern rtx        gen_loadwb_pairtd_di                               (rtx, rtx, rtx, rtx, rtx, rtx);
 extern rtx        gen_storewb_pairsi_si                              (rtx, rtx, rtx, rtx, rtx, rtx);
 extern rtx        gen_storewb_pairsi_di                              (rtx, rtx, rtx, rtx, rtx, rtx);
 extern rtx        gen_storewb_pairdi_si                              (rtx, rtx, rtx, rtx, rtx, rtx);
@@ -10118,8 +10342,10 @@ extern rtx        gen_storewb_pairsf_di                              (rtx, rtx, 
 extern rtx        gen_storewb_pairdf_di                              (rtx, rtx, rtx, rtx, rtx, rtx);
 extern rtx        gen_storewb_pairti_si                              (rtx, rtx, rtx, rtx, rtx, rtx);
 extern rtx        gen_storewb_pairtf_si                              (rtx, rtx, rtx, rtx, rtx, rtx);
+extern rtx        gen_storewb_pairtd_si                              (rtx, rtx, rtx, rtx, rtx, rtx);
 extern rtx        gen_storewb_pairti_di                              (rtx, rtx, rtx, rtx, rtx, rtx);
 extern rtx        gen_storewb_pairtf_di                              (rtx, rtx, rtx, rtx, rtx, rtx);
+extern rtx        gen_storewb_pairtd_di                              (rtx, rtx, rtx, rtx, rtx, rtx);
 extern rtx        gen_addsi3_compare0                                (rtx, rtx, rtx);
 extern rtx        gen_adddi3_compare0                                (rtx, rtx, rtx);
 extern rtx        gen_addsi3_compareC                                (rtx, rtx, rtx);
@@ -10192,6 +10418,8 @@ extern rtx        gen_csinc3si_insn                                  (rtx, rtx, 
 extern rtx        gen_csinc3di_insn                                  (rtx, rtx, rtx, rtx);
 extern rtx        gen_csneg3si_insn                                  (rtx, rtx, rtx, rtx);
 extern rtx        gen_csneg3di_insn                                  (rtx, rtx, rtx, rtx);
+extern rtx        gen_aarch64_umaxsi3_insn                           (rtx, rtx, rtx);
+extern rtx        gen_aarch64_umaxdi3_insn                           (rtx, rtx, rtx);
 extern rtx        gen_aarch64_uqdecsi                                (rtx, rtx, rtx);
 extern rtx        gen_aarch64_uqdecdi                                (rtx, rtx, rtx);
 extern rtx        gen_andsi3                                         (rtx, rtx, rtx);
@@ -10214,6 +10442,9 @@ extern rtx        gen_xor_one_cmpl_lshrsi3                           (rtx, rtx, 
 extern rtx        gen_and_one_cmpl_rotrsi3                           (rtx, rtx, rtx, rtx);
 extern rtx        gen_ior_one_cmpl_rotrsi3                           (rtx, rtx, rtx, rtx);
 extern rtx        gen_xor_one_cmpl_rotrsi3                           (rtx, rtx, rtx, rtx);
+extern rtx        gen_and_one_cmpl_rotlsi3                           (rtx, rtx, rtx, rtx);
+extern rtx        gen_ior_one_cmpl_rotlsi3                           (rtx, rtx, rtx, rtx);
+extern rtx        gen_xor_one_cmpl_rotlsi3                           (rtx, rtx, rtx, rtx);
 extern rtx        gen_and_one_cmpl_ashldi3                           (rtx, rtx, rtx, rtx);
 extern rtx        gen_ior_one_cmpl_ashldi3                           (rtx, rtx, rtx, rtx);
 extern rtx        gen_xor_one_cmpl_ashldi3                           (rtx, rtx, rtx, rtx);
@@ -10226,17 +10457,37 @@ extern rtx        gen_xor_one_cmpl_lshrdi3                           (rtx, rtx, 
 extern rtx        gen_and_one_cmpl_rotrdi3                           (rtx, rtx, rtx, rtx);
 extern rtx        gen_ior_one_cmpl_rotrdi3                           (rtx, rtx, rtx, rtx);
 extern rtx        gen_xor_one_cmpl_rotrdi3                           (rtx, rtx, rtx, rtx);
+extern rtx        gen_and_one_cmpl_rotldi3                           (rtx, rtx, rtx, rtx);
+extern rtx        gen_ior_one_cmpl_rotldi3                           (rtx, rtx, rtx, rtx);
+extern rtx        gen_xor_one_cmpl_rotldi3                           (rtx, rtx, rtx, rtx);
+extern rtx        gen_and_one_cmpl_ashlsidi_uxtw                     (rtx, rtx, rtx, rtx);
+extern rtx        gen_ior_one_cmpl_ashlsidi_uxtw                     (rtx, rtx, rtx, rtx);
+extern rtx        gen_xor_one_cmpl_ashlsidi_uxtw                     (rtx, rtx, rtx, rtx);
+extern rtx        gen_and_one_cmpl_ashrsidi_uxtw                     (rtx, rtx, rtx, rtx);
+extern rtx        gen_ior_one_cmpl_ashrsidi_uxtw                     (rtx, rtx, rtx, rtx);
+extern rtx        gen_xor_one_cmpl_ashrsidi_uxtw                     (rtx, rtx, rtx, rtx);
+extern rtx        gen_and_one_cmpl_lshrsidi_uxtw                     (rtx, rtx, rtx, rtx);
+extern rtx        gen_ior_one_cmpl_lshrsidi_uxtw                     (rtx, rtx, rtx, rtx);
+extern rtx        gen_xor_one_cmpl_lshrsidi_uxtw                     (rtx, rtx, rtx, rtx);
+extern rtx        gen_and_one_cmpl_rotrsidi_uxtw                     (rtx, rtx, rtx, rtx);
+extern rtx        gen_ior_one_cmpl_rotrsidi_uxtw                     (rtx, rtx, rtx, rtx);
+extern rtx        gen_xor_one_cmpl_rotrsidi_uxtw                     (rtx, rtx, rtx, rtx);
+extern rtx        gen_and_one_cmpl_rotlsidi_uxtw                     (rtx, rtx, rtx, rtx);
+extern rtx        gen_ior_one_cmpl_rotlsidi_uxtw                     (rtx, rtx, rtx, rtx);
+extern rtx        gen_xor_one_cmpl_rotlsidi_uxtw                     (rtx, rtx, rtx, rtx);
 extern rtx        gen_clzsi2                                         (rtx, rtx);
 extern rtx        gen_clzdi2                                         (rtx, rtx);
 extern rtx        gen_clrsbsi2                                       (rtx, rtx);
 extern rtx        gen_clrsbdi2                                       (rtx, rtx);
-extern rtx        gen_rbitsi2                                        (rtx, rtx);
-extern rtx        gen_rbitdi2                                        (rtx, rtx);
+extern rtx        gen_aarch64_rbitsi                                 (rtx, rtx);
+extern rtx        gen_aarch64_rbitdi                                 (rtx, rtx);
 extern rtx        gen_ctzsi2                                         (rtx, rtx);
 extern rtx        gen_ctzdi2                                         (rtx, rtx);
 extern rtx        gen_bswapsi2                                       (rtx, rtx);
 extern rtx        gen_bswapdi2                                       (rtx, rtx);
 extern rtx        gen_bswaphi2                                       (rtx, rtx);
+extern rtx        gen_aarch64_rev16si                                (rtx, rtx);
+extern rtx        gen_aarch64_rev16di                                (rtx, rtx);
 extern rtx        gen_rev16si2                                       (rtx, rtx, rtx, rtx);
 extern rtx        gen_rev16di2                                       (rtx, rtx, rtx, rtx);
 extern rtx        gen_rev16si2_alt                                   (rtx, rtx, rtx, rtx);
@@ -10387,6 +10638,12 @@ extern rtx        gen_negdf2                                         (rtx, rtx);
 extern rtx        gen_abshf2                                         (rtx, rtx);
 extern rtx        gen_abssf2                                         (rtx, rtx);
 extern rtx        gen_absdf2                                         (rtx, rtx);
+extern rtx        gen_smaxsi3                                        (rtx, rtx, rtx);
+extern rtx        gen_sminsi3                                        (rtx, rtx, rtx);
+extern rtx        gen_uminsi3                                        (rtx, rtx, rtx);
+extern rtx        gen_smaxdi3                                        (rtx, rtx, rtx);
+extern rtx        gen_smindi3                                        (rtx, rtx, rtx);
+extern rtx        gen_umindi3                                        (rtx, rtx, rtx);
 extern rtx        gen_smaxsf3                                        (rtx, rtx, rtx);
 extern rtx        gen_smaxdf3                                        (rtx, rtx, rtx);
 extern rtx        gen_sminsf3                                        (rtx, rtx, rtx);
@@ -10407,12 +10664,16 @@ extern rtx        gen_copysignsf3_insn                               (rtx, rtx, 
 extern rtx        gen_copysigndf3_insn                               (rtx, rtx, rtx, rtx);
 extern rtx        gen_aarch64_movdi_tilow                            (rtx, rtx);
 extern rtx        gen_aarch64_movdi_tflow                            (rtx, rtx);
+extern rtx        gen_aarch64_movdi_tdlow                            (rtx, rtx);
 extern rtx        gen_aarch64_movdi_tihigh                           (rtx, rtx);
 extern rtx        gen_aarch64_movdi_tfhigh                           (rtx, rtx);
+extern rtx        gen_aarch64_movdi_tdhigh                           (rtx, rtx);
 extern rtx        gen_aarch64_movtihigh_di                           (rtx, rtx);
 extern rtx        gen_aarch64_movtfhigh_di                           (rtx, rtx);
+extern rtx        gen_aarch64_movtdhigh_di                           (rtx, rtx);
 extern rtx        gen_aarch64_movtilow_di                            (rtx, rtx);
 extern rtx        gen_aarch64_movtflow_di                            (rtx, rtx);
+extern rtx        gen_aarch64_movtdlow_di                            (rtx, rtx);
 extern rtx        gen_aarch64_movtilow_tilow                         (rtx, rtx);
 extern rtx        gen_add_losym_si                                   (rtx, rtx, rtx);
 extern rtx        gen_add_losym_di                                   (rtx, rtx, rtx);
@@ -10518,6 +10779,7 @@ extern rtx        gen_ld64b                                          (rtx, rtx);
 extern rtx        gen_st64b                                          (rtx, rtx);
 extern rtx        gen_st64bv                                         (rtx, rtx, rtx);
 extern rtx        gen_st64bv0                                        (rtx, rtx, rtx);
+extern rtx        gen_patchable_area                                 (rtx, rtx);
 extern rtx        gen_aarch64_simd_dupv8qi                           (rtx, rtx);
 extern rtx        gen_aarch64_simd_dupv16qi                          (rtx, rtx);
 extern rtx        gen_aarch64_simd_dupv4hi                           (rtx, rtx);
@@ -10525,6 +10787,7 @@ extern rtx        gen_aarch64_simd_dupv8hi                           (rtx, rtx);
 extern rtx        gen_aarch64_simd_dupv2si                           (rtx, rtx);
 extern rtx        gen_aarch64_simd_dupv4si                           (rtx, rtx);
 extern rtx        gen_aarch64_simd_dupv2di                           (rtx, rtx);
+extern rtx        gen_aarch64_simd_dupv2hf                           (rtx, rtx);
 extern rtx        gen_aarch64_simd_dupv4hf                           (rtx, rtx);
 extern rtx        gen_aarch64_simd_dupv8hf                           (rtx, rtx);
 extern rtx        gen_aarch64_simd_dupv2sf                           (rtx, rtx);
@@ -10546,6 +10809,7 @@ extern rtx        gen_aarch64_dup_lanev8bf                           (rtx, rtx, 
 extern rtx        gen_aarch64_dup_lanev2sf                           (rtx, rtx, rtx);
 extern rtx        gen_aarch64_dup_lanev4sf                           (rtx, rtx, rtx);
 extern rtx        gen_aarch64_dup_lanev2df                           (rtx, rtx, rtx);
+extern rtx        gen_aarch64_dup_lanev2hf                           (rtx, rtx, rtx);
 extern rtx        gen_aarch64_dup_lane_to_128v8qi                    (rtx, rtx, rtx);
 extern rtx        gen_aarch64_dup_lane_to_64v16qi                    (rtx, rtx, rtx);
 extern rtx        gen_aarch64_dup_lane_to_128v4hi                    (rtx, rtx, rtx);
@@ -10570,6 +10834,7 @@ extern rtx        gen_aarch64_store_lane0v8bf                        (rtx, rtx, 
 extern rtx        gen_aarch64_store_lane0v2sf                        (rtx, rtx, rtx);
 extern rtx        gen_aarch64_store_lane0v4sf                        (rtx, rtx, rtx);
 extern rtx        gen_aarch64_store_lane0v2df                        (rtx, rtx, rtx);
+extern rtx        gen_aarch64_store_lane0v2hf                        (rtx, rtx, rtx);
 extern rtx        gen_load_pairv8qiv8qi                              (rtx, rtx, rtx, rtx);
 extern rtx        gen_load_pairv4hiv8qi                              (rtx, rtx, rtx, rtx);
 extern rtx        gen_load_pairv4hfv8qi                              (rtx, rtx, rtx, rtx);
@@ -11083,6 +11348,7 @@ extern rtx        gen_aarch64_simd_vec_setv8bf                       (rtx, rtx, 
 extern rtx        gen_aarch64_simd_vec_setv2sf                       (rtx, rtx, rtx, rtx);
 extern rtx        gen_aarch64_simd_vec_setv4sf                       (rtx, rtx, rtx, rtx);
 extern rtx        gen_aarch64_simd_vec_setv2df                       (rtx, rtx, rtx, rtx);
+extern rtx        gen_aarch64_simd_vec_setv2hf                       (rtx, rtx, rtx, rtx);
 extern rtx        gen_aarch64_simd_vec_copy_lanev8qi                 (rtx, rtx, rtx, rtx, rtx);
 extern rtx        gen_aarch64_simd_vec_copy_lanev16qi                (rtx, rtx, rtx, rtx, rtx);
 extern rtx        gen_aarch64_simd_vec_copy_lanev4hi                 (rtx, rtx, rtx, rtx, rtx);
@@ -11097,6 +11363,7 @@ extern rtx        gen_aarch64_simd_vec_copy_lanev8bf                 (rtx, rtx, 
 extern rtx        gen_aarch64_simd_vec_copy_lanev2sf                 (rtx, rtx, rtx, rtx, rtx);
 extern rtx        gen_aarch64_simd_vec_copy_lanev4sf                 (rtx, rtx, rtx, rtx, rtx);
 extern rtx        gen_aarch64_simd_vec_copy_lanev2df                 (rtx, rtx, rtx, rtx, rtx);
+extern rtx        gen_aarch64_simd_vec_copy_lanev2hf                 (rtx, rtx, rtx, rtx, rtx);
 extern rtx        gen_aarch64_simd_lshrv8qi                          (rtx, rtx, rtx);
 extern rtx        gen_aarch64_simd_lshrv16qi                         (rtx, rtx, rtx);
 extern rtx        gen_aarch64_simd_lshrv4hi                          (rtx, rtx, rtx);
@@ -11627,6 +11894,7 @@ extern rtx        gen_aarch64_zero_extendsi_reduc_plus_v8hi          (rtx, rtx);
 extern rtx        gen_aarch64_zero_extenddi_reduc_plus_v8hi          (rtx, rtx);
 extern rtx        gen_reduc_plus_scal_v2sf                           (rtx, rtx);
 extern rtx        gen_reduc_plus_scal_v2df                           (rtx, rtx);
+extern rtx        gen_reduc_plus_scal_v2hf                           (rtx, rtx);
 extern rtx        gen_aarch64_saddlvv8qi                             (rtx, rtx);
 extern rtx        gen_aarch64_uaddlvv8qi                             (rtx, rtx);
 extern rtx        gen_aarch64_saddlvv16qi                            (rtx, rtx);
@@ -11709,6 +11977,10 @@ extern rtx        gen_aarch64_reduc_smax_nan_internalv2df            (rtx, rtx);
 extern rtx        gen_aarch64_reduc_smin_nan_internalv2df            (rtx, rtx);
 extern rtx        gen_aarch64_reduc_smax_internalv2df                (rtx, rtx);
 extern rtx        gen_aarch64_reduc_smin_internalv2df                (rtx, rtx);
+extern rtx        gen_aarch64_reduc_smax_nan_internalv2hf            (rtx, rtx);
+extern rtx        gen_aarch64_reduc_smin_nan_internalv2hf            (rtx, rtx);
+extern rtx        gen_aarch64_reduc_smax_internalv2hf                (rtx, rtx);
+extern rtx        gen_aarch64_reduc_smin_internalv2hf                (rtx, rtx);
 extern rtx        gen_aarch64_simd_bslv8qi_internal                  (rtx, rtx, rtx, rtx);
 extern rtx        gen_aarch64_simd_bslv16qi_internal                 (rtx, rtx, rtx, rtx);
 extern rtx        gen_aarch64_simd_bslv4hi_internal                  (rtx, rtx, rtx, rtx);
@@ -11732,6 +12004,7 @@ extern rtx        gen_aarch64_get_lanev8bf                           (rtx, rtx, 
 extern rtx        gen_aarch64_get_lanev2sf                           (rtx, rtx, rtx);
 extern rtx        gen_aarch64_get_lanev4sf                           (rtx, rtx, rtx);
 extern rtx        gen_aarch64_get_lanev2df                           (rtx, rtx, rtx);
+extern rtx        gen_aarch64_get_lanev2hf                           (rtx, rtx, rtx);
 extern rtx        gen_load_pair_lanesv8qi                            (rtx, rtx, rtx);
 extern rtx        gen_load_pair_lanesv4hi                            (rtx, rtx, rtx);
 extern rtx        gen_load_pair_lanesv4bf                            (rtx, rtx, rtx);
@@ -13474,10 +13747,14 @@ extern rtx        gen_atomic_nand_fetchqi                            (rtx, rtx, 
 extern rtx        gen_atomic_nand_fetchhi                            (rtx, rtx, rtx, rtx);
 extern rtx        gen_atomic_nand_fetchsi                            (rtx, rtx, rtx, rtx);
 extern rtx        gen_atomic_nand_fetchdi                            (rtx, rtx, rtx, rtx);
-extern rtx        gen_atomic_loadqi                                  (rtx, rtx, rtx);
-extern rtx        gen_atomic_loadhi                                  (rtx, rtx, rtx);
-extern rtx        gen_atomic_loadsi                                  (rtx, rtx, rtx);
-extern rtx        gen_atomic_loaddi                                  (rtx, rtx, rtx);
+extern rtx        gen_aarch64_atomic_loadqi_rcpc                     (rtx, rtx, rtx);
+extern rtx        gen_aarch64_atomic_loadhi_rcpc                     (rtx, rtx, rtx);
+extern rtx        gen_aarch64_atomic_loadsi_rcpc                     (rtx, rtx, rtx);
+extern rtx        gen_aarch64_atomic_loaddi_rcpc                     (rtx, rtx, rtx);
+extern rtx        gen_aarch64_atomic_loadqi                          (rtx, rtx, rtx);
+extern rtx        gen_aarch64_atomic_loadhi                          (rtx, rtx, rtx);
+extern rtx        gen_aarch64_atomic_loadsi                          (rtx, rtx, rtx);
+extern rtx        gen_aarch64_atomic_loaddi                          (rtx, rtx, rtx);
 extern rtx        gen_atomic_storeqi                                 (rtx, rtx, rtx);
 extern rtx        gen_atomic_storehi                                 (rtx, rtx, rtx);
 extern rtx        gen_atomic_storesi                                 (rtx, rtx, rtx);
@@ -14970,6 +15247,10 @@ extern rtx        gen_aarch64_gather_load_extendvnx4sivnx4hi         (rtx, rtx, 
 extern rtx        gen_aarch64_gather_load_zero_extendvnx4sivnx4hi    (rtx, rtx, rtx, rtx, rtx, rtx, rtx);
 extern rtx        gen_aarch64_gather_load_extendvnx2hivnx2qi         (rtx, rtx, rtx, rtx, rtx, rtx, rtx);
 extern rtx        gen_aarch64_gather_load_zero_extendvnx2hivnx2qi    (rtx, rtx, rtx, rtx, rtx, rtx, rtx);
+extern rtx        gen_aarch64_gather_load_extendvnx2sivnx2qi         (rtx, rtx, rtx, rtx, rtx, rtx, rtx);
+extern rtx        gen_aarch64_gather_load_zero_extendvnx2sivnx2qi    (rtx, rtx, rtx, rtx, rtx, rtx, rtx);
+extern rtx        gen_aarch64_gather_load_extendvnx2divnx2qi         (rtx, rtx, rtx, rtx, rtx, rtx, rtx);
+extern rtx        gen_aarch64_gather_load_zero_extendvnx2divnx2qi    (rtx, rtx, rtx, rtx, rtx, rtx, rtx);
 static inline rtx gen_aarch64_gather_load_extendvnx2hivnx2hi         (rtx, rtx, rtx, rtx, rtx, rtx, rtx);
 static inline rtx
 gen_aarch64_gather_load_extendvnx2hivnx2hi(rtx ARG_UNUSED (a), rtx ARG_UNUSED (b), rtx ARG_UNUSED (c), rtx ARG_UNUSED (d), rtx ARG_UNUSED (e), rtx ARG_UNUSED (f), rtx ARG_UNUSED (g))
@@ -14982,6 +15263,10 @@ gen_aarch64_gather_load_zero_extendvnx2hivnx2hi(rtx ARG_UNUSED (a), rtx ARG_UNUS
 {
   return 0;
 }
+extern rtx        gen_aarch64_gather_load_extendvnx2sivnx2hi         (rtx, rtx, rtx, rtx, rtx, rtx, rtx);
+extern rtx        gen_aarch64_gather_load_zero_extendvnx2sivnx2hi    (rtx, rtx, rtx, rtx, rtx, rtx, rtx);
+extern rtx        gen_aarch64_gather_load_extendvnx2divnx2hi         (rtx, rtx, rtx, rtx, rtx, rtx, rtx);
+extern rtx        gen_aarch64_gather_load_zero_extendvnx2divnx2hi    (rtx, rtx, rtx, rtx, rtx, rtx, rtx);
 static inline rtx gen_aarch64_gather_load_extendvnx2hivnx2si         (rtx, rtx, rtx, rtx, rtx, rtx, rtx);
 static inline rtx
 gen_aarch64_gather_load_extendvnx2hivnx2si(rtx ARG_UNUSED (a), rtx ARG_UNUSED (b), rtx ARG_UNUSED (c), rtx ARG_UNUSED (d), rtx ARG_UNUSED (e), rtx ARG_UNUSED (f), rtx ARG_UNUSED (g))
@@ -14994,10 +15279,6 @@ gen_aarch64_gather_load_zero_extendvnx2hivnx2si(rtx ARG_UNUSED (a), rtx ARG_UNUS
 {
   return 0;
 }
-extern rtx        gen_aarch64_gather_load_extendvnx2sivnx2qi         (rtx, rtx, rtx, rtx, rtx, rtx, rtx);
-extern rtx        gen_aarch64_gather_load_zero_extendvnx2sivnx2qi    (rtx, rtx, rtx, rtx, rtx, rtx, rtx);
-extern rtx        gen_aarch64_gather_load_extendvnx2sivnx2hi         (rtx, rtx, rtx, rtx, rtx, rtx, rtx);
-extern rtx        gen_aarch64_gather_load_zero_extendvnx2sivnx2hi    (rtx, rtx, rtx, rtx, rtx, rtx, rtx);
 static inline rtx gen_aarch64_gather_load_extendvnx2sivnx2si         (rtx, rtx, rtx, rtx, rtx, rtx, rtx);
 static inline rtx
 gen_aarch64_gather_load_extendvnx2sivnx2si(rtx ARG_UNUSED (a), rtx ARG_UNUSED (b), rtx ARG_UNUSED (c), rtx ARG_UNUSED (d), rtx ARG_UNUSED (e), rtx ARG_UNUSED (f), rtx ARG_UNUSED (g))
@@ -15010,10 +15291,6 @@ gen_aarch64_gather_load_zero_extendvnx2sivnx2si(rtx ARG_UNUSED (a), rtx ARG_UNUS
 {
   return 0;
 }
-extern rtx        gen_aarch64_gather_load_extendvnx2divnx2qi         (rtx, rtx, rtx, rtx, rtx, rtx, rtx);
-extern rtx        gen_aarch64_gather_load_zero_extendvnx2divnx2qi    (rtx, rtx, rtx, rtx, rtx, rtx, rtx);
-extern rtx        gen_aarch64_gather_load_extendvnx2divnx2hi         (rtx, rtx, rtx, rtx, rtx, rtx, rtx);
-extern rtx        gen_aarch64_gather_load_zero_extendvnx2divnx2hi    (rtx, rtx, rtx, rtx, rtx, rtx, rtx);
 extern rtx        gen_aarch64_gather_load_extendvnx2divnx2si         (rtx, rtx, rtx, rtx, rtx, rtx, rtx);
 extern rtx        gen_aarch64_gather_load_zero_extendvnx2divnx2si    (rtx, rtx, rtx, rtx, rtx, rtx, rtx);
 extern rtx        gen_aarch64_ldff1_gathervnx4si                     (rtx, rtx, rtx, rtx, rtx, rtx);
@@ -18036,6 +18313,14 @@ extern rtx        gen_prologue                                       (void);
 extern rtx        gen_epilogue                                       (void);
 extern rtx        gen_sibcall_epilogue                               (void);
 extern rtx        gen_return                                         (void);
+extern rtx        gen_tbranch_eqqi3                                  (rtx, rtx, rtx);
+extern rtx        gen_tbranch_neqi3                                  (rtx, rtx, rtx);
+extern rtx        gen_tbranch_eqhi3                                  (rtx, rtx, rtx);
+extern rtx        gen_tbranch_nehi3                                  (rtx, rtx, rtx);
+extern rtx        gen_tbranch_eqsi3                                  (rtx, rtx, rtx);
+extern rtx        gen_tbranch_nesi3                                  (rtx, rtx, rtx);
+extern rtx        gen_tbranch_eqdi3                                  (rtx, rtx, rtx);
+extern rtx        gen_tbranch_nedi3                                  (rtx, rtx, rtx);
 extern rtx        gen_call                                           (rtx, rtx, rtx);
 extern rtx        gen_call_value                                     (rtx, rtx, rtx, rtx);
 extern rtx        gen_sibcall                                        (rtx, rtx, rtx);
@@ -18051,6 +18336,9 @@ extern rtx        gen_movbf                                          (rtx, rtx);
 extern rtx        gen_movsf                                          (rtx, rtx);
 extern rtx        gen_movdf                                          (rtx, rtx);
 extern rtx        gen_movtf                                          (rtx, rtx);
+extern rtx        gen_movsd                                          (rtx, rtx);
+extern rtx        gen_movdd                                          (rtx, rtx);
+extern rtx        gen_movtd                                          (rtx, rtx);
 extern rtx        gen_aarch64_cpymemdi                               (rtx, rtx, rtx);
 extern rtx        gen_cpymemdi                                       (rtx, rtx, rtx, rtx);
 extern rtx        gen_movmemdi                                       (rtx, rtx, rtx, rtx);
@@ -18183,6 +18471,12 @@ extern rtx        gen_aarch64_reload_movcpdfsi                       (rtx, rtx, 
 extern rtx        gen_aarch64_reload_movcpdfdi                       (rtx, rtx, rtx);
 extern rtx        gen_aarch64_reload_movcptfsi                       (rtx, rtx, rtx);
 extern rtx        gen_aarch64_reload_movcptfdi                       (rtx, rtx, rtx);
+extern rtx        gen_aarch64_reload_movcpsdsi                       (rtx, rtx, rtx);
+extern rtx        gen_aarch64_reload_movcpsddi                       (rtx, rtx, rtx);
+extern rtx        gen_aarch64_reload_movcpddsi                       (rtx, rtx, rtx);
+extern rtx        gen_aarch64_reload_movcpdddi                       (rtx, rtx, rtx);
+extern rtx        gen_aarch64_reload_movcptdsi                       (rtx, rtx, rtx);
+extern rtx        gen_aarch64_reload_movcptddi                       (rtx, rtx, rtx);
 extern rtx        gen_aarch64_reload_movcpv8qisi                     (rtx, rtx, rtx);
 extern rtx        gen_aarch64_reload_movcpv8qidi                     (rtx, rtx, rtx);
 extern rtx        gen_aarch64_reload_movcpv16qisi                    (rtx, rtx, rtx);
@@ -18205,6 +18499,15 @@ extern rtx        gen_aarch64_reload_movcpv2dfsi                     (rtx, rtx, 
 extern rtx        gen_aarch64_reload_movcpv2dfdi                     (rtx, rtx, rtx);
 extern rtx        gen_aarch64_reload_movti                           (rtx, rtx, rtx);
 extern rtx        gen_aarch64_reload_movtf                           (rtx, rtx, rtx);
+extern rtx        gen_aarch64_reload_movtd                           (rtx, rtx, rtx);
+extern rtx        gen_aarch64_reload_movv16qi                        (rtx, rtx, rtx);
+extern rtx        gen_aarch64_reload_movv8hi                         (rtx, rtx, rtx);
+extern rtx        gen_aarch64_reload_movv4si                         (rtx, rtx, rtx);
+extern rtx        gen_aarch64_reload_movv2di                         (rtx, rtx, rtx);
+extern rtx        gen_aarch64_reload_movv8hf                         (rtx, rtx, rtx);
+extern rtx        gen_aarch64_reload_movv4sf                         (rtx, rtx, rtx);
+extern rtx        gen_aarch64_reload_movv2df                         (rtx, rtx, rtx);
+extern rtx        gen_aarch64_reload_movv8bf                         (rtx, rtx, rtx);
 extern rtx        gen_add_losym                                      (rtx, rtx, rtx);
 extern rtx        gen_tlsgd_small_si                                 (rtx, rtx);
 extern rtx        gen_tlsgd_small_di                                 (rtx, rtx);
@@ -18237,6 +18540,7 @@ extern rtx        gen_movv8bf                                        (rtx, rtx);
 extern rtx        gen_movv2sf                                        (rtx, rtx);
 extern rtx        gen_movv4sf                                        (rtx, rtx);
 extern rtx        gen_movv2df                                        (rtx, rtx);
+extern rtx        gen_movv2hf                                        (rtx, rtx);
 extern rtx        gen_movmisalignv8qi                                (rtx, rtx);
 extern rtx        gen_movmisalignv16qi                               (rtx, rtx);
 extern rtx        gen_movmisalignv4hi                                (rtx, rtx);
@@ -18251,6 +18555,7 @@ extern rtx        gen_movmisalignv8bf                                (rtx, rtx);
 extern rtx        gen_movmisalignv2sf                                (rtx, rtx);
 extern rtx        gen_movmisalignv4sf                                (rtx, rtx);
 extern rtx        gen_movmisalignv2df                                (rtx, rtx);
+extern rtx        gen_movmisalignv2hf                                (rtx, rtx);
 extern rtx        gen_aarch64_split_simd_movv16qi                    (rtx, rtx);
 extern rtx        gen_aarch64_split_simd_movv8hi                     (rtx, rtx);
 extern rtx        gen_aarch64_split_simd_movv4si                     (rtx, rtx);
@@ -18402,6 +18707,7 @@ extern rtx        gen_vec_setv8bf                                    (rtx, rtx, 
 extern rtx        gen_vec_setv2sf                                    (rtx, rtx, rtx);
 extern rtx        gen_vec_setv4sf                                    (rtx, rtx, rtx);
 extern rtx        gen_vec_setv2df                                    (rtx, rtx, rtx);
+extern rtx        gen_vec_setv2hf                                    (rtx, rtx, rtx);
 extern rtx        gen_smaxv2di3                                      (rtx, rtx, rtx);
 extern rtx        gen_sminv2di3                                      (rtx, rtx, rtx);
 extern rtx        gen_umaxv2di3                                      (rtx, rtx, rtx);
@@ -18582,6 +18888,10 @@ extern rtx        gen_reduc_smax_nan_scal_v2df                       (rtx, rtx);
 extern rtx        gen_reduc_smin_nan_scal_v2df                       (rtx, rtx);
 extern rtx        gen_reduc_smax_scal_v2df                           (rtx, rtx);
 extern rtx        gen_reduc_smin_scal_v2df                           (rtx, rtx);
+extern rtx        gen_reduc_smax_nan_scal_v2hf                       (rtx, rtx);
+extern rtx        gen_reduc_smin_nan_scal_v2hf                       (rtx, rtx);
+extern rtx        gen_reduc_smax_scal_v2hf                           (rtx, rtx);
+extern rtx        gen_reduc_smin_scal_v2hf                           (rtx, rtx);
 extern rtx        gen_reduc_fmax_scal_v4hf                           (rtx, rtx);
 extern rtx        gen_reduc_fmin_scal_v4hf                           (rtx, rtx);
 extern rtx        gen_reduc_fmax_scal_v8hf                           (rtx, rtx);
@@ -18592,6 +18902,8 @@ extern rtx        gen_reduc_fmax_scal_v4sf                           (rtx, rtx);
 extern rtx        gen_reduc_fmin_scal_v4sf                           (rtx, rtx);
 extern rtx        gen_reduc_fmax_scal_v2df                           (rtx, rtx);
 extern rtx        gen_reduc_fmin_scal_v2df                           (rtx, rtx);
+extern rtx        gen_reduc_fmax_scal_v2hf                           (rtx, rtx);
+extern rtx        gen_reduc_fmin_scal_v2hf                           (rtx, rtx);
 extern rtx        gen_reduc_umax_scal_v8qi                           (rtx, rtx);
 extern rtx        gen_reduc_umin_scal_v8qi                           (rtx, rtx);
 extern rtx        gen_reduc_smax_scal_v8qi                           (rtx, rtx);
@@ -18816,6 +19128,9 @@ extern rtx        gen_aarch64_addhn2v2di                             (rtx, rtx, 
 extern rtx        gen_aarch64_raddhn2v2di                            (rtx, rtx, rtx, rtx);
 extern rtx        gen_aarch64_subhn2v2di                             (rtx, rtx, rtx, rtx);
 extern rtx        gen_aarch64_rsubhn2v2di                            (rtx, rtx, rtx, rtx);
+extern rtx        gen_aarch64_bitmask_udivv8hi3                      (rtx, rtx, rtx);
+extern rtx        gen_aarch64_bitmask_udivv4si3                      (rtx, rtx, rtx);
+extern rtx        gen_aarch64_bitmask_udivv2di3                      (rtx, rtx, rtx);
 extern rtx        gen_aarch64_pmull_hiv16qi                          (rtx, rtx, rtx);
 extern rtx        gen_aarch64_sqmovnv8hi                             (rtx, rtx);
 extern rtx        gen_aarch64_uqmovnv8hi                             (rtx, rtx);
@@ -19392,6 +19707,7 @@ extern rtx        gen_vec_initv8bfbf                                 (rtx, rtx);
 extern rtx        gen_vec_initv2sfsf                                 (rtx, rtx);
 extern rtx        gen_vec_initv4sfsf                                 (rtx, rtx);
 extern rtx        gen_vec_initv2dfdf                                 (rtx, rtx);
+extern rtx        gen_vec_initv2hfhf                                 (rtx, rtx);
 extern rtx        gen_vec_initv16qiv8qi                              (rtx, rtx);
 extern rtx        gen_vec_initv8hiv4hi                               (rtx, rtx);
 extern rtx        gen_vec_initv4siv2si                               (rtx, rtx);
@@ -19412,12 +19728,14 @@ extern rtx        gen_vec_extractv8bfbf                              (rtx, rtx, 
 extern rtx        gen_vec_extractv2sfsf                              (rtx, rtx, rtx);
 extern rtx        gen_vec_extractv4sfsf                              (rtx, rtx, rtx);
 extern rtx        gen_vec_extractv2dfdf                              (rtx, rtx, rtx);
+extern rtx        gen_vec_extractv2hfhf                              (rtx, rtx, rtx);
 extern rtx        gen_vec_extractv16qiv8qi                           (rtx, rtx, rtx);
 extern rtx        gen_vec_extractv8hiv4hi                            (rtx, rtx, rtx);
 extern rtx        gen_vec_extractv4siv2si                            (rtx, rtx, rtx);
 extern rtx        gen_vec_extractv8hfv4hf                            (rtx, rtx, rtx);
 extern rtx        gen_vec_extractv8bfv4bf                            (rtx, rtx, rtx);
 extern rtx        gen_vec_extractv4sfv2sf                            (rtx, rtx, rtx);
+extern rtx        gen_vec_extractv2div1di                            (rtx, rtx, rtx);
 extern rtx        gen_vec_extractv2dfv1df                            (rtx, rtx, rtx);
 extern rtx        gen_aarch64_fmlal_lowv2sf                          (rtx, rtx, rtx, rtx);
 extern rtx        gen_aarch64_fmlsl_lowv2sf                          (rtx, rtx, rtx, rtx);
@@ -19520,6 +19838,10 @@ extern rtx        gen_atomic_sub_fetchdi                             (rtx, rtx, 
 extern rtx        gen_atomic_or_fetchdi                              (rtx, rtx, rtx, rtx);
 extern rtx        gen_atomic_xor_fetchdi                             (rtx, rtx, rtx, rtx);
 extern rtx        gen_atomic_and_fetchdi                             (rtx, rtx, rtx, rtx);
+extern rtx        gen_atomic_loadqi                                  (rtx, rtx, rtx);
+extern rtx        gen_atomic_loadhi                                  (rtx, rtx, rtx);
+extern rtx        gen_atomic_loadsi                                  (rtx, rtx, rtx);
+extern rtx        gen_atomic_loaddi                                  (rtx, rtx, rtx);
 extern rtx        gen_mem_thread_fence                               (rtx);
 extern rtx        gen_dmb                                            (rtx);
 extern rtx        gen_movvnx16qi                                     (rtx, rtx);
@@ -23143,6 +23465,9 @@ extern rtx        gen_cond_ursqrtevnx4si                             (rtx, rtx, 
 extern rtx        gen_cond_flogbvnx8hf                               (rtx, rtx, rtx, rtx);
 extern rtx        gen_cond_flogbvnx4sf                               (rtx, rtx, rtx, rtx);
 extern rtx        gen_cond_flogbvnx2df                               (rtx, rtx, rtx, rtx);
+extern rtx        gen_aarch64_bitmask_udivvnx8hi3                    (rtx, rtx, rtx);
+extern rtx        gen_aarch64_bitmask_udivvnx4si3                    (rtx, rtx, rtx);
+extern rtx        gen_aarch64_bitmask_udivvnx2di3                    (rtx, rtx, rtx);
 extern rtx        gen_check_raw_ptrssi                               (rtx, rtx, rtx, rtx, rtx);
 extern rtx        gen_check_war_ptrssi                               (rtx, rtx, rtx, rtx, rtx);
 extern rtx        gen_check_raw_ptrsdi                               (rtx, rtx, rtx, rtx, rtx);

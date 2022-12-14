@@ -67,14 +67,10 @@ typedef __FILE FILE;
 # define __FILE_defined
 #endif
 
-#ifdef __CYGWIN__
-typedef _fpos64_t fpos_t;
-#else
 typedef _fpos_t fpos_t;
 #ifdef __LARGE64_FILES
 typedef _fpos64_t fpos64_t;
 #endif
-#endif /* !__CYGWIN__ */
 
 #ifndef _OFF_T_DECLARED
 typedef __off_t off_t;
@@ -167,13 +163,13 @@ typedef _ssize_t ssize_t;
 
 #define	TMP_MAX		26
 
-#define	stdin	(_REENT->_stdin)
-#define	stdout	(_REENT->_stdout)
-#define	stderr	(_REENT->_stderr)
+#define	stdin	_REENT_STDIN(_REENT)
+#define	stdout	_REENT_STDOUT(_REENT)
+#define	stderr	_REENT_STDERR(_REENT)
 
-#define _stdin_r(x)	((x)->_stdin)
-#define _stdout_r(x)	((x)->_stdout)
-#define _stderr_r(x)	((x)->_stderr)
+#define _stdin_r(x)	_REENT_STDIN(x)
+#define _stdout_r(x)	_REENT_STDOUT(x)
+#define _stderr_r(x)	_REENT_STDERR(x)
 
 /*
  * Functions defined in ANSI C standard.
@@ -624,10 +620,8 @@ FILE	*_funopen_r (struct _reent *, const void *__cookie,
 		int (*__closefn)(void *__cookie));
 # endif /* !__LARGE64_FILES */
 
-# define	fropen(__cookie, __fn) funopen(__cookie, __fn, (int (*)())0, \
-					       (fpos_t (*)())0, (int (*)())0)
-# define	fwopen(__cookie, __fn) funopen(__cookie, (int (*)())0, __fn, \
-					       (fpos_t (*)())0, (int (*)())0)
+# define	fropen(__cookie, __fn) funopen(__cookie, __fn, NULL, NULL, NULL)
+# define	fwopen(__cookie, __fn) funopen(__cookie, NULL, __fn, NULL, NULL)
 #endif /* __BSD_VISIBLE */
 
 #if __GNU_VISIBLE

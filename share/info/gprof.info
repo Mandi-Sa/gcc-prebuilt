@@ -27,7 +27,7 @@ to determine which parts of a program are taking most of the execution
 time.  We assume that you know how to write, compile, and execute
 programs.  GNU 'gprof' was written by Jay Fenlason.
 
-   This manual is for 'gprof' (阿菌•未霜) version 2.38.50.
+   This manual is for 'gprof' (阿菌•未霜) version 2.39.50.
 
    This document is distributed under the terms of the GNU Free
 Documentation License version 1.3.  A copy of the license is included in
@@ -317,6 +317,9 @@ which prints a flat profile and call graph analysis for all functions.
      blurbs that try to explain the meaning of all of the fields in the
      tables.  This is useful if you intend to print out the output, or
      are tired of seeing the blurbs.
+
+'-B'
+     The '-B' option causes 'gprof' to print the call graph analysis.
 
 '-C[SYMSPEC]'
 '--exec-counts[=SYMSPEC]'
@@ -2431,30 +2434,30 @@ Node: Compiling4539
 Node: Executing8595
 Node: Invoking11488
 Node: Output Options12903
-Node: Analysis Options19995
-Node: Miscellaneous Options23915
-Node: Deprecated Options25169
-Node: Symspecs27232
-Node: Output29058
-Node: Flat Profile30098
-Node: Call Graph35051
-Node: Primary38283
-Node: Callers40871
-Node: Subroutines42989
-Node: Cycles44830
-Node: Line-by-line51607
-Node: Annotated Source55683
-Node: Inaccuracy58681
-Node: Sampling Error58939
-Node: Assumptions61843
-Node: How do I?63313
-Node: Incompatibilities64870
-Node: Details66364
-Node: Implementation66757
-Node: File Format72656
-Node: Internals76948
-Node: Debugging85438
-Node: GNU Free Documentation License87028
+Node: Analysis Options20071
+Node: Miscellaneous Options23991
+Node: Deprecated Options25245
+Node: Symspecs27308
+Node: Output29134
+Node: Flat Profile30174
+Node: Call Graph35127
+Node: Primary38359
+Node: Callers40947
+Node: Subroutines43065
+Node: Cycles44906
+Node: Line-by-line51683
+Node: Annotated Source55759
+Node: Inaccuracy58757
+Node: Sampling Error59015
+Node: Assumptions61919
+Node: How do I?63389
+Node: Incompatibilities64946
+Node: Details66440
+Node: Implementation66833
+Node: File Format72732
+Node: Internals77024
+Node: Debugging85514
+Node: GNU Free Documentation License87104
 
 End Tag Table
 

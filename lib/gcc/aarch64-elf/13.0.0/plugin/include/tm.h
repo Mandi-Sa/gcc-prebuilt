@@ -17,7 +17,6 @@
 # include "insn-constants.h"
 # include "config/aarch64/biarchlp64.h"
 # include "config/aarch64/aarch64.h"
-# include "config/dbxelf.h"
 # include "config/elfos.h"
 # include "config/newlib-stdint.h"
 # include "config/aarch64/aarch64-elf.h"
