@@ -34,7 +34,7 @@
 #define _GLIBCXX_RELEASE 13
 
 // The datestamp of the C++ library in compressed ISO date format.
-#define __GLIBCXX__ 20220511
+#define __GLIBCXX__ 20221214
 
 // Macros for various attributes.
 //   _GLIBCXX_PURE
@@ -345,13 +345,16 @@ namespace __gnu_cxx
 # define _GLIBCXX_DEFAULT_ABI_TAG
 #endif
 
-// Defined if inline namespaces are used for versioning.
+// Non-zero if inline namespaces are used for versioning the entire library.
 # define _GLIBCXX_INLINE_VERSION 0 
 
-// Inline namespace for symbol versioning.
 #if _GLIBCXX_INLINE_VERSION
+// Inline namespace for symbol versioning of (nearly) everything in std.
 # define _GLIBCXX_BEGIN_NAMESPACE_VERSION namespace __8 {
 # define _GLIBCXX_END_NAMESPACE_VERSION }
+// Unused when everything in std is versioned anyway.
+# define _GLIBCXX_BEGIN_INLINE_ABI_NAMESPACE(X)
+# define _GLIBCXX_END_INLINE_ABI_NAMESPACE(X)
 
 namespace std
 {
@@ -376,8 +379,12 @@ _GLIBCXX_END_NAMESPACE_VERSION
 }
 
 #else
+// Unused.
 # define _GLIBCXX_BEGIN_NAMESPACE_VERSION
 # define _GLIBCXX_END_NAMESPACE_VERSION
+// Used to version individual components, e.g. std::_V2::error_category.
+# define _GLIBCXX_BEGIN_INLINE_ABI_NAMESPACE(X) inline namespace X {
+# define _GLIBCXX_END_INLINE_ABI_NAMESPACE(X)   } // inline namespace X
 #endif
 
 // Inline namespaces for special modes: debug, parallel.
@@ -789,6 +796,20 @@ namespace std
 # define _GLIBCXX_DOUBLE_IS_IEEE_BINARY64 1
 #endif
 
+// Define if long double has the IEEE binary128 format.
+#if __LDBL_MANT_DIG__ == 113 \
+  && __LDBL_MIN_EXP__ == -16381 \
+  && __LDBL_MAX_EXP__ == 16384
+# define _GLIBCXX_LDOUBLE_IS_IEEE_BINARY128 1
+#endif
+
+#ifdef __STDCPP_BFLOAT16_T__
+namespace __gnu_cxx
+{
+  using __bfloat16_t = decltype(0.0bf16);
+}
+#endif
+
 #ifdef __has_builtin
 # ifdef __is_identifier
 // Intel and older Clang require !__is_identifier for some built-ins:
@@ -815,6 +836,9 @@ namespace std
 #endif
 
 #undef _GLIBCXX_HAS_BUILTIN
+
+// Mark code that should be ignored by the compiler, but seen by Doxygen.
+#define _GLIBCXX_DOXYGEN_ONLY(X)
 
 // PSTL configuration
 
@@ -1137,6 +1161,9 @@ namespace std
 
 /* Define if <math.h> defines obsolete isnan function. */
 /* #undef _GLIBCXX_HAVE_OBSOLETE_ISNAN */
+
+/* Define if openat is available in <fcntl.h>. */
+#define _GLIBCXX_HAVE_OPENAT 1
 
 /* Define if poll is available in <poll.h>. */
 /* #undef _GLIBCXX_HAVE_POLL */
@@ -1603,21 +1630,6 @@ namespace std
 /* Define to the version of this package. */
 #define _GLIBCXX_PACKAGE__GLIBCXX_VERSION "version-unused"
 
-/* The size of `char', as computed by sizeof. */
-/* #undef SIZEOF_CHAR */
-
-/* The size of `int', as computed by sizeof. */
-/* #undef SIZEOF_INT */
-
-/* The size of `long', as computed by sizeof. */
-/* #undef SIZEOF_LONG */
-
-/* The size of `short', as computed by sizeof. */
-/* #undef SIZEOF_SHORT */
-
-/* The size of `void *', as computed by sizeof. */
-/* #undef SIZEOF_VOID_P */
-
 /* Define to 1 if you have the ANSI C header files. */
 #define _GLIBCXX_STDC_HEADERS 1
 
@@ -1635,7 +1647,7 @@ namespace std
 /* Define if C99 functions in <complex.h> should be used in <complex> for
    C++11. Using compiler builtins for these functions requires corresponding
    C99 library functions to be present. */
-/* #undef _GLIBCXX11_USE_C99_COMPLEX */
+#define _GLIBCXX11_USE_C99_COMPLEX 1
 
 /* Define if C99 functions or macros in <math.h> should be imported in <cmath>
    in namespace std for C++11. */
@@ -1656,7 +1668,7 @@ namespace std
 /* Define if C99 functions in <complex.h> should be used in <complex> for
    C++98. Using compiler builtins for these functions requires corresponding
    C99 library functions to be present. */
-/* #undef _GLIBCXX98_USE_C99_COMPLEX */
+#define _GLIBCXX98_USE_C99_COMPLEX 1
 
 /* Define if C99 functions or macros in <math.h> should be imported in <cmath>
    in namespace std for C++98. */
@@ -1688,7 +1700,7 @@ namespace std
 /* #undef _GLIBCXX_HAS_GTHREADS */
 
 /* Define to 1 if a full hosted library is built, or 0 if freestanding. */
-#define _GLIBCXX_HOSTED 1
+#define _GLIBCXX_HOSTED __STDC_HOSTED__
 
 /* Define if compatibility should be provided for alternative 128-bit long
    double formats. */
@@ -1748,7 +1760,7 @@ namespace std
 /* Define if C99 functions in <complex.h> should be used in <tr1/complex>.
    Using compiler builtins for these functions requires corresponding C99
    library functions to be present. */
-/* #undef _GLIBCXX_USE_C99_COMPLEX_TR1 */
+#define _GLIBCXX_USE_C99_COMPLEX_TR1 1
 
 /* Define if C99 functions in <ctype.h> should be imported in <tr1/cctype> in
    namespace std::tr1. */

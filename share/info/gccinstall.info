@@ -578,8 +578,8 @@ It looks like this: 'CPU-COMPANY-SYSTEM'.
    Here are the possible CPU types:
 
      aarch64, aarch64_be, alpha, alpha64, amdgcn, arc, arceb, arm,
-     armeb, avr, bfin, bpf, cr16, cris, csky, epiphany, fido, fr30, frv,
-     ft32, h8300, hppa, hppa2.0, hppa64, i486, i686, ia64, iq2000, lm32,
+     armeb, avr, bfin, bpf, cris, csky, epiphany, fido, fr30, frv, ft32,
+     h8300, hppa, hppa2.0, hppa64, i486, i686, ia64, iq2000, lm32,
      loongarch64, m32c, m32r, m32rle, m68k, mcore, microblaze,
      microblazeel, mips, mips64, mips64el, mips64octeon, mips64orion,
      mips64vr, mipsel, mipsisa32, mipsisa32r2, mipsisa64, mipsisa64r2,
@@ -587,8 +587,8 @@ It looks like this: 'CPU-COMPANY-SYSTEM'.
      mn10300, moxie, msp430, nds32be, nds32le, nios2, nvptx, or1k,
      pdp11, powerpc, powerpc64, powerpc64le, powerpcle, pru, riscv32,
      riscv32be, riscv64, riscv64be, rl78, rx, s390, s390x, sh, shle,
-     sparc, sparc64, tic6x, tilegx, tilegxbe, tilepro, v850, v850e,
-     v850e1, vax, visium, x86_64, xstormy16, xtensa
+     sparc, sparc64, tic6x, v850, v850e, v850e1, vax, visium, x86_64,
+     xstormy16, xtensa
 
    Here is a list of system types:
 
@@ -1308,6 +1308,26 @@ option.
      'breaks'
           Division by zero checks use the break instruction.
 
+'--with-compact-branches=POLICY'
+     Specify how the compiler should generate branch instructions.  This
+     option is only supported on the MIPS target.  The possibilities for
+     TYPE are:
+     'optimal'
+          Cause a delay slot branch to be used if one is available in
+          the current ISA and the delay slot is successfully filled.  If
+          the delay slot is not filled, a compact branch will be chosen
+          if one is available.
+     'never'
+          Ensures that compact branch instructions will never be
+          generated.
+     'always'
+          Ensures that a compact branch instruction will be generated if
+          available.  If a compact branch instruction is not available,
+          a delay slot form of the branch will be used instead.  This
+          option is supported from MIPS Release 6 onwards.  For
+          pre-R6/microMIPS/MIPS16, this option is just same as
+          never/optimal.
+
 '--with-llsc'
      On MIPS targets, make '-mllsc' the default when no '-mno-llsc'
      option is passed.  This is the default for Linux-based targets, as
@@ -1637,8 +1657,9 @@ option.
      should not be built.
 
 '--with-dwarf2'
-     Specify that the compiler should use DWARF 2 debugging information
-     as the default.
+     Specify that the compiler should use DWARF debugging information as
+     the default; the exact DWARF version that is the default is
+     target-specific.
 
 '--with-advance-toolchain=AT'
      On 64-bit PowerPC Linux systems, configure the compiler to use the
@@ -2052,7 +2073,7 @@ option.
      paths PATH1, ..., PATHN.
 
           % SRCDIR/configure \
-              --enable-offload-targets=x86_64-intelmicemul-linux-gnu=/path/to/x86_64/compiler,nvptx-none
+              --enable-offload-targets=amdgcn-amdhsa,nvptx-none
 
 '--enable-offload-defaulted'
 
@@ -2062,18 +2083,6 @@ option.
      the presence or absence of those optional packages should determine
      the actual supported offloading target set rather than the GCC
      configure-time selection.
-
-'--with-hsa-runtime=PATHNAME'
-'--with-hsa-runtime-include=PATHNAME'
-'--with-hsa-runtime-lib=PATHNAME'
-
-     If you configure GCC with offloading which uses an HSA run-time
-     such as AMDGCN but do not have the HSA run-time library installed
-     in a standard location then you can explicitly specify the
-     directory where they are installed.  The
-     '--with-hsa-runtime=HSAINSTALLDIR' option is a shorthand for
-     '--with-hsa-runtime-lib=HSAINSTALLDIR/lib' and
-     '--with-hsa-runtime-include=HSAINSTALLDIR/include'.
 
 '--enable-cet'
 '--disable-cet'
@@ -2105,6 +2114,22 @@ option.
      option's default is derived from glibc's behavior.  When glibc
      clamps float_t to double, GCC follows and enables the option.  For
      other cross compiles, the default is disabled.
+
+'--with-zstd=PATHNAME'
+'--with-zstd-include=PATHNAME'
+'--with-zstd-lib=PATHNAME'
+     If you do not have the 'zstd' library installed in a standard
+     location and you want to build GCC, you can explicitly specify the
+     directory where it is installed ('--with-zstd=ZSTDINSTALLDIR').
+     The '--with-zstd=ZSTDINSTALLDIR' option is shorthand for
+     '--with-zstd-lib=ZSTDINSTALLDIR/lib' and
+     '--with-zstd-include=ZSTDINSTALLDIR/include'.  If this shorthand
+     assumption is not correct, you can use the explicit include and lib
+     options directly.
+
+     These flags are applicable to the host platform only.  When
+     building a cross compiler, they will not be used to configure
+     target libraries.
 
 Cross-Compiler-Specific Options
 -------------------------------
@@ -2738,9 +2763,8 @@ step is optional and may require you to download additional software,
 but it can give you confidence in your new GCC installation or point out
 problems before you install and start using your new GCC.
 
-   First, you must have downloaded the testsuites.  These are part of
-the full distribution, but if you downloaded the "core" compiler plus
-any front ends, you must download the testsuites separately.
+   First, you must have downloaded the testsuites.  These are included
+in the source tarball.
 
    Second, you must have the testing tools installed.  This includes
 DejaGnu, Tcl, and Expect; the DejaGnu site has links to these.  Some
@@ -3034,8 +3058,6 @@ them.  If you have any problems installing them, please contact their
 makers.
 
    * AIX:
-        * Bull's Open Source Software Archive for for AIX 6 and AIX 7;
-
         * AIX Open Source Packages (AIX5L AIX 6.1 AIX 7.1).
 
    * DOS--DJGPP.
@@ -3128,13 +3150,13 @@ amdgcn-*-amdhsa
 
 AMD GCN GPU target.
 
-   Instead of GNU Binutils, you will need to install LLVM 6, or later,
-and copy 'bin/llvm-mc' to 'amdgcn-amdhsa/bin/as', 'bin/lld' to
+   Instead of GNU Binutils, you will need to install LLVM 13.0.1, or
+later, and copy 'bin/llvm-mc' to 'amdgcn-amdhsa/bin/as', 'bin/lld' to
 'amdgcn-amdhsa/bin/ld', 'bin/llvm-nm' to 'amdgcn-amdhsa/bin/nm', and
 'bin/llvm-ar' to both 'bin/amdgcn-amdhsa-ar' and
 'bin/amdgcn-amdhsa-ranlib'.
 
-   Use Newlib (2019-01-16, or newer).
+   Use Newlib (3.2.0, or newer).
 
    To run the binaries, install the HSA Runtime from the ROCm Platform,
 and use 'libexec/gcc/amdhsa-amdhsa/VERSION/gcn-run' to launch them on
@@ -3192,20 +3214,6 @@ The Blackfin processor, an Analog Devices DSP. *Note Blackfin Options:
 processor, are available at
 <https://sourceforge.net/projects/adi-toolchain/>.
 
-CR16
-====
-
-The CR16 CompactRISC architecture is a 16-bit architecture.  This
-architecture is used in embedded applications.
-
-   *Note CR16 Options: (gcc)CR16 Options,
-
-   Use 'configure --target=cr16-elf --enable-languages=c,c++' to
-configure GCC for building a CR16 elf cross-compiler.
-
-   Use 'configure --target=cr16-uclinux --enable-languages=c,c++' to
-configure GCC for building a CR16 uclinux cross-compiler.
-
 CRIS
 ====
 
@@ -3245,16 +3253,15 @@ FreeBSD 6 or later).  The use of 'dl_iterate_phdr' inside
 4.5 and above.
 
    We support FreeBSD using the ELF file format with DWARF 2 debugging
-for all CPU architectures.  You may use '-gstabs' instead of '-g', if
-you really want the old debugging format.  There are no known issues
-with mixing object files and libraries with different debugging formats.
-Otherwise, this release of GCC should now match more of the
-configuration used in the stock FreeBSD configuration of GCC.  In
-particular, '--enable-threads' is now configured by default.  However,
-as a general user, do not attempt to replace the system compiler with
-this release.  Known to bootstrap and check with good results on FreeBSD
-7.2-STABLE.  In the past, known to bootstrap and check with good results
-on FreeBSD 3.0, 3.4, 4.0, 4.2, 4.3, 4.4, 4.5, 4.8, 4.9 and 5-CURRENT.
+for all CPU architectures.  There are no known issues with mixing object
+files and libraries with different debugging formats.  Otherwise, this
+release of GCC should now match more of the configuration used in the
+stock FreeBSD configuration of GCC.  In particular, '--enable-threads'
+is now configured by default.  However, as a general user, do not
+attempt to replace the system compiler with this release.  Known to
+bootstrap and check with good results on FreeBSD 7.2-STABLE.  In the
+past, known to bootstrap and check with good results on FreeBSD 3.0,
+3.4, 4.0, 4.2, 4.3, 4.4, 4.5, 4.8, 4.9 and 5-CURRENT.
 
    The version of binutils installed in '/usr/bin' probably works with
 this release of GCC.  Bootstrapping against the latest GNU binutils
@@ -3833,14 +3840,20 @@ Nvidia PTX target.
 GCC where to find it:
 '--with-build-time-tools=[install-nvptx-tools]/nvptx-none/bin'.
 
-   You will need newlib 3.0 git revision
-cd31fbb2aea25f94d7ecedc9db16dfc87ab0c316 or later.  It can be
-automatically built together with GCC.  For this, add a symbolic link to
-nvptx-newlib's 'newlib' directory to the directory containing the GCC
-sources.
+   You will need newlib 3.1.0 or later.  It can be automatically built
+together with GCC.  For this, add a symbolic link to nvptx-newlib's
+'newlib' directory to the directory containing the GCC sources.
 
    Use the '--disable-sjlj-exceptions' and
 '--enable-newlib-io-long-long' options when configuring.
+
+   The '--with-arch' option may be specified to override the default
+value for the '-march' option, and to also build corresponding target
+libraries.  The default is '--with-arch=sm_30'.
+
+   For example, if '--with-arch=sm_70' is specified, '-march=sm_30' and
+'-march=sm_70' target libraries are built, and code generation defaults
+to '-march=sm_70'.
 
 or1k-*-elf
 ==========
@@ -4109,24 +4122,6 @@ c6x-*-*
 
 The C6X family of processors.  This port requires binutils-2.22 or
 newer.
-
-tilegx-*-linux*
-===============
-
-The TILE-Gx processor in little endian mode, running GNU/Linux.  This
-port requires binutils-2.22 or newer.
-
-tilegxbe-*-linux*
-=================
-
-The TILE-Gx processor in big endian mode, running GNU/Linux.  This port
-requires binutils-2.23 or newer.
-
-tilepro-*-linux*
-================
-
-The TILEPro processor running GNU/Linux.  This port requires
-binutils-2.22 or newer.
 
 visium-*-elf
 ============
@@ -4833,7 +4828,7 @@ Concept Index
 * Menu:
 
 * Binaries:                              Binaries.           (line    6)
-* build_configargs:                      Configuration.      (line 1816)
+* build_configargs:                      Configuration.      (line 1841)
 * Configuration:                         Configuration.      (line    6)
 * Downloading GCC:                       Downloading the source.
                                                              (line    6)
@@ -4842,7 +4837,7 @@ Concept Index
 * FDL, GNU Free Documentation License:   GNU Free Documentation License.
                                                              (line    6)
 * Host specific installation:            Specific.           (line    6)
-* host_configargs:                       Configuration.      (line 1820)
+* host_configargs:                       Configuration.      (line 1845)
 * Installing GCC: Binaries:              Binaries.           (line    6)
 * Installing GCC: Building:              Building.           (line    6)
 * Installing GCC: Configuration:         Configuration.      (line    6)
@@ -4852,7 +4847,7 @@ Concept Index
 * Specific installation notes:           Specific.           (line    6)
 * Target specific installation:          Specific.           (line    6)
 * Target specific installation notes:    Specific.           (line    6)
-* target_configargs:                     Configuration.      (line 1824)
+* target_configargs:                     Configuration.      (line 1849)
 * Testing:                               Testing.            (line    6)
 * Testsuite:                             Testing.            (line    6)
 
@@ -4866,101 +4861,97 @@ Ref: GNAT-prerequisite5680
 Ref: GDC-prerequisite7077
 Node: Downloading the source16639
 Node: Configuration18310
-Ref: with-gnu-as36610
-Ref: with-as37505
-Ref: with-gnu-ld38914
-Ref: WithAixSoname64625
-Ref: AixLdCommand65286
-Node: Building106891
-Node: Testing123098
-Node: Final install130929
-Node: Binaries136230
-Node: Specific137337
-Ref: aarch64-x-x137871
-Ref: alpha-x-x139891
-Ref: amd64-x-solaris2140105
-Ref: amdgcn-x-amdhsa140187
-Ref: arc-x-elf32140713
-Ref: arc-linux-uclibc140889
-Ref: arm-x-eabi141030
-Ref: avr141283
-Ref: bfin141864
-Ref: cr16142127
-Ref: cris142543
-Ref: dos142869
-Ref: epiphany-x-elf143194
-Ref: x-x-freebsd143299
-Ref: ft32-x-elf144947
-Ref: h8300-hms145045
-Ref: hppa-hp-hpux145397
-Ref: hppa-hp-hpux10147769
-Ref: hppa-hp-hpux11148182
-Ref: x-x-linux-gnu153584
-Ref: ix86-x-linux153907
-Ref: ix86-x-solaris2154220
-Ref: ia64-x-linux155296
-Ref: ia64-x-hpux155543
-Ref: x-ibm-aix156098
-Ref: TransferAixShobj159760
-Ref: iq2000-x-elf163570
-Ref: lm32-x-elf163710
-Ref: lm32-x-uclinux163814
-Ref: loongarch163942
-Ref: m32c-x-elf164636
-Ref: m32r-x-elf164738
-Ref: m68k-x-x164840
-Ref: m68k-x-uclinux165878
-Ref: microblaze-x-elf166123
-Ref: mips-x-x166242
-Ref: moxie-x-elf168152
-Ref: msp430-x-elf168199
-Ref: nds32le-x-elf168756
-Ref: nds32be-x-elf168828
-Ref: nvptx-x-none168897
-Ref: or1k-x-elf169460
-Ref: or1k-x-linux169591
-Ref: powerpc-x-x169672
-Ref: powerpc-x-darwin169863
-Ref: powerpc-x-elf170358
-Ref: powerpc-x-linux-gnu170443
-Ref: powerpc-x-netbsd170538
-Ref: powerpc-x-eabisim170626
-Ref: powerpc-x-eabi170752
-Ref: powerpcle-x-elf170828
-Ref: powerpcle-x-eabisim170920
-Ref: powerpcle-x-eabi171053
-Ref: rl78-x-elf171136
-Ref: riscv32-x-elf171242
-Ref: riscv32-x-linux171431
-Ref: riscv64-x-elf171588
-Ref: riscv64-x-linux171777
-Ref: rx-x-elf171934
-Ref: s390-x-linux171980
-Ref: s390x-x-linux172052
-Ref: s390x-ibm-tpf172139
-Ref: x-x-solaris2172270
-Ref: sparc-x-x175704
-Ref: sparc-sun-solaris2176206
-Ref: sparc-x-linux177349
-Ref: sparc64-x-solaris2177380
-Ref: sparcv9-x-solaris2178098
-Ref: c6x-x-x178185
-Ref: tilegx-*-linux178277
-Ref: tilegxbe-*-linux178419
-Ref: tilepro-*-linux178562
-Ref: visium-x-elf178683
-Ref: x-x-vxworks178791
-Ref: x86-64-x-x180314
-Ref: x86-64-x-solaris2180642
-Ref: xtensa-x-elf181292
-Ref: xtensa-x-linux181963
-Ref: windows182304
-Ref: x-x-cygwin184100
-Ref: x-x-mingw32184653
-Ref: older185035
-Ref: elf187152
-Node: GNU Free Documentation License187410
-Node: Concept Index212545
+Ref: with-gnu-as36577
+Ref: with-as37472
+Ref: with-gnu-ld38881
+Ref: WithAixSoname65528
+Ref: AixLdCommand66189
+Node: Building108011
+Node: Testing124218
+Node: Final install131942
+Node: Binaries137243
+Node: Specific138278
+Ref: aarch64-x-x138812
+Ref: alpha-x-x140832
+Ref: amd64-x-solaris2141046
+Ref: amdgcn-x-amdhsa141128
+Ref: arc-x-elf32141654
+Ref: arc-linux-uclibc141830
+Ref: arm-x-eabi141971
+Ref: avr142224
+Ref: bfin142805
+Ref: cris143068
+Ref: dos143394
+Ref: epiphany-x-elf143719
+Ref: x-x-freebsd143824
+Ref: ft32-x-elf145388
+Ref: h8300-hms145486
+Ref: hppa-hp-hpux145838
+Ref: hppa-hp-hpux10148210
+Ref: hppa-hp-hpux11148623
+Ref: x-x-linux-gnu154025
+Ref: ix86-x-linux154348
+Ref: ix86-x-solaris2154661
+Ref: ia64-x-linux155737
+Ref: ia64-x-hpux155984
+Ref: x-ibm-aix156539
+Ref: TransferAixShobj160201
+Ref: iq2000-x-elf164011
+Ref: lm32-x-elf164151
+Ref: lm32-x-uclinux164255
+Ref: loongarch164383
+Ref: m32c-x-elf165077
+Ref: m32r-x-elf165179
+Ref: m68k-x-x165281
+Ref: m68k-x-uclinux166319
+Ref: microblaze-x-elf166564
+Ref: mips-x-x166683
+Ref: moxie-x-elf168593
+Ref: msp430-x-elf168640
+Ref: nds32le-x-elf169197
+Ref: nds32be-x-elf169269
+Ref: nvptx-x-none169338
+Ref: or1k-x-elf170201
+Ref: or1k-x-linux170332
+Ref: powerpc-x-x170413
+Ref: powerpc-x-darwin170604
+Ref: powerpc-x-elf171099
+Ref: powerpc-x-linux-gnu171184
+Ref: powerpc-x-netbsd171279
+Ref: powerpc-x-eabisim171367
+Ref: powerpc-x-eabi171493
+Ref: powerpcle-x-elf171569
+Ref: powerpcle-x-eabisim171661
+Ref: powerpcle-x-eabi171794
+Ref: rl78-x-elf171877
+Ref: riscv32-x-elf171983
+Ref: riscv32-x-linux172172
+Ref: riscv64-x-elf172329
+Ref: riscv64-x-linux172518
+Ref: rx-x-elf172675
+Ref: s390-x-linux172721
+Ref: s390x-x-linux172793
+Ref: s390x-ibm-tpf172880
+Ref: x-x-solaris2173011
+Ref: sparc-x-x176445
+Ref: sparc-sun-solaris2176947
+Ref: sparc-x-linux178090
+Ref: sparc64-x-solaris2178121
+Ref: sparcv9-x-solaris2178839
+Ref: c6x-x-x178926
+Ref: visium-x-elf179018
+Ref: x-x-vxworks179126
+Ref: x86-64-x-x180649
+Ref: x86-64-x-solaris2180977
+Ref: xtensa-x-elf181627
+Ref: xtensa-x-linux182298
+Ref: windows182639
+Ref: x-x-cygwin184435
+Ref: x-x-mingw32184988
+Ref: older185370
+Ref: elf187487
+Node: GNU Free Documentation License187745
+Node: Concept Index212880
 
 End Tag Table
 

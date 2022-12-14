@@ -364,7 +364,7 @@
 /* Define to the level of your assembler's compressed debug section support.
    */
 #ifndef USED_FOR_TARGET
-#define HAVE_AS_COMPRESS_DEBUG 2
+#define HAVE_AS_COMPRESS_DEBUG 1
 #endif
 
 
@@ -405,13 +405,19 @@
 #endif
 
 
+/* Define if your assembler supports eh_frame pcrel encoding. */
+#ifndef USED_FOR_TARGET
+/* #undef HAVE_AS_EH_FRAME_PCREL_ENCODING_SUPPORT */
+#endif
+
+
 /* Define if your assembler supports the R_PPC64_ENTRY relocation. */
 #ifndef USED_FOR_TARGET
 /* #undef HAVE_AS_ENTRY_MARKERS */
 #endif
 
 
-/* Define if your assembler supports explicit relocations. */
+/* Define if your assembler supports explicit relocation. */
 #ifndef USED_FOR_TARGET
 /* #undef HAVE_AS_EXPLICIT_RELOCS */
 #endif
@@ -444,12 +450,6 @@
 /* Define true if the assembler supports '.long foo@GOTOFF'. */
 #ifndef USED_FOR_TARGET
 /* #undef HAVE_AS_GOTOFF_IN_DATA */
-#endif
-
-
-/* Define if your assembler supports the --gstabs option. */
-#ifndef USED_FOR_TARGET
-#define HAVE_AS_GSTABS_DEBUG_FLAG 1
 #endif
 
 
@@ -738,12 +738,6 @@
    against hidden symbols. */
 #ifndef USED_FOR_TARGET
 /* #undef HAVE_AS_SPARC_UA_PCREL_HIDDEN */
-#endif
-
-
-/* Define if your assembler supports .stabs. */
-#ifndef USED_FOR_TARGET
-#define HAVE_AS_STABS_DIRECTIVE 1
 #endif
 
 
@@ -1458,69 +1452,9 @@
 #endif
 
 
-/* Define if your assembler has fixed global_load functions. */
+/* Define to 1 if you have the `getauxval' function. */
 #ifndef USED_FOR_TARGET
-/* #undef HAVE_GCN_ASM_GLOBAL_LOAD_FIXED */
-#endif
-
-
-/* Define if your assembler expects amdgcn_target gfx908+xnack syntax. */
-#ifndef USED_FOR_TARGET
-/* #undef HAVE_GCN_ASM_V3_SYNTAX */
-#endif
-
-
-/* Define if your assembler expects amdgcn_target gfx908:xnack+ syntax. */
-#ifndef USED_FOR_TARGET
-/* #undef HAVE_GCN_ASM_V4_SYNTAX */
-#endif
-
-
-/* Define if your assembler allows -mattr=+sramecc for fiji. */
-#ifndef USED_FOR_TARGET
-/* #undef HAVE_GCN_SRAM_ECC_FIJI */
-#endif
-
-
-/* Define if your assembler allows -mattr=+sramecc for gfx900. */
-#ifndef USED_FOR_TARGET
-/* #undef HAVE_GCN_SRAM_ECC_GFX900 */
-#endif
-
-
-/* Define if your assembler allows -mattr=+sramecc for gfx906. */
-#ifndef USED_FOR_TARGET
-/* #undef HAVE_GCN_SRAM_ECC_GFX906 */
-#endif
-
-
-/* Define if your assembler allows -mattr=+sramecc for gfx908. */
-#ifndef USED_FOR_TARGET
-/* #undef HAVE_GCN_SRAM_ECC_GFX908 */
-#endif
-
-
-/* Define if your assembler allows -mattr=+xnack for fiji. */
-#ifndef USED_FOR_TARGET
-/* #undef HAVE_GCN_XNACK_FIJI */
-#endif
-
-
-/* Define if your assembler allows -mattr=+xnack for gfx900. */
-#ifndef USED_FOR_TARGET
-/* #undef HAVE_GCN_XNACK_GFX900 */
-#endif
-
-
-/* Define if your assembler allows -mattr=+xnack for gfx906. */
-#ifndef USED_FOR_TARGET
-/* #undef HAVE_GCN_XNACK_GFX906 */
-#endif
-
-
-/* Define if your assembler allows -mattr=+xnack for gfx908. */
-#ifndef USED_FOR_TARGET
-/* #undef HAVE_GCN_XNACK_GFX908 */
+#define HAVE_GETAUXVAL 1
 #endif
 
 
@@ -1694,7 +1628,7 @@
 
 /* Define to the level of your linker's compressed debug section support. */
 #ifndef USED_FOR_TARGET
-#define HAVE_LD_COMPRESS_DEBUG 3
+#define HAVE_LD_COMPRESS_DEBUG 2
 #endif
 
 
@@ -2012,6 +1946,12 @@
 #endif
 
 
+/* Define to 1 if you have the <sys/auxv.h> header file. */
+#ifndef USED_FOR_TARGET
+#define HAVE_SYS_AUXV_H 1
+#endif
+
+
 /* Define to 1 if you have the <sys/file.h> header file. */
 #ifndef USED_FOR_TARGET
 #define HAVE_SYS_FILE_H 1
@@ -2209,6 +2149,18 @@
 #endif
 
 
+/* Define if O_NONBLOCK supported by fcntl. */
+#ifndef USED_FOR_TARGET
+#define HOST_HAS_O_NONBLOCK 1
+#endif
+
+
+/* Define which stat syscall is able to handle 64bit indodes. */
+#ifndef USED_FOR_TARGET
+/* #undef HOST_STAT_FOR_64BIT_INODES */
+#endif
+
+
 /* Define as const if the declaration of iconv() needs const. */
 #ifndef USED_FOR_TARGET
 #define ICONV_CONST 
@@ -2370,6 +2322,12 @@
 /* Define to PREFIX/include if cpp should also search that directory. */
 #ifndef USED_FOR_TARGET
 /* #undef PREFIX_INCLUDE_DIR */
+#endif
+
+
+/* Specify if mutliarch is enabled. */
+#ifndef USED_FOR_TARGET
+#define ENABLE_MULTIARCH 1
 #endif
 
 

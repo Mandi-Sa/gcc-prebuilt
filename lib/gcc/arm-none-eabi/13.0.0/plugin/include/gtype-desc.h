@@ -161,10 +161,10 @@ extern void gt_ggc_mx_hash_map_tree_tree_decl_tree_traits_ (void *);
   if ((intptr_t)(X) != 0) gt_ggc_mx_ptr_info_def (X);\
   } while (0)
 extern void gt_ggc_mx_ptr_info_def (void *);
-#define gt_ggc_m_14range_info_def(X) do { \
-  if ((intptr_t)(X) != 0) gt_ggc_mx_range_info_def (X);\
+#define gt_ggc_m_19irange_storage_slot(X) do { \
+  if ((intptr_t)(X) != 0) gt_ggc_mx_irange_storage_slot (X);\
   } while (0)
-extern void gt_ggc_mx_range_info_def (void *);
+extern void gt_ggc_mx_irange_storage_slot (void *);
 #define gt_ggc_m_10die_struct(X) do { \
   if ((intptr_t)(X) != 0) gt_ggc_mx_die_struct (X);\
   } while (0)
@@ -173,6 +173,10 @@ extern void gt_ggc_mx_die_struct (void *);
   if ((intptr_t)(X) != 0) gt_ggc_mx_vec_constructor_elt_va_gc_ (X);\
   } while (0)
 extern void gt_ggc_mx_vec_constructor_elt_va_gc_ (void *);
+#define gt_ggc_m_19frange_storage_slot(X) do { \
+  if ((intptr_t)(X) != 0) gt_ggc_mx_frange_storage_slot (X);\
+  } while (0)
+extern void gt_ggc_mx_frange_storage_slot (void *);
 #define gt_ggc_m_15vec_tree_va_gc_(X) do { \
   if ((intptr_t)(X) != 0) gt_ggc_mx_vec_tree_va_gc_ (X);\
   } while (0)
@@ -461,10 +465,6 @@ extern void gt_ggc_mx_ipa_node_params (void *);
   if ((intptr_t)(X) != 0) gt_ggc_mx_ipa_edge_args (X);\
   } while (0)
 extern void gt_ggc_mx_ipa_edge_args (void *);
-#define gt_ggc_m_25ipa_agg_replacement_value(X) do { \
-  if ((intptr_t)(X) != 0) gt_ggc_mx_ipa_agg_replacement_value (X);\
-  } while (0)
-extern void gt_ggc_mx_ipa_agg_replacement_value (void *);
 #define gt_ggc_m_14ipa_fn_summary(X) do { \
   if ((intptr_t)(X) != 0) gt_ggc_mx_ipa_fn_summary (X);\
   } while (0)
@@ -497,10 +497,6 @@ extern void gt_ggc_mx_vec_isra_param_desc_va_gc_ (void *);
   if ((intptr_t)(X) != 0) gt_ggc_mx_ipa_sra_function_summaries (X);\
   } while (0)
 extern void gt_ggc_mx_ipa_sra_function_summaries (void *);
-#define gt_ggc_m_8typeinfo(X) do { \
-  if ((intptr_t)(X) != 0) gt_ggc_mx_typeinfo (X);\
-  } while (0)
-extern void gt_ggc_mx_typeinfo (void *);
 #define gt_ggc_m_27modref_tree_alias_set_type_(X) do { \
   if ((intptr_t)(X) != 0) gt_ggc_mx_modref_tree_alias_set_type_ (X);\
   } while (0)
@@ -961,6 +957,10 @@ extern void gt_ggc_mx_int_range_1_ (void *);
   if ((intptr_t)(X) != 0) gt_ggc_mx_vec_ipa_agg_jf_item_va_gc_ (X);\
   } while (0)
 extern void gt_ggc_mx_vec_ipa_agg_jf_item_va_gc_ (void *);
+#define gt_ggc_m_19ipcp_transformation(X) do { \
+  if ((intptr_t)(X) != 0) gt_ggc_mx_ipcp_transformation (X);\
+  } while (0)
+extern void gt_ggc_mx_ipcp_transformation (void *);
 #define gt_ggc_m_8ipa_bits(X) do { \
   if ((intptr_t)(X) != 0) gt_ggc_mx_ipa_bits (X);\
   } while (0)
@@ -969,6 +969,10 @@ extern void gt_ggc_mx_ipa_bits (void *);
   if ((intptr_t)(X) != 0) gt_ggc_mx_vec_ipa_param_descriptor_va_gc_ (X);\
   } while (0)
 extern void gt_ggc_mx_vec_ipa_param_descriptor_va_gc_ (void *);
+#define gt_ggc_m_27vec_ipa_argagg_value_va_gc_(X) do { \
+  if ((intptr_t)(X) != 0) gt_ggc_mx_vec_ipa_argagg_value_va_gc_ (X);\
+  } while (0)
+extern void gt_ggc_mx_vec_ipa_argagg_value_va_gc_ (void *);
 #define gt_ggc_m_20vec_ipa_bits__va_gc_(X) do { \
   if ((intptr_t)(X) != 0) gt_ggc_mx_vec_ipa_bits__va_gc_ (X);\
   } while (0)
@@ -977,10 +981,6 @@ extern void gt_ggc_mx_vec_ipa_bits__va_gc_ (void *);
   if ((intptr_t)(X) != 0) gt_ggc_mx_vec_ipa_vr_va_gc_ (X);\
   } while (0)
 extern void gt_ggc_mx_vec_ipa_vr_va_gc_ (void *);
-#define gt_ggc_m_19ipcp_transformation(X) do { \
-  if ((intptr_t)(X) != 0) gt_ggc_mx_ipcp_transformation (X);\
-  } while (0)
-extern void gt_ggc_mx_ipcp_transformation (void *);
 #define gt_ggc_m_24vec_ipa_jump_func_va_gc_(X) do { \
   if ((intptr_t)(X) != 0) gt_ggc_mx_vec_ipa_jump_func_va_gc_ (X);\
   } while (0)
@@ -1165,6 +1165,10 @@ extern void gt_ggc_mx_c_parser (void *);
   if ((intptr_t)(X) != 0) gt_ggc_mx_vec_c_token_va_gc_ (X);\
   } while (0)
 extern void gt_ggc_mx_vec_c_token_va_gc_ (void *);
+#define gt_ggc_m_36vec_c_omp_declare_target_attr_va_gc_(X) do { \
+  if ((intptr_t)(X) != 0) gt_ggc_mx_vec_c_omp_declare_target_attr_va_gc_ (X);\
+  } while (0)
+extern void gt_ggc_mx_vec_c_omp_declare_target_attr_va_gc_ (void *);
 #define gt_ggc_m_16cp_binding_level(X) do { \
   if ((intptr_t)(X) != 0) gt_ggc_mx_cp_binding_level (X);\
   } while (0)
@@ -1189,10 +1193,14 @@ extern void gt_ggc_mx_vec_deferred_access_check_va_gc_ (void *);
   if ((intptr_t)(X) != 0) gt_ggc_mx_vec_cxx_saved_binding_va_gc_ (X);\
   } while (0)
 extern void gt_ggc_mx_vec_cxx_saved_binding_va_gc_ (void *);
-#define gt_ggc_m_34vec_omp_declare_target_attr_va_gc_(X) do { \
-  if ((intptr_t)(X) != 0) gt_ggc_mx_vec_omp_declare_target_attr_va_gc_ (X);\
+#define gt_ggc_m_37vec_cp_omp_declare_target_attr_va_gc_(X) do { \
+  if ((intptr_t)(X) != 0) gt_ggc_mx_vec_cp_omp_declare_target_attr_va_gc_ (X);\
   } while (0)
-extern void gt_ggc_mx_vec_omp_declare_target_attr_va_gc_ (void *);
+extern void gt_ggc_mx_vec_cp_omp_declare_target_attr_va_gc_ (void *);
+#define gt_ggc_m_36vec_cp_omp_begin_assumes_data_va_gc_(X) do { \
+  if ((intptr_t)(X) != 0) gt_ggc_mx_vec_cp_omp_begin_assumes_data_va_gc_ (X);\
+  } while (0)
+extern void gt_ggc_mx_vec_cp_omp_begin_assumes_data_va_gc_ (void *);
 #define gt_ggc_m_11saved_scope(X) do { \
   if ((intptr_t)(X) != 0) gt_ggc_mx_saved_scope (X);\
   } while (0)
@@ -1277,6 +1285,14 @@ extern void gt_ggc_mx_constexpr_call (void *);
   if ((intptr_t)(X) != 0) gt_ggc_mx_hash_table_constexpr_call_hasher_ (X);\
   } while (0)
 extern void gt_ggc_mx_hash_table_constexpr_call_hasher_ (void *);
+#define gt_ggc_m_10norm_entry(X) do { \
+  if ((intptr_t)(X) != 0) gt_ggc_mx_norm_entry (X);\
+  } while (0)
+extern void gt_ggc_mx_norm_entry (void *);
+#define gt_ggc_m_23hash_table_norm_hasher_(X) do { \
+  if ((intptr_t)(X) != 0) gt_ggc_mx_hash_table_norm_hasher_ (X);\
+  } while (0)
+extern void gt_ggc_mx_hash_table_norm_hasher_ (void *);
 #define gt_ggc_m_23hash_table_atom_hasher_(X) do { \
   if ((intptr_t)(X) != 0) gt_ggc_mx_hash_table_atom_hasher_ (X);\
   } while (0)
@@ -1321,14 +1337,22 @@ extern void gt_ggc_mx_hash_table_typename_hasher_ (void *);
   if ((intptr_t)(X) != 0) gt_ggc_mx_hash_table_mangled_decl_hash_ (X);\
   } while (0)
 extern void gt_ggc_mx_hash_table_mangled_decl_hash_ (void *);
+#define gt_ggc_m_43hash_map_unsigned_tree_priority_map_traits_(X) do { \
+  if ((intptr_t)(X) != 0) gt_ggc_mx_hash_map_unsigned_tree_priority_map_traits_ (X);\
+  } while (0)
+extern void gt_ggc_mx_hash_map_unsigned_tree_priority_map_traits_ (void *);
 #define gt_ggc_m_27vec_pending_noexcept_va_gc_(X) do { \
   if ((intptr_t)(X) != 0) gt_ggc_mx_vec_pending_noexcept_va_gc_ (X);\
   } while (0)
 extern void gt_ggc_mx_vec_pending_noexcept_va_gc_ (void *);
-#define gt_ggc_m_19vec_tree_int_va_gc_(X) do { \
-  if ((intptr_t)(X) != 0) gt_ggc_mx_vec_tree_int_va_gc_ (X);\
+#define gt_ggc_m_27vec_lambda_sig_count_va_gc_(X) do { \
+  if ((intptr_t)(X) != 0) gt_ggc_mx_vec_lambda_sig_count_va_gc_ (X);\
   } while (0)
-extern void gt_ggc_mx_vec_tree_int_va_gc_ (void *);
+extern void gt_ggc_mx_vec_lambda_sig_count_va_gc_ (void *);
+#define gt_ggc_m_31vec_lambda_discriminator_va_gc_(X) do { \
+  if ((intptr_t)(X) != 0) gt_ggc_mx_vec_lambda_discriminator_va_gc_ (X);\
+  } while (0)
+extern void gt_ggc_mx_vec_lambda_discriminator_va_gc_ (void *);
 #define gt_ggc_m_28hash_table_conv_type_hasher_(X) do { \
   if ((intptr_t)(X) != 0) gt_ggc_mx_hash_table_conv_type_hasher_ (X);\
   } while (0)
@@ -1369,6 +1393,10 @@ extern void gt_ggc_mx_pending_template (void *);
   if ((intptr_t)(X) != 0) gt_ggc_mx_hash_table_spec_hasher_ (X);\
   } while (0)
 extern void gt_ggc_mx_hash_table_spec_hasher_ (void *);
+#define gt_ggc_m_22hash_table_ctp_hasher_(X) do { \
+  if ((intptr_t)(X) != 0) gt_ggc_mx_hash_table_ctp_hasher_ (X);\
+  } while (0)
+extern void gt_ggc_mx_hash_table_ctp_hasher_ (void *);
 #define gt_ggc_m_26hash_map_tree_tree_pair_p_(X) do { \
   if ((intptr_t)(X) != 0) gt_ggc_mx_hash_map_tree_tree_pair_p_ (X);\
   } while (0)
@@ -1602,10 +1630,10 @@ extern void gt_pch_nx_hash_map_tree_tree_decl_tree_traits_ (void *);
   if ((intptr_t)(X) != 0) gt_pch_nx_ptr_info_def (X);\
   } while (0)
 extern void gt_pch_nx_ptr_info_def (void *);
-#define gt_pch_n_14range_info_def(X) do { \
-  if ((intptr_t)(X) != 0) gt_pch_nx_range_info_def (X);\
+#define gt_pch_n_19irange_storage_slot(X) do { \
+  if ((intptr_t)(X) != 0) gt_pch_nx_irange_storage_slot (X);\
   } while (0)
-extern void gt_pch_nx_range_info_def (void *);
+extern void gt_pch_nx_irange_storage_slot (void *);
 #define gt_pch_n_10die_struct(X) do { \
   if ((intptr_t)(X) != 0) gt_pch_nx_die_struct (X);\
   } while (0)
@@ -1614,6 +1642,10 @@ extern void gt_pch_nx_die_struct (void *);
   if ((intptr_t)(X) != 0) gt_pch_nx_vec_constructor_elt_va_gc_ (X);\
   } while (0)
 extern void gt_pch_nx_vec_constructor_elt_va_gc_ (void *);
+#define gt_pch_n_19frange_storage_slot(X) do { \
+  if ((intptr_t)(X) != 0) gt_pch_nx_frange_storage_slot (X);\
+  } while (0)
+extern void gt_pch_nx_frange_storage_slot (void *);
 #define gt_pch_n_15vec_tree_va_gc_(X) do { \
   if ((intptr_t)(X) != 0) gt_pch_nx_vec_tree_va_gc_ (X);\
   } while (0)
@@ -1902,10 +1934,6 @@ extern void gt_pch_nx_ipa_node_params (void *);
   if ((intptr_t)(X) != 0) gt_pch_nx_ipa_edge_args (X);\
   } while (0)
 extern void gt_pch_nx_ipa_edge_args (void *);
-#define gt_pch_n_25ipa_agg_replacement_value(X) do { \
-  if ((intptr_t)(X) != 0) gt_pch_nx_ipa_agg_replacement_value (X);\
-  } while (0)
-extern void gt_pch_nx_ipa_agg_replacement_value (void *);
 #define gt_pch_n_14ipa_fn_summary(X) do { \
   if ((intptr_t)(X) != 0) gt_pch_nx_ipa_fn_summary (X);\
   } while (0)
@@ -1938,10 +1966,6 @@ extern void gt_pch_nx_vec_isra_param_desc_va_gc_ (void *);
   if ((intptr_t)(X) != 0) gt_pch_nx_ipa_sra_function_summaries (X);\
   } while (0)
 extern void gt_pch_nx_ipa_sra_function_summaries (void *);
-#define gt_pch_n_8typeinfo(X) do { \
-  if ((intptr_t)(X) != 0) gt_pch_nx_typeinfo (X);\
-  } while (0)
-extern void gt_pch_nx_typeinfo (void *);
 #define gt_pch_n_27modref_tree_alias_set_type_(X) do { \
   if ((intptr_t)(X) != 0) gt_pch_nx_modref_tree_alias_set_type_ (X);\
   } while (0)
@@ -2402,6 +2426,10 @@ extern void gt_pch_nx_int_range_1_ (void *);
   if ((intptr_t)(X) != 0) gt_pch_nx_vec_ipa_agg_jf_item_va_gc_ (X);\
   } while (0)
 extern void gt_pch_nx_vec_ipa_agg_jf_item_va_gc_ (void *);
+#define gt_pch_n_19ipcp_transformation(X) do { \
+  if ((intptr_t)(X) != 0) gt_pch_nx_ipcp_transformation (X);\
+  } while (0)
+extern void gt_pch_nx_ipcp_transformation (void *);
 #define gt_pch_n_8ipa_bits(X) do { \
   if ((intptr_t)(X) != 0) gt_pch_nx_ipa_bits (X);\
   } while (0)
@@ -2410,6 +2438,10 @@ extern void gt_pch_nx_ipa_bits (void *);
   if ((intptr_t)(X) != 0) gt_pch_nx_vec_ipa_param_descriptor_va_gc_ (X);\
   } while (0)
 extern void gt_pch_nx_vec_ipa_param_descriptor_va_gc_ (void *);
+#define gt_pch_n_27vec_ipa_argagg_value_va_gc_(X) do { \
+  if ((intptr_t)(X) != 0) gt_pch_nx_vec_ipa_argagg_value_va_gc_ (X);\
+  } while (0)
+extern void gt_pch_nx_vec_ipa_argagg_value_va_gc_ (void *);
 #define gt_pch_n_20vec_ipa_bits__va_gc_(X) do { \
   if ((intptr_t)(X) != 0) gt_pch_nx_vec_ipa_bits__va_gc_ (X);\
   } while (0)
@@ -2418,10 +2450,6 @@ extern void gt_pch_nx_vec_ipa_bits__va_gc_ (void *);
   if ((intptr_t)(X) != 0) gt_pch_nx_vec_ipa_vr_va_gc_ (X);\
   } while (0)
 extern void gt_pch_nx_vec_ipa_vr_va_gc_ (void *);
-#define gt_pch_n_19ipcp_transformation(X) do { \
-  if ((intptr_t)(X) != 0) gt_pch_nx_ipcp_transformation (X);\
-  } while (0)
-extern void gt_pch_nx_ipcp_transformation (void *);
 #define gt_pch_n_24vec_ipa_jump_func_va_gc_(X) do { \
   if ((intptr_t)(X) != 0) gt_pch_nx_vec_ipa_jump_func_va_gc_ (X);\
   } while (0)
@@ -2606,6 +2634,10 @@ extern void gt_pch_nx_c_parser (void *);
   if ((intptr_t)(X) != 0) gt_pch_nx_vec_c_token_va_gc_ (X);\
   } while (0)
 extern void gt_pch_nx_vec_c_token_va_gc_ (void *);
+#define gt_pch_n_36vec_c_omp_declare_target_attr_va_gc_(X) do { \
+  if ((intptr_t)(X) != 0) gt_pch_nx_vec_c_omp_declare_target_attr_va_gc_ (X);\
+  } while (0)
+extern void gt_pch_nx_vec_c_omp_declare_target_attr_va_gc_ (void *);
 #define gt_pch_n_16cp_binding_level(X) do { \
   if ((intptr_t)(X) != 0) gt_pch_nx_cp_binding_level (X);\
   } while (0)
@@ -2630,10 +2662,14 @@ extern void gt_pch_nx_vec_deferred_access_check_va_gc_ (void *);
   if ((intptr_t)(X) != 0) gt_pch_nx_vec_cxx_saved_binding_va_gc_ (X);\
   } while (0)
 extern void gt_pch_nx_vec_cxx_saved_binding_va_gc_ (void *);
-#define gt_pch_n_34vec_omp_declare_target_attr_va_gc_(X) do { \
-  if ((intptr_t)(X) != 0) gt_pch_nx_vec_omp_declare_target_attr_va_gc_ (X);\
+#define gt_pch_n_37vec_cp_omp_declare_target_attr_va_gc_(X) do { \
+  if ((intptr_t)(X) != 0) gt_pch_nx_vec_cp_omp_declare_target_attr_va_gc_ (X);\
   } while (0)
-extern void gt_pch_nx_vec_omp_declare_target_attr_va_gc_ (void *);
+extern void gt_pch_nx_vec_cp_omp_declare_target_attr_va_gc_ (void *);
+#define gt_pch_n_36vec_cp_omp_begin_assumes_data_va_gc_(X) do { \
+  if ((intptr_t)(X) != 0) gt_pch_nx_vec_cp_omp_begin_assumes_data_va_gc_ (X);\
+  } while (0)
+extern void gt_pch_nx_vec_cp_omp_begin_assumes_data_va_gc_ (void *);
 #define gt_pch_n_11saved_scope(X) do { \
   if ((intptr_t)(X) != 0) gt_pch_nx_saved_scope (X);\
   } while (0)
@@ -2718,6 +2754,14 @@ extern void gt_pch_nx_constexpr_call (void *);
   if ((intptr_t)(X) != 0) gt_pch_nx_hash_table_constexpr_call_hasher_ (X);\
   } while (0)
 extern void gt_pch_nx_hash_table_constexpr_call_hasher_ (void *);
+#define gt_pch_n_10norm_entry(X) do { \
+  if ((intptr_t)(X) != 0) gt_pch_nx_norm_entry (X);\
+  } while (0)
+extern void gt_pch_nx_norm_entry (void *);
+#define gt_pch_n_23hash_table_norm_hasher_(X) do { \
+  if ((intptr_t)(X) != 0) gt_pch_nx_hash_table_norm_hasher_ (X);\
+  } while (0)
+extern void gt_pch_nx_hash_table_norm_hasher_ (void *);
 #define gt_pch_n_23hash_table_atom_hasher_(X) do { \
   if ((intptr_t)(X) != 0) gt_pch_nx_hash_table_atom_hasher_ (X);\
   } while (0)
@@ -2762,14 +2806,22 @@ extern void gt_pch_nx_hash_table_typename_hasher_ (void *);
   if ((intptr_t)(X) != 0) gt_pch_nx_hash_table_mangled_decl_hash_ (X);\
   } while (0)
 extern void gt_pch_nx_hash_table_mangled_decl_hash_ (void *);
+#define gt_pch_n_43hash_map_unsigned_tree_priority_map_traits_(X) do { \
+  if ((intptr_t)(X) != 0) gt_pch_nx_hash_map_unsigned_tree_priority_map_traits_ (X);\
+  } while (0)
+extern void gt_pch_nx_hash_map_unsigned_tree_priority_map_traits_ (void *);
 #define gt_pch_n_27vec_pending_noexcept_va_gc_(X) do { \
   if ((intptr_t)(X) != 0) gt_pch_nx_vec_pending_noexcept_va_gc_ (X);\
   } while (0)
 extern void gt_pch_nx_vec_pending_noexcept_va_gc_ (void *);
-#define gt_pch_n_19vec_tree_int_va_gc_(X) do { \
-  if ((intptr_t)(X) != 0) gt_pch_nx_vec_tree_int_va_gc_ (X);\
+#define gt_pch_n_27vec_lambda_sig_count_va_gc_(X) do { \
+  if ((intptr_t)(X) != 0) gt_pch_nx_vec_lambda_sig_count_va_gc_ (X);\
   } while (0)
-extern void gt_pch_nx_vec_tree_int_va_gc_ (void *);
+extern void gt_pch_nx_vec_lambda_sig_count_va_gc_ (void *);
+#define gt_pch_n_31vec_lambda_discriminator_va_gc_(X) do { \
+  if ((intptr_t)(X) != 0) gt_pch_nx_vec_lambda_discriminator_va_gc_ (X);\
+  } while (0)
+extern void gt_pch_nx_vec_lambda_discriminator_va_gc_ (void *);
 #define gt_pch_n_28hash_table_conv_type_hasher_(X) do { \
   if ((intptr_t)(X) != 0) gt_pch_nx_hash_table_conv_type_hasher_ (X);\
   } while (0)
@@ -2810,6 +2862,10 @@ extern void gt_pch_nx_pending_template (void *);
   if ((intptr_t)(X) != 0) gt_pch_nx_hash_table_spec_hasher_ (X);\
   } while (0)
 extern void gt_pch_nx_hash_table_spec_hasher_ (void *);
+#define gt_pch_n_22hash_table_ctp_hasher_(X) do { \
+  if ((intptr_t)(X) != 0) gt_pch_nx_hash_table_ctp_hasher_ (X);\
+  } while (0)
+extern void gt_pch_nx_hash_table_ctp_hasher_ (void *);
 #define gt_pch_n_26hash_map_tree_tree_pair_p_(X) do { \
   if ((intptr_t)(X) != 0) gt_pch_nx_hash_map_tree_tree_pair_p_ (X);\
   } while (0)
@@ -3061,11 +3117,13 @@ extern void gt_pch_p_36hash_map_tree_tree_decl_tree_traits_
     (void *, void *, gt_pointer_operator, void *);
 extern void gt_pch_p_12ptr_info_def
     (void *, void *, gt_pointer_operator, void *);
-extern void gt_pch_p_14range_info_def
+extern void gt_pch_p_19irange_storage_slot
     (void *, void *, gt_pointer_operator, void *);
 extern void gt_pch_p_10die_struct
     (void *, void *, gt_pointer_operator, void *);
 extern void gt_pch_p_26vec_constructor_elt_va_gc_
+    (void *, void *, gt_pointer_operator, void *);
+extern void gt_pch_p_19frange_storage_slot
     (void *, void *, gt_pointer_operator, void *);
 extern void gt_pch_p_15vec_tree_va_gc_
     (void *, void *, gt_pointer_operator, void *);
@@ -3211,8 +3269,6 @@ extern void gt_pch_p_15ipa_node_params
     (void *, void *, gt_pointer_operator, void *);
 extern void gt_pch_p_13ipa_edge_args
     (void *, void *, gt_pointer_operator, void *);
-extern void gt_pch_p_25ipa_agg_replacement_value
-    (void *, void *, gt_pointer_operator, void *);
 extern void gt_pch_p_14ipa_fn_summary
     (void *, void *, gt_pointer_operator, void *);
 extern void gt_pch_p_10odr_type_d
@@ -3228,8 +3284,6 @@ extern void gt_pch_p_17isra_func_summary
 extern void gt_pch_p_26vec_isra_param_desc_va_gc_
     (void *, void *, gt_pointer_operator, void *);
 extern void gt_pch_p_26ipa_sra_function_summaries
-    (void *, void *, gt_pointer_operator, void *);
-extern void gt_pch_p_8typeinfo
     (void *, void *, gt_pointer_operator, void *);
 extern void gt_pch_p_27modref_tree_alias_set_type_
     (void *, void *, gt_pointer_operator, void *);
@@ -3459,6 +3513,8 @@ extern void gt_pch_p_6gimple
     (void *, void *, gt_pointer_operator, void *);
 extern void gt_pch_p_6gimple
     (void *, void *, gt_pointer_operator, void *);
+extern void gt_pch_p_6gimple
+    (void *, void *, gt_pointer_operator, void *);
 extern void gt_pch_p_15tm_restart_node
     (void *, void *, gt_pointer_operator, void *);
 extern void gt_pch_p_19hash_map_tree_tree_
@@ -3491,15 +3547,17 @@ extern void gt_pch_p_12int_range_1_
     (void *, void *, gt_pointer_operator, void *);
 extern void gt_pch_p_26vec_ipa_agg_jf_item_va_gc_
     (void *, void *, gt_pointer_operator, void *);
+extern void gt_pch_p_19ipcp_transformation
+    (void *, void *, gt_pointer_operator, void *);
 extern void gt_pch_p_8ipa_bits
     (void *, void *, gt_pointer_operator, void *);
 extern void gt_pch_p_31vec_ipa_param_descriptor_va_gc_
     (void *, void *, gt_pointer_operator, void *);
+extern void gt_pch_p_27vec_ipa_argagg_value_va_gc_
+    (void *, void *, gt_pointer_operator, void *);
 extern void gt_pch_p_20vec_ipa_bits__va_gc_
     (void *, void *, gt_pointer_operator, void *);
 extern void gt_pch_p_17vec_ipa_vr_va_gc_
-    (void *, void *, gt_pointer_operator, void *);
-extern void gt_pch_p_19ipcp_transformation
     (void *, void *, gt_pointer_operator, void *);
 extern void gt_pch_p_24vec_ipa_jump_func_va_gc_
     (void *, void *, gt_pointer_operator, void *);
@@ -3593,6 +3651,8 @@ extern void gt_pch_p_8c_parser
     (void *, void *, gt_pointer_operator, void *);
 extern void gt_pch_p_18vec_c_token_va_gc_
     (void *, void *, gt_pointer_operator, void *);
+extern void gt_pch_p_36vec_c_omp_declare_target_attr_va_gc_
+    (void *, void *, gt_pointer_operator, void *);
 extern void gt_pch_p_16cp_binding_level
     (void *, void *, gt_pointer_operator, void *);
 extern void gt_pch_p_11cxx_binding
@@ -3605,7 +3665,9 @@ extern void gt_pch_p_32vec_deferred_access_check_va_gc_
     (void *, void *, gt_pointer_operator, void *);
 extern void gt_pch_p_28vec_cxx_saved_binding_va_gc_
     (void *, void *, gt_pointer_operator, void *);
-extern void gt_pch_p_34vec_omp_declare_target_attr_va_gc_
+extern void gt_pch_p_37vec_cp_omp_declare_target_attr_va_gc_
+    (void *, void *, gt_pointer_operator, void *);
+extern void gt_pch_p_36vec_cp_omp_begin_assumes_data_va_gc_
     (void *, void *, gt_pointer_operator, void *);
 extern void gt_pch_p_11saved_scope
     (void *, void *, gt_pointer_operator, void *);
@@ -3649,6 +3711,10 @@ extern void gt_pch_p_14constexpr_call
     (void *, void *, gt_pointer_operator, void *);
 extern void gt_pch_p_33hash_table_constexpr_call_hasher_
     (void *, void *, gt_pointer_operator, void *);
+extern void gt_pch_p_10norm_entry
+    (void *, void *, gt_pointer_operator, void *);
+extern void gt_pch_p_23hash_table_norm_hasher_
+    (void *, void *, gt_pointer_operator, void *);
 extern void gt_pch_p_23hash_table_atom_hasher_
     (void *, void *, gt_pointer_operator, void *);
 extern void gt_pch_p_9sat_entry
@@ -3671,9 +3737,13 @@ extern void gt_pch_p_27hash_table_typename_hasher_
     (void *, void *, gt_pointer_operator, void *);
 extern void gt_pch_p_29hash_table_mangled_decl_hash_
     (void *, void *, gt_pointer_operator, void *);
+extern void gt_pch_p_43hash_map_unsigned_tree_priority_map_traits_
+    (void *, void *, gt_pointer_operator, void *);
 extern void gt_pch_p_27vec_pending_noexcept_va_gc_
     (void *, void *, gt_pointer_operator, void *);
-extern void gt_pch_p_19vec_tree_int_va_gc_
+extern void gt_pch_p_27vec_lambda_sig_count_va_gc_
+    (void *, void *, gt_pointer_operator, void *);
+extern void gt_pch_p_31vec_lambda_discriminator_va_gc_
     (void *, void *, gt_pointer_operator, void *);
 extern void gt_pch_p_28hash_table_conv_type_hasher_
     (void *, void *, gt_pointer_operator, void *);
@@ -3694,6 +3764,8 @@ extern void gt_pch_p_23vec_macro_export_va_gc_
 extern void gt_pch_p_16pending_template
     (void *, void *, gt_pointer_operator, void *);
 extern void gt_pch_p_23hash_table_spec_hasher_
+    (void *, void *, gt_pointer_operator, void *);
+extern void gt_pch_p_22hash_table_ctp_hasher_
     (void *, void *, gt_pointer_operator, void *);
 extern void gt_pch_p_26hash_map_tree_tree_pair_p_
     (void *, void *, gt_pointer_operator, void *);
