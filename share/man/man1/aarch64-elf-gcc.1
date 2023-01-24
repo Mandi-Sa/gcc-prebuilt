@@ -133,7 +133,7 @@
 .\" ========================================================================
 .\"
 .IX Title "GCC 1"
-.TH GCC 1 "2022-12-14" "gcc-13.0.0" "GNU"
+.TH GCC 1 "2023-01-24" "gcc-13.0.1" "GNU"
 .\" For nroff, turn off justification.  Always turn off hyphenation; it makes
 .\" way too many mistakes in technical documents.
 .if n .ad l
@@ -422,7 +422,7 @@ in the following sections.
 \&\-Wstrict\-aliasing=n  \-Wstrict\-overflow  \-Wstrict\-overflow=\fR\fIn\fR 
 \&\fB\-Wstring\-compare 
 \&\-Wno\-stringop\-overflow \-Wno\-stringop\-overread 
-\&\-Wno\-stringop\-truncation 
+\&\-Wno\-stringop\-truncation \-Wstrict\-flex\-arrays 
 \&\-Wsuggest\-attribute=\fR[\fBpure\fR|\fBconst\fR|\fBnoreturn\fR|\fBformat\fR|\fBmalloc\fR] 
 \&\fB\-Wswitch  \-Wno\-switch\-bool  \-Wswitch\-default  \-Wswitch\-enum 
 \&\-Wno\-switch\-outside\-range  \-Wno\-switch\-unreachable  \-Wsync\-nand 
@@ -858,7 +858,9 @@ in the following sections.
 \&\-mcmse 
 \&\-mfix\-cmse\-cve\-2021\-35465 
 \&\-mstack\-protector\-guard=\fR\fIguard\fR \fB\-mstack\-protector\-guard\-offset=\fR\fIoffset\fR 
-\&\fB\-mfdpic\fR
+\&\fB\-mfdpic 
+\&\-mbranch\-protection=\fR\fInone\fR\fB|\fR\fIstandard\fR\fB|\fR\fIpac-ret\fR\fB[+\fR\fIleaf\fR\fB]
+[+\fR\fIbti\fR\fB]|\fR\fIbti\fR\fB[+\fR\fIpac-ret\fR\fB[+\fR\fIleaf\fR\fB]]\fR
 .Sp
 \&\fI\s-1AVR\s0 Options\fR
 \&\fB\-mmcu=\fR\fImcu\fR  \fB\-mabsdata  \-maccumulate\-args 
@@ -983,17 +985,18 @@ in the following sections.
 .Sp
 \&\fI\s-1HPPA\s0 Options\fR
 \&\fB\-march=\fR\fIarchitecture-type\fR 
-\&\fB\-mcaller\-copies  \-mdisable\-fpregs  \-mdisable\-indexing 
-\&\-mfast\-indirect\-calls  \-mgas  \-mgnu\-ld   \-mhp\-ld 
+\&\fB\-matomic\-libcalls  \-mbig\-switch 
+\&\-mcaller\-copies  \-mdisable\-fpregs  \-mdisable\-indexing 
+\&\-mordered  \-mfast\-indirect\-calls  \-mgas  \-mgnu\-ld   \-mhp\-ld 
 \&\-mfixed\-range=\fR\fIregister-range\fR 
-\&\fB\-mjump\-in\-delay  \-mlinker\-opt  \-mlong\-calls 
-\&\-mlong\-load\-store  \-mno\-disable\-fpregs 
+\&\fB\-mcoherent\-ldcw \-mjump\-in\-delay  \-mlinker\-opt  \-mlong\-calls 
+\&\-mlong\-load\-store  \-mno\-atomic\-libcalls  \-mno\-disable\-fpregs 
 \&\-mno\-disable\-indexing  \-mno\-fast\-indirect\-calls  \-mno\-gas 
 \&\-mno\-jump\-in\-delay  \-mno\-long\-load\-store 
 \&\-mno\-portable\-runtime  \-mno\-soft\-float 
 \&\-mno\-space\-regs  \-msoft\-float  \-mpa\-risc\-1\-0 
 \&\-mpa\-risc\-1\-1  \-mpa\-risc\-2\-0  \-mportable\-runtime 
-\&\-mschedule=\fR\fIcpu-type\fR  \fB\-mspace\-regs  \-msio  \-mwsio 
+\&\-mschedule=\fR\fIcpu-type\fR  \fB\-mspace\-regs  \-msoft\-mult  \-msio  \-mwsio 
 \&\-munix=\fR\fIunix-std\fR  \fB\-nolibdld  \-static  \-threads\fR
 .Sp
 \&\fI\s-1IA\-64\s0 Options\fR
@@ -1441,7 +1444,7 @@ See \s-1RS/6000\s0 and PowerPC Options.
 \&\-m96bit\-long\-double  \-mlong\-double\-64  \-mlong\-double\-80  \-mlong\-double\-128 
 \&\-mregparm=\fR\fInum\fR  \fB\-msseregparm 
 \&\-mveclibabi=\fR\fItype\fR  \fB\-mvect8\-ret\-in\-mem 
-\&\-mpc32  \-mpc64  \-mpc80  \-mstackrealign 
+\&\-mpc32  \-mpc64  \-mpc80  \-mdaz\-ftz \-mstackrealign 
 \&\-momit\-leaf\-frame\-pointer  \-mno\-red\-zone  \-mno\-tls\-direct\-seg\-refs 
 \&\-mcmodel=\fR\fIcode-model\fR  \fB\-mabi=\fR\fIname\fR  \fB\-maddress\-mode=\fR\fImode\fR 
 \&\fB\-m32  \-m64  \-mx32  \-m16  \-miamcu  \-mlarge\-data\-threshold=\fR\fInum\fR 
@@ -7431,6 +7434,28 @@ however, are not suitable arguments to functions that expect
 \&\f(CW\*(C`NUL\*(C'\fR\-terminated strings.  To help detect accidental misuses of
 such arrays \s-1GCC\s0 issues warnings unless it can prove that the use is
 safe.
+.IP "\fB\-Wstrict\-flex\-arrays\fR" 4
+.IX Item "-Wstrict-flex-arrays"
+Warn about inproper usages of flexible array members
+according to the \fIlevel\fR of the \f(CW\*(C`strict_flex_array (\f(CIlevel\f(CW)\*(C'\fR
+attribute attached to the trailing array field of a structure if it's
+available, otherwise according to the \fIlevel\fR of the option
+\&\fB\-fstrict\-flex\-arrays=\fR\fIlevel\fR.
+.Sp
+This option is effective only when \fIlevel\fR is bigger than 0.  Otherwise,
+it will be ignored with a warning.
+.Sp
+when \fIlevel\fR=1, warnings will be issued for a trailing array reference
+of a structure that have 2 or more elements if the trailing array is referenced
+as a flexible array member.
+.Sp
+when \fIlevel\fR=2, in addition to \fIlevel\fR=1, additional warnings will be
+issued for a trailing one-element array reference of a structure
+if the array is referenced as a flexible array member.
+.Sp
+when \fIlevel\fR=3, in addition to \fIlevel\fR=2, additional warnings will be
+issued for a trailing zero-length array reference of a structure
+if the array is referenced as a flexible array member.
 .IP "\fB\-Wsuggest\-attribute=\fR[\fBpure\fR|\fBconst\fR|\fBnoreturn\fR|\fBformat\fR|\fBcold\fR|\fBmalloc\fR]" 4
 .IX Item "-Wsuggest-attribute=[pure|const|noreturn|format|cold|malloc]"
 Warn for cases where adding an attribute may be beneficial. The
@@ -12792,9 +12817,12 @@ compiled.  All public functions and variables with the exception of \f(CW\*(C`ma
 and those merged by attribute \f(CW\*(C`externally_visible\*(C'\fR become static functions
 and in effect are optimized more aggressively by interprocedural optimizers.
 .Sp
-This option should not be used in combination with \fB\-flto\fR.
-Instead relying on a linker plugin should provide safer and more precise
-information.
+With \fB\-flto\fR this option has a limited use.  In most cases the
+precise list of symbols used or exported from the binary is known the
+resolution info passed to the link-time optimizer by the linker plugin.  It is
+still useful if no linker plugin is used or during incremental link step when
+final code is produced (with \fB\-flto\fR
+\&\fB\-flinker\-output=nolto\-rel\fR).
 .IP "\fB\-flto[=\fR\fIn\fR\fB]\fR" 4
 .IX Item "-flto[=n]"
 This option runs the standard link-time optimizer.  When invoked
@@ -15012,15 +15040,12 @@ Max. size of loc list for which reverse ops should be added.
 .IP "\fBfsm-scale-path-stmts\fR" 4
 .IX Item "fsm-scale-path-stmts"
 Scale factor to apply to the number of statements in a threading path
-when comparing to the number of (scaled) blocks.
+crossing a loop backedge when comparing to
+\&\fB\-\-param=max\-jump\-thread\-duplication\-stmts\fR.
 .IP "\fBuninit-control-dep-attempts\fR" 4
 .IX Item "uninit-control-dep-attempts"
 Maximum number of nested calls to search for control dependencies
 during uninitialized variable analysis.
-.IP "\fBfsm-scale-path-blocks\fR" 4
-.IX Item "fsm-scale-path-blocks"
-Scale factor to apply to the number of blocks in a threading path
-when comparing to the number of (scaled) statements.
 .IP "\fBsched-autopref-queue-depth\fR" 4
 .IX Item "sched-autopref-queue-depth"
 Hardware autoprefetcher scheduler model control flag.
@@ -15743,8 +15768,8 @@ or when a method or constructor is invoked on insufficiently aligned object.
 .IP "\fB\-fsanitize=object\-size\fR" 4
 .IX Item "-fsanitize=object-size"
 This option enables instrumentation of memory references using the
-\&\f(CW\*(C`_\|_builtin_object_size\*(C'\fR function.  Various out of bounds pointer
-accesses are detected.
+\&\f(CW\*(C`_\|_builtin_dynamic_object_size\*(C'\fR function.  Various out of bounds
+pointer accesses are detected.
 .IP "\fB\-fsanitize=float\-divide\-by\-zero\fR" 4
 .IX Item "-fsanitize=float-divide-by-zero"
 Detect floating-point division by zero.  Unlike other similar options,
@@ -21251,6 +21276,9 @@ Disable the floating-point extension.
 .IX Item "+cdecp0, +cdecp1, ... , +cdecp7"
 Enable the Custom Datapath Extension (\s-1CDE\s0) on selected coprocessors according
 to the numbers given in the options in the range 0 to 7.
+.IP "\fB+pacbti\fR" 4
+.IX Item "+pacbti"
+Enable the Pointer Authentication and Branch Target Identification Extension.
 .RE
 .RS 4
 .RE
@@ -21340,8 +21368,8 @@ Permissible names are: \fBarm7tdmi\fR, \fBarm7tdmi\-s\fR, \fBarm710t\fR,
 \&\fBcortex\-r7\fR, \fBcortex\-r8\fR, \fBcortex\-r52\fR, \fBcortex\-r52plus\fR,
 \&\fBcortex\-m0\fR, \fBcortex\-m0plus\fR, \fBcortex\-m1\fR, \fBcortex\-m3\fR,
 \&\fBcortex\-m4\fR, \fBcortex\-m7\fR, \fBcortex\-m23\fR, \fBcortex\-m33\fR,
-\&\fBcortex\-m35p\fR, \fBcortex\-m55\fR, \fBcortex\-x1\fR, \fBcortex\-x1c\fR,
-\&\fBcortex\-m1.small\-multiply\fR, \fBcortex\-m0.small\-multiply\fR,
+\&\fBcortex\-m35p\fR, \fBcortex\-m55\fR, \fBcortex\-m85\fR, \fBcortex\-x1\fR,
+\&\fBcortex\-x1c\fR, \fBcortex\-m1.small\-multiply\fR, \fBcortex\-m0.small\-multiply\fR,
 \&\fBcortex\-m0plus.small\-multiply\fR, \fBexynos\-m1\fR, \fBmarvell\-pj4\fR,
 \&\fBneoverse\-n1\fR, \fBneoverse\-n2\fR, \fBneoverse\-v1\fR, \fBxscale\fR,
 \&\fBiwmmxt\fR, \fBiwmmxt2\fR, \fBep9312\fR, \fBfa526\fR, \fBfa626\fR,
@@ -21404,17 +21432,26 @@ The following extension options are common to the listed CPUs:
 .RS 4
 .IP "\fB+nodsp\fR" 4
 .IX Item "+nodsp"
-Disable the \s-1DSP\s0 instructions on \fBcortex\-m33\fR, \fBcortex\-m35p\fR
-and \fBcortex\-m55\fR. Also disable the M\-Profile Vector Extension (\s-1MVE\s0)
-integer and single precision floating-point instructions on \fBcortex\-m55\fR.
+Disable the \s-1DSP\s0 instructions on \fBcortex\-m33\fR, \fBcortex\-m35p\fR,
+\&\fBcortex\-m55\fR and \fBcortex\-m85\fR. Also disable the M\-Profile Vector
+Extension (\s-1MVE\s0) integer and single precision floating-point instructions on
+\&\fBcortex\-m55\fR and \fBcortex\-m85\fR.
+.IP "\fB+nopacbti\fR" 4
+.IX Item "+nopacbti"
+Disable the Pointer Authentication and Branch Target Identification Extension
+on \fBcortex\-m85\fR.
 .IP "\fB+nomve\fR" 4
 .IX Item "+nomve"
 Disable the M\-Profile Vector Extension (\s-1MVE\s0) integer and single precision
-floating-point instructions on \fBcortex\-m55\fR.
+floating-point instructions on \fBcortex\-m55\fR and \fBcortex\-m85\fR.
 .IP "\fB+nomve.fp\fR" 4
 .IX Item "+nomve.fp"
 Disable the M\-Profile Vector Extension (\s-1MVE\s0) single precision floating-point
-instructions on \fBcortex\-m55\fR.
+instructions on \fBcortex\-m55\fR and \fBcortex\-m85\fR.
+.IP "\fB+cdecp0, +cdecp1, ... , +cdecp7\fR" 4
+.IX Item "+cdecp0, +cdecp1, ... , +cdecp7"
+Enable the Custom Datapath Extension (\s-1CDE\s0) on selected coprocessors according
+to the numbers given in the options in the range 0 to 7 on \fBcortex\-m55\fR.
 .IP "\fB+nofp\fR" 4
 .IX Item "+nofp"
 Disables the floating-point instructions on \fBarm9e\fR,
@@ -21422,7 +21459,8 @@ Disables the floating-point instructions on \fBarm9e\fR,
 \&\fBarm1020e\fR, \fBarm1022e\fR, \fBarm926ej\-s\fR,
 \&\fBarm1026ej\-s\fR, \fBcortex\-r5\fR, \fBcortex\-r7\fR, \fBcortex\-r8\fR,
 \&\fBcortex\-m4\fR, \fBcortex\-m7\fR, \fBcortex\-m33\fR, \fBcortex\-m35p\fR
-and \fBcortex\-m55\fR.
+\&\fBcortex\-m4\fR, \fBcortex\-m7\fR, \fBcortex\-m33\fR, \fBcortex\-m35p\fR,
+\&\fBcortex\-m55\fR and \fBcortex\-m85\fR.
 Disables the floating-point and \s-1SIMD\s0 instructions on
 \&\fBgeneric\-armv7\-a\fR, \fBcortex\-a5\fR, \fBcortex\-a7\fR,
 \&\fBcortex\-a8\fR, \fBcortex\-a9\fR, \fBcortex\-a12\fR,
@@ -21744,9 +21782,9 @@ Development Tools Engineering Specification\*(R", which can be found on
 Mitigate against a potential security issue with the \f(CW\*(C`VLLDM\*(C'\fR instruction
 in some M\-profile devices when using \s-1CMSE\s0 (\s-1CVE\-2021\-365465\s0).  This option is
 enabled by default when the option \fB\-mcpu=\fR is used with
-\&\f(CW\*(C`cortex\-m33\*(C'\fR, \f(CW\*(C`cortex\-m35p\*(C'\fR, \f(CW\*(C`cortex\-m55\*(C'\fR or \f(CW\*(C`star\-mc1\*(C'\fR.
-The option \fB\-mno\-fix\-cmse\-cve\-2021\-35465\fR can be used to disable
-the mitigation.
+\&\f(CW\*(C`cortex\-m33\*(C'\fR, \f(CW\*(C`cortex\-m35p\*(C'\fR, \f(CW\*(C`cortex\-m55\*(C'\fR, \f(CW\*(C`cortex\-m85\*(C'\fR
+or \f(CW\*(C`star\-mc1\*(C'\fR. The option \fB\-mno\-fix\-cmse\-cve\-2021\-35465\fR can be used
+to disable the mitigation.
 .IP "\fB\-mstack\-protector\-guard=\fR\fIguard\fR" 4
 .IX Item "-mstack-protector-guard=guard"
 .PD 0
@@ -21779,6 +21817,38 @@ behavior is acceptable, use \-static and \-Wl,\-dynamic\-linker options.
 The opposite \fB\-mno\-fdpic\fR option is useful (and required) to
 build the Linux kernel using the same (\f(CW\*(C`arm\-*\-uclinuxfdpiceabi\*(C'\fR)
 toolchain as the one used to build the userland programs.
+.IP "\fB\-mbranch\-protection=\fR\fInone\fR\fB|\fR\fIstandard\fR\fB|\fR\fIpac-ret\fR\fB[+\fR\fIleaf\fR\fB][+\fR\fIbti\fR\fB]|\fR\fIbti\fR\fB[+\fR\fIpac-ret\fR\fB[+\fR\fIleaf\fR\fB]]\fR" 4
+.IX Item "-mbranch-protection=none|standard|pac-ret[+leaf][+bti]|bti[+pac-ret[+leaf]]"
+Enable branch protection features (armv8.1\-m.main only).
+\&\fBnone\fR generate code without branch protection or return address
+signing.
+\&\fBstandard[+\fR\fIleaf\fR\fB]\fR generate code with all branch protection
+features enabled at their standard level.
+\&\fBpac\-ret[+\fR\fIleaf\fR\fB]\fR generate code with return address signing
+set to its standard level, which is to sign all functions that save
+the return address to memory.
+\&\fBleaf\fR When return address signing is enabled, also sign leaf
+functions even if they do not write the return address to memory.
++\fBbti\fR Add landing-pad instructions at the permitted targets of
+indirect branch instructions.
+.Sp
+If the \fB+pacbti\fR architecture extension is not enabled, then all
+branch protection and return address signing operations are
+constrained to use only the instructions defined in the
+architectural-NOP space. The generated code will remain
+backwards-compatible with earlier versions of the architecture, but
+the additional security can be enabled at run time on processors that
+support the \fB\s-1PACBTI\s0\fR extension.
+.Sp
+Branch target enforcement using \s-1BTI\s0 can only be enabled at runtime if
+all code in the application has been compiled with at least
+\&\fB\-mbranch\-protection=bti\fR.
+.Sp
+Any setting other than \fBnone\fR is supported only on armv8\-m.main
+or later.
+.Sp
+The default is to generate code without branch protection or return
+address signing.
 .PP
 \fI\s-1AVR\s0 Options\fR
 .IX Subsection "AVR Options"
@@ -24074,6 +24144,30 @@ other way around.
 .IX Item "-mpa-risc-2-0"
 .PD
 Synonyms for \fB\-march=1.0\fR, \fB\-march=1.1\fR, and \fB\-march=2.0\fR respectively.
+.IP "\fB\-matomic\-libcalls\fR" 4
+.IX Item "-matomic-libcalls"
+Generate libcalls for atomic loads and stores when sync libcalls are disabled.
+This option is enabled by default.  It only affects the generation of
+atomic libcalls by the \s-1HPPA\s0 backend.
+.Sp
+Both the sync and \fIlibatomic\fR libcall implementations use locking.
+As a result, processor stores are not atomic with respect to other
+atomic operations.  Processor loads up to DImode are atomic with
+respect to other atomic operations provided they are implemented as
+a single access.
+.Sp
+The PA-RISC architecture does not support any atomic operations in
+hardware except for the \f(CW\*(C`ldcw\*(C'\fR instruction.  Thus, all atomic
+support is implemented using sync and atomic libcalls.  Sync libcall
+support is in \fIlibgcc.a\fR.  Atomic libcall support is in
+\&\fIlibatomic\fR.
+.Sp
+This option generates \f(CW\*(C`_\|_atomic_exchange\*(C'\fR calls for atomic stores.
+It also provides special handling for atomic DImode accesses on 32\-bit
+targets.
+.IP "\fB\-mbig\-switch\fR" 4
+.IX Item "-mbig-switch"
+Does nothing.  Preserved for backward compatibility.
 .IP "\fB\-mcaller\-copies\fR" 4
 .IX Item "-mcaller-copies"
 The caller copies function arguments passed by hidden reference.  This
@@ -24081,25 +24175,16 @@ option should be used with care as it is not compatible with the default
 32\-bit runtime.  However, only aggregates larger than eight bytes are
 passed by hidden reference and the option provides better compatibility
 with OpenMP.
-.IP "\fB\-mjump\-in\-delay\fR" 4
-.IX Item "-mjump-in-delay"
-This option is ignored and provided for compatibility purposes only.
+.IP "\fB\-mcoherent\-ldcw\fR" 4
+.IX Item "-mcoherent-ldcw"
+Use ldcw/ldcd coherent cache-control hint.
 .IP "\fB\-mdisable\-fpregs\fR" 4
 .IX Item "-mdisable-fpregs"
-Prevent floating-point registers from being used in any manner.  This is
-necessary for compiling kernels that perform lazy context switching of
-floating-point registers.  If you use this option and attempt to perform
-floating-point operations, the compiler aborts.
+Disable floating-point registers.  Equivalent to \f(CW\*(C`\-msoft\-float\*(C'\fR.
 .IP "\fB\-mdisable\-indexing\fR" 4
 .IX Item "-mdisable-indexing"
 Prevent the compiler from using indexing address modes.  This avoids some
 rather obscure problems when compiling \s-1MIG\s0 generated code under \s-1MACH.\s0
-.IP "\fB\-mno\-space\-regs\fR" 4
-.IX Item "-mno-space-regs"
-Generate code that assumes the target has no space registers.  This allows
-\&\s-1GCC\s0 to generate faster indirect calls and use unscaled index address modes.
-.Sp
-Such code is suitable for level 0 \s-1PA\s0 systems and kernels.
 .IP "\fB\-mfast\-indirect\-calls\fR" 4
 .IX Item "-mfast-indirect-calls"
 Generate code that assumes calls never cross space boundaries.  This
@@ -24114,50 +24199,9 @@ A fixed register is one that the register allocator cannot use.  This is
 useful when compiling kernel code.  A register range is specified as
 two registers separated by a dash.  Multiple register ranges can be
 specified separated by a comma.
-.IP "\fB\-mlong\-load\-store\fR" 4
-.IX Item "-mlong-load-store"
-Generate 3\-instruction load and store sequences as sometimes required by
-the HP-UX 10 linker.  This is equivalent to the \fB+k\fR option to
-the \s-1HP\s0 compilers.
-.IP "\fB\-mportable\-runtime\fR" 4
-.IX Item "-mportable-runtime"
-Use the portable calling conventions proposed by \s-1HP\s0 for \s-1ELF\s0 systems.
 .IP "\fB\-mgas\fR" 4
 .IX Item "-mgas"
 Enable the use of assembler directives only \s-1GAS\s0 understands.
-.IP "\fB\-mschedule=\fR\fIcpu-type\fR" 4
-.IX Item "-mschedule=cpu-type"
-Schedule code according to the constraints for the machine type
-\&\fIcpu-type\fR.  The choices for \fIcpu-type\fR are \fB700\fR
-\&\fB7100\fR, \fB7100LC\fR, \fB7200\fR, \fB7300\fR and \fB8000\fR.  Refer
-to \fI/usr/lib/sched.models\fR on an HP-UX system to determine the
-proper scheduling option for your machine.  The default scheduling is
-\&\fB8000\fR.
-.IP "\fB\-mlinker\-opt\fR" 4
-.IX Item "-mlinker-opt"
-Enable the optimization pass in the HP-UX linker.  Note this makes symbolic
-debugging impossible.  It also triggers a bug in the HP-UX 8 and HP-UX 9
-linkers in which they give bogus error messages when linking some programs.
-.IP "\fB\-msoft\-float\fR" 4
-.IX Item "-msoft-float"
-Generate output containing library calls for floating point.
-\&\fBWarning:\fR the requisite libraries are not available for all \s-1HPPA\s0
-targets.  Normally the facilities of the machine's usual C compiler are
-used, but this cannot be done directly in cross-compilation.  You must make
-your own arrangements to provide suitable library functions for
-cross-compilation.
-.Sp
-\&\fB\-msoft\-float\fR changes the calling convention in the output file;
-therefore, it is only useful if you compile \fIall\fR of a program with
-this option.  In particular, you need to compile \fIlibgcc.a\fR, the
-library that comes with \s-1GCC,\s0 with \fB\-msoft\-float\fR in order for
-this to work.
-.IP "\fB\-msio\fR" 4
-.IX Item "-msio"
-Generate the predefine, \f(CW\*(C`_SIO\*(C'\fR, for server \s-1IO.\s0  The default is
-\&\fB\-mwsio\fR.  This generates the predefines, \f(CW\*(C`_\|_hp9000s700\*(C'\fR,
-\&\f(CW\*(C`_\|_hp9000s700_\|_\*(C'\fR and \f(CW\*(C`_WSIO\*(C'\fR, for workstation \s-1IO.\s0  These
-options are available under HP-UX and HI-UX.
 .IP "\fB\-mgnu\-ld\fR" 4
 .IX Item "-mgnu-ld"
 Use options specific to \s-1GNU\s0 \fBld\fR.
@@ -24185,6 +24229,11 @@ configure option, \s-1GCC\s0's program search path, and finally by the user's
 \&\fB\s-1PATH\s0\fR.  The linker used by \s-1GCC\s0 can be printed using \fBwhich
 `gcc \-print\-prog\-name=ld`\fR.  This option is only available on the 64\-bit
 HP-UX \s-1GCC,\s0 i.e. configured with \fBhppa*64*\-*\-hpux*\fR.
+.IP "\fB\-mlinker\-opt\fR" 4
+.IX Item "-mlinker-opt"
+Enable the optimization pass in the HP-UX linker.  Note this makes symbolic
+debugging impossible.  It also triggers a bug in the HP-UX 8 and HP-UX 9
+linkers in which they give bogus error messages when linking some programs.
 .IP "\fB\-mlong\-calls\fR" 4
 .IX Item "-mlong-calls"
 Generate code that uses long call sequences.  This ensures that a call
@@ -24211,6 +24260,59 @@ impact on systems that support long absolute calls, and long pic
 symbol-difference or pc-relative calls should be relatively small.
 However, an indirect call is used on 32\-bit \s-1ELF\s0 systems in pic code
 and it is quite long.
+.IP "\fB\-mlong\-load\-store\fR" 4
+.IX Item "-mlong-load-store"
+Generate 3\-instruction load and store sequences as sometimes required by
+the HP-UX 10 linker.  This is equivalent to the \fB+k\fR option to
+the \s-1HP\s0 compilers.
+.IP "\fB\-mjump\-in\-delay\fR" 4
+.IX Item "-mjump-in-delay"
+This option is ignored and provided for compatibility purposes only.
+.IP "\fB\-mno\-space\-regs\fR" 4
+.IX Item "-mno-space-regs"
+Generate code that assumes the target has no space registers.  This allows
+\&\s-1GCC\s0 to generate faster indirect calls and use unscaled index address modes.
+.Sp
+Such code is suitable for level 0 \s-1PA\s0 systems and kernels.
+.IP "\fB\-mordered\fR" 4
+.IX Item "-mordered"
+Assume memory references are ordered and barriers are not needed.
+.IP "\fB\-mportable\-runtime\fR" 4
+.IX Item "-mportable-runtime"
+Use the portable calling conventions proposed by \s-1HP\s0 for \s-1ELF\s0 systems.
+.IP "\fB\-mschedule=\fR\fIcpu-type\fR" 4
+.IX Item "-mschedule=cpu-type"
+Schedule code according to the constraints for the machine type
+\&\fIcpu-type\fR.  The choices for \fIcpu-type\fR are \fB700\fR
+\&\fB7100\fR, \fB7100LC\fR, \fB7200\fR, \fB7300\fR and \fB8000\fR.  Refer
+to \fI/usr/lib/sched.models\fR on an HP-UX system to determine the
+proper scheduling option for your machine.  The default scheduling is
+\&\fB8000\fR.
+.IP "\fB\-msio\fR" 4
+.IX Item "-msio"
+Generate the predefine, \f(CW\*(C`_SIO\*(C'\fR, for server \s-1IO.\s0  The default is
+\&\fB\-mwsio\fR.  This generates the predefines, \f(CW\*(C`_\|_hp9000s700\*(C'\fR,
+\&\f(CW\*(C`_\|_hp9000s700_\|_\*(C'\fR and \f(CW\*(C`_WSIO\*(C'\fR, for workstation \s-1IO.\s0  These
+options are available under HP-UX and HI-UX.
+.IP "\fB\-msoft\-float\fR" 4
+.IX Item "-msoft-float"
+Generate output containing library calls for floating point.
+\&\fBWarning:\fR the requisite libraries are not available for all \s-1HPPA\s0
+targets.  Normally the facilities of the machine's usual C compiler are
+used, but this cannot be done directly in cross-compilation.  You must make
+your own arrangements to provide suitable library functions for
+cross-compilation.
+.Sp
+\&\fB\-msoft\-float\fR changes the calling convention in the output file;
+therefore, it is only useful if you compile \fIall\fR of a program with
+this option.  In particular, you need to compile \fIlibgcc.a\fR, the
+library that comes with \s-1GCC,\s0 with \fB\-msoft\-float\fR in order for
+this to work.
+.IP "\fB\-msoft\-mult\fR" 4
+.IX Item "-msoft-mult"
+Use software integer multiplication.
+.Sp
+This disables the use of the \f(CW\*(C`xmpyu\*(C'\fR instruction.
 .IP "\fB\-munix=\fR\fIunix-std\fR" 4
 .IX Item "-munix=unix-std"
 Generate compiler predefines and select a startfile for the specified
@@ -31808,6 +31910,14 @@ libraries assume that extended-precision (80\-bit) floating-point operations
 are enabled by default; routines in such libraries could suffer significant
 loss of accuracy, typically through so-called \*(L"catastrophic cancellation\*(R",
 when this option is used to set the precision to less than extended precision.
+.IP "\fB\-mdaz\-ftz\fR" 4
+.IX Item "-mdaz-ftz"
+The flush-to-zero (\s-1FTZ\s0) and denormals-are-zero (\s-1DAZ\s0) flags in the \s-1MXCSR\s0 register
+are used to control floating-point calculations.SSE and \s-1AVX\s0 instructions
+including scalar and vector instructions could benefit from enabling the \s-1FTZ\s0
+and \s-1DAZ\s0 flags when \fB\-mdaz\-ftz\fR is specified. Don't set \s-1FTZ/DAZ\s0 flags
+when \fB\-mno\-daz\-ftz\fR or \fB\-shared\fR is specified, \fB\-mdaz\-ftz\fR
+will set \s-1FTZ/DAZ\s0 flags even with \fB\-shared\fR.
 .IP "\fB\-mstackrealign\fR" 4
 .IX Item "-mstackrealign"
 Realign the stack at entry.  On the x86, the \fB\-mstackrealign\fR
@@ -33289,7 +33399,8 @@ needs to build supplementary stub code for constructors to work.  On
 multi-libbed systems, \fBgcc \-shared\fR must select the correct support
 libraries to link against.  Failing to supply the correct flags may lead
 to subtle defects.  Supplying them in cases where they are not necessary
-is innocuous.
+is innocuous. For x86, crtfastmath.o will not be added when
+\&\fB\-shared\fR is specified.
 .SH "SEE ALSO"
 .IX Header "SEE ALSO"
 \&\fBgpl\fR\|(7), \fBgfdl\fR\|(7), \fBfsf\-funding\fR\|(7),
@@ -33303,7 +33414,7 @@ See the Info entry for \fBgcc\fR, or
 for contributors to \s-1GCC.\s0
 .SH "COPYRIGHT"
 .IX Header "COPYRIGHT"
-Copyright (c) 1988\-2022 Free Software Foundation, Inc.
+Copyright (c) 1988\-2023 Free Software Foundation, Inc.
 .PP
 Permission is granted to copy, distribute and/or modify this document
 under the terms of the \s-1GNU\s0 Free Documentation License, Version 1.3 or
