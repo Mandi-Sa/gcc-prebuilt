@@ -7,7 +7,7 @@ OUTPUT_FORMAT("elf64-bigaarch64", "elf64-bigaarch64",
 	      "elf64-littleaarch64")
 OUTPUT_ARCH(aarch64)
 ENTRY(_start)
-SEARCH_DIR("/develop/gcc/install/aarch64-elf/lib");
+SEARCH_DIR("=/root/x-tools/aarch64-elf/aarch64-elf/lib");
 SECTIONS
 {
   /* Read-only sections, merged into text segment: */

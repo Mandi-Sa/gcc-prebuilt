@@ -19,8 +19,8 @@ import gdb
 import os
 import os.path
 
-pythondir = '/develop/gcc/install/share/gcc-13.0.1/python'
-libdir = '/develop/gcc/install/aarch64-elf/lib'
+pythondir = '/root/x-tools/aarch64-elf/share/gcc-14.0.0/python'
+libdir = '/root/x-tools/aarch64-elf/aarch64-elf/lib'
 
 # This file might be loaded when there is no current objfile.  This
 # can happen if the user loads it manually.  In this case we don't

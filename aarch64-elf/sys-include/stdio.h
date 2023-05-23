@@ -58,7 +58,7 @@ typedef __gnuc_va_list va_list;
  */
 
 #include <sys/reent.h>
-#include <sys/_types.h>
+#include <sys/types.h>
 
 _BEGIN_STD_C
 
@@ -67,20 +67,14 @@ typedef __FILE FILE;
 # define __FILE_defined
 #endif
 
+#ifdef __CYGWIN__
+typedef _fpos64_t fpos_t;
+#else
 typedef _fpos_t fpos_t;
 #ifdef __LARGE64_FILES
 typedef _fpos64_t fpos64_t;
 #endif
-
-#ifndef _OFF_T_DECLARED
-typedef __off_t off_t;
-#define	_OFF_T_DECLARED
-#endif
-
-#ifndef _SSIZE_T_DECLARED
-typedef _ssize_t ssize_t;
-#define	_SSIZE_T_DECLARED
-#endif
+#endif /* !__CYGWIN__ */
 
 #include <sys/stdio.h>
 
@@ -163,13 +157,13 @@ typedef _ssize_t ssize_t;
 
 #define	TMP_MAX		26
 
-#define	stdin	_REENT_STDIN(_REENT)
-#define	stdout	_REENT_STDOUT(_REENT)
-#define	stderr	_REENT_STDERR(_REENT)
+#define	stdin	(_REENT->_stdin)
+#define	stdout	(_REENT->_stdout)
+#define	stderr	(_REENT->_stderr)
 
-#define _stdin_r(x)	_REENT_STDIN(x)
-#define _stdout_r(x)	_REENT_STDOUT(x)
-#define _stderr_r(x)	_REENT_STDERR(x)
+#define _stdin_r(x)	((x)->_stdin)
+#define _stdout_r(x)	((x)->_stdout)
+#define _stderr_r(x)	((x)->_stderr)
 
 /*
  * Functions defined in ANSI C standard.
@@ -228,13 +222,13 @@ int	puts (const char *);
 int	ungetc (int, FILE *);
 size_t	fread (void *__restrict, size_t _size, size_t _n, FILE *__restrict);
 size_t	fwrite (const void *__restrict , size_t _size, size_t _n, FILE *);
-#ifdef _LIBC
+#ifdef _COMPILING_NEWLIB
 int	fgetpos (FILE *, _fpos_t *);
 #else
 int	fgetpos (FILE *__restrict, fpos_t *__restrict);
 #endif
 int	fseek (FILE *, long, int);
-#ifdef _LIBC
+#ifdef _COMPILING_NEWLIB
 int	fsetpos (FILE *, const _fpos_t *);
 #else
 int	fsetpos (FILE *, const fpos_t *);
@@ -251,12 +245,12 @@ int	sprintf (char *__restrict, const char *__restrict, ...)
                _ATTRIBUTE ((__format__ (__printf__, 2, 3)));
 int	remove (const char *);
 int	rename (const char *, const char *);
-#ifdef _LIBC
+#ifdef _COMPILING_NEWLIB
 int	_rename (const char *, const char *);
 #endif
 #endif
 #if __LARGEFILE_VISIBLE || __POSIX_VISIBLE >= 200112
-#ifdef _LIBC
+#ifdef _COMPILING_NEWLIB
 int	fseeko (FILE *, _off_t, int);
 _off_t	ftello (FILE *);
 #else
@@ -419,7 +413,7 @@ int	_fgetc_r (struct _reent *, FILE *);
 int	_fgetc_unlocked_r (struct _reent *, FILE *);
 char *  _fgets_r (struct _reent *, char *__restrict, int, FILE *__restrict);
 char *  _fgets_unlocked_r (struct _reent *, char *__restrict, int, FILE *__restrict);
-#ifdef _LIBC
+#ifdef _COMPILING_NEWLIB
 int	_fgetpos_r (struct _reent *, FILE *__restrict, _fpos_t *__restrict);
 int	_fsetpos_r (struct _reent *, FILE *, const _fpos_t *);
 #else
@@ -555,7 +549,7 @@ int	fputs_unlocked (const char *__restrict, FILE *__restrict);
 #endif
 
 #ifdef __LARGE64_FILES
-#if !defined(__CYGWIN__) || defined(_LIBC)
+#if !defined(__CYGWIN__) || defined(_COMPILING_NEWLIB)
 FILE *	fdopen64 (int, const char *);
 FILE *  fopen64 (const char *, const char *);
 FILE *  freopen64 (const char *, const char *, FILE *);
@@ -620,8 +614,10 @@ FILE	*_funopen_r (struct _reent *, const void *__cookie,
 		int (*__closefn)(void *__cookie));
 # endif /* !__LARGE64_FILES */
 
-# define	fropen(__cookie, __fn) funopen(__cookie, __fn, NULL, NULL, NULL)
-# define	fwopen(__cookie, __fn) funopen(__cookie, NULL, __fn, NULL, NULL)
+# define	fropen(__cookie, __fn) funopen(__cookie, __fn, (int (*)())0, \
+					       (fpos_t (*)())0, (int (*)())0)
+# define	fwopen(__cookie, __fn) funopen(__cookie, (int (*)())0, __fn, \
+					       (fpos_t (*)())0, (int (*)())0)
 #endif /* __BSD_VISIBLE */
 
 #if __GNU_VISIBLE
