@@ -99,6 +99,8 @@ extern bool aarch64_9bit_offset_memory_operand (rtx, machine_mode);
 extern bool aarch64_rcpc_memory_operand (rtx, machine_mode);
 extern bool vect_par_cnst_hi_half (rtx, machine_mode);
 extern bool vect_par_cnst_lo_half (rtx, machine_mode);
+extern bool vect_par_cnst_even_or_odd_half (rtx, machine_mode);
+extern bool vect_par_cnst_select_half (rtx, machine_mode);
 extern bool descending_int_parallel (rtx, machine_mode);
 extern bool ascending_int_parallel (rtx, machine_mode);
 extern bool aarch64_simd_lshift_imm (rtx, machine_mode);
@@ -121,12 +123,15 @@ extern bool aarch64_simd_shift_imm_offset_hi (rtx, machine_mode);
 extern bool aarch64_simd_shift_imm_offset_si (rtx, machine_mode);
 extern bool aarch64_simd_shift_imm_offset_di (rtx, machine_mode);
 extern bool aarch64_simd_shift_imm_vec_exact_top (rtx, machine_mode);
+extern bool aarch64_simd_umax_half_mode (rtx, machine_mode);
+extern bool aarch64_simd_umax_quarter_mode (rtx, machine_mode);
 extern bool aarch64_simd_shift_imm_vec_qi (rtx, machine_mode);
 extern bool aarch64_simd_shift_imm_vec_hi (rtx, machine_mode);
 extern bool aarch64_simd_shift_imm_vec_si (rtx, machine_mode);
 extern bool aarch64_simd_shift_imm_vec_di (rtx, machine_mode);
-extern bool aarch64_simd_rshrn_imm_vec (rtx, machine_mode);
+extern bool aarch64_int_rnd_operand (rtx, machine_mode);
 extern bool aarch64_simd_raddsubhn_imm_vec (rtx, machine_mode);
+extern bool aarch64_simd_shll_imm_vec (rtx, machine_mode);
 extern bool aarch64_simd_shift_imm_bitsize_qi (rtx, machine_mode);
 extern bool aarch64_simd_shift_imm_bitsize_hi (rtx, machine_mode);
 extern bool aarch64_simd_shift_imm_bitsize_si (rtx, machine_mode);
@@ -148,7 +153,6 @@ extern bool aarch64_sve_general_operand (rtx, machine_mode);
 extern bool aarch64_sve_struct_memory_operand (rtx, machine_mode);
 extern bool aarch64_sve_struct_nonimmediate_operand (rtx, machine_mode);
 extern bool aarch64_sve_dup_operand (rtx, machine_mode);
-extern bool aarch64_sve_dup_ld1rq_operand (rtx, machine_mode);
 extern bool aarch64_sve_ptrue_svpattern_immediate (rtx, machine_mode);
 extern bool aarch64_sve_arith_immediate (rtx, machine_mode);
 extern bool aarch64_sve_sub_arith_immediate (rtx, machine_mode);
@@ -293,6 +297,8 @@ enum constraint_num
   CONSTRAINT_Dt,
   CONSTRAINT_Dl,
   CONSTRAINT_D1,
+  CONSTRAINT_D2,
+  CONSTRAINT_DL,
   CONSTRAINT_Dr,
   CONSTRAINT_Dz,
   CONSTRAINT_Dm,

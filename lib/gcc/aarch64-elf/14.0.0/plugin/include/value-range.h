@@ -76,6 +76,8 @@ class GTY((user)) vrange
 {
   template <typename T> friend bool is_a (vrange &);
   friend class Value_Range;
+  friend void streamer_write_vrange (struct output_block *, const vrange &);
+  friend class range_op_handler;
 public:
   virtual void accept (const class vrange_visitor &v) const = 0;
   virtual void set (tree, tree, value_range_kind = VR_RANGE);
@@ -100,9 +102,6 @@ public:
   bool operator== (const vrange &) const;
   bool operator!= (const vrange &r) const { return !(*this == r); }
   void dump (FILE *) const;
-
-  enum value_range_kind kind () const;		// DEPRECATED
-
 protected:
   vrange (enum value_range_discriminator d) : m_discriminator (d) { }
   ENUM_BITFIELD(value_range_kind) m_kind : 8;
@@ -114,12 +113,154 @@ namespace inchash
   extern void add_vrange (const vrange &, hash &, unsigned flags = 0);
 }
 
+// A pair of values representing the known bits in a range.  Zero bits
+// in MASK cover constant values.  Set bits in MASK cover unknown
+// values.  VALUE are the known bits.
+//
+// Set bits in MASK (no meaningful information) must have their
+// corresponding bits in VALUE cleared, as this speeds up union and
+// intersect.
+
+class irange_bitmask
+{
+public:
+  irange_bitmask () { /* uninitialized */ }
+  irange_bitmask (unsigned prec) { set_unknown (prec); }
+  irange_bitmask (const wide_int &value, const wide_int &mask);
+  wide_int value () const { return m_value; }
+  wide_int mask () const { return m_mask; }
+  void set_unknown (unsigned prec);
+  bool unknown_p () const;
+  unsigned get_precision () const;
+  bool union_ (const irange_bitmask &src);
+  bool intersect (const irange_bitmask &src);
+  bool operator== (const irange_bitmask &src) const;
+  bool operator!= (const irange_bitmask &src) const { return !(*this == src); }
+  void verify_mask () const;
+  void dump (FILE *) const;
+
+  // Convenience functions for nonzero bitmask compatibility.
+  wide_int get_nonzero_bits () const;
+  void set_nonzero_bits (const wide_int &bits);
+private:
+  wide_int m_value;
+  wide_int m_mask;
+};
+
+inline void
+irange_bitmask::set_unknown (unsigned prec)
+{
+  m_value = wi::zero (prec);
+  m_mask = wi::minus_one (prec);
+  if (flag_checking)
+    verify_mask ();
+}
+
+// Return TRUE if THIS does not have any meaningful information.
+
+inline bool
+irange_bitmask::unknown_p () const
+{
+  return m_mask == -1;
+}
+
+inline
+irange_bitmask::irange_bitmask (const wide_int &value, const wide_int &mask)
+{
+  m_value = value;
+  m_mask = mask;
+  if (flag_checking)
+    verify_mask ();
+}
+
+inline unsigned
+irange_bitmask::get_precision () const
+{
+  return m_mask.get_precision ();
+}
+
+// The following two functions are meant for backwards compatability
+// with the nonzero bitmask.  A cleared bit means the value must be 0.
+// A set bit means we have no information for the bit.
+
+// Return the nonzero bits.
+inline wide_int
+irange_bitmask::get_nonzero_bits () const
+{
+  return m_value | m_mask;
+}
+
+// Set the bitmask to the nonzero bits in BITS.
+inline void
+irange_bitmask::set_nonzero_bits (const wide_int &bits)
+{
+  m_value = wi::zero (bits.get_precision ());
+  m_mask = bits;
+  if (flag_checking)
+    verify_mask ();
+}
+
+inline bool
+irange_bitmask::operator== (const irange_bitmask &src) const
+{
+  bool unknown1 = unknown_p ();
+  bool unknown2 = src.unknown_p ();
+  if (unknown1 || unknown2)
+    return unknown1 == unknown2;
+  return m_value == src.m_value && m_mask == src.m_mask;
+}
+
+inline bool
+irange_bitmask::union_ (const irange_bitmask &orig_src)
+{
+  // Normalize mask.
+  irange_bitmask src (orig_src.m_value & ~orig_src.m_mask, orig_src.m_mask);
+  m_value &= ~m_mask;
+
+  irange_bitmask save (*this);
+  m_mask = (m_mask | src.m_mask) | (m_value ^ src.m_value);
+  m_value = m_value & src.m_value;
+  if (flag_checking)
+    verify_mask ();
+  return *this != save;
+}
+
+inline bool
+irange_bitmask::intersect (const irange_bitmask &orig_src)
+{
+  // Normalize mask.
+  irange_bitmask src (orig_src.m_value & ~orig_src.m_mask, orig_src.m_mask);
+  m_value &= ~m_mask;
+
+  irange_bitmask save (*this);
+  // If we have two known bits that are incompatible, the resulting
+  // bit is undefined.  It is unclear whether we should set the entire
+  // range to UNDEFINED, or just a subset of it.  For now, set the
+  // entire bitmask to unknown (VARYING).
+  if (wi::bit_and (~(m_mask | src.m_mask),
+		   m_value ^ src.m_value) != 0)
+    {
+      unsigned prec = m_mask.get_precision ();
+      m_mask = wi::minus_one (prec);
+      m_value = wi::zero (prec);
+    }
+  else
+    {
+      m_mask = m_mask & src.m_mask;
+      m_value = m_value | src.m_value;
+    }
+  if (flag_checking)
+    verify_mask ();
+  return *this != save;
+}
+
 // An integer range without any storage.
 
 class GTY((user)) irange : public vrange
 {
   friend value_range_kind get_legacy_range (const irange &, tree &, tree &);
   friend class irange_storage;
+  friend class vrange_printer;
 public:
   // In-place setters.
   void set (tree type, const wide_int &, const wide_int &,
@@ -147,6 +288,8 @@ public:
   virtual bool singleton_p (tree *result = NULL) const override;
   bool singleton_p (wide_int &) const;
   bool contains_p (const wide_int &) const;
+  bool nonnegative_p () const;
+  bool nonpositive_p () const;
 
   // In-place operators.
   virtual bool union_ (const vrange &) override;
@@ -162,6 +305,8 @@ public:
   virtual bool fits_p (const vrange &r) const override;
   virtual void accept (const vrange_visitor &v) const override;
 
+  void update_bitmask (const irange_bitmask &);
+  irange_bitmask get_bitmask () const;
   // Nonzero masks.
   wide_int get_nonzero_bits () const;
   void set_nonzero_bits (const wide_int &bits);
@@ -188,17 +333,17 @@ private:
   friend void gt_pch_nx (irange *, gt_pointer_operator, void *);
 
   bool varying_compatible_p () const;
-  bool intersect_nonzero_bits (const irange &r);
-  bool union_nonzero_bits (const irange &r);
-  wide_int get_nonzero_bits_from_range () const;
-  bool set_range_from_nonzero_bits ();
+  bool intersect_bitmask (const irange &r);
+  bool union_bitmask (const irange &r);
+  irange_bitmask get_bitmask_from_range () const;
+  bool set_range_from_bitmask ();
 
   bool intersect (const wide_int& lb, const wide_int& ub);
   unsigned char m_num_ranges;
   bool m_resizable;
   unsigned char m_max_ranges;
   tree m_type;
-  wide_int m_nonzero_mask;
+  irange_bitmask m_bitmask;
 protected:
   wide_int *m_base;
 };
@@ -330,6 +475,7 @@ public:
 	    const nan_state &, value_range_kind = VR_RANGE);
   void set_nan (tree type);
   void set_nan (tree type, bool sign);
+  void set_nan (tree type, const nan_state &);
   virtual void set_varying (tree type) override;
   virtual void set_undefined () override;
   virtual bool union_ (const vrange &) override;
@@ -490,7 +636,7 @@ inline
 int_range<N, RESIZABLE>::~int_range ()
 {
   if (RESIZABLE && m_base != m_ranges)
-    delete m_base;
+    delete[] m_base;
 }
 
 // This is an "infinite" precision irange for use in temporary
@@ -535,15 +681,16 @@ public:
   tree type () { return m_vrange->type (); }
   bool varying_p () const { return m_vrange->varying_p (); }
   bool undefined_p () const { return m_vrange->undefined_p (); }
-  void set_varying (tree type) { m_vrange->set_varying (type); }
+  void set_varying (tree type) { init (type); m_vrange->set_varying (type); }
   void set_undefined () { m_vrange->set_undefined (); }
   bool union_ (const vrange &r) { return m_vrange->union_ (r); }
   bool intersect (const vrange &r) { return m_vrange->intersect (r); }
   bool contains_p (tree cst) const { return m_vrange->contains_p (cst); }
   bool singleton_p (tree *result = NULL) const
     { return m_vrange->singleton_p (result); }
-  void set_zero (tree type) { return m_vrange->set_zero (type); }
-  void set_nonzero (tree type) { return m_vrange->set_nonzero (type); }
+  void set_zero (tree type) { init (type); return m_vrange->set_zero (type); }
+  void set_nonzero (tree type)
+    { init (type); return m_vrange->set_nonzero (type); }
   bool nonzero_p () const { return m_vrange->nonzero_p (); }
   bool zero_p () const { return m_vrange->zero_p (); }
   wide_int lower_bound () const; // For irange/prange comparability.
@@ -741,7 +888,7 @@ irange::varying_compatible_p () const
   if (INTEGRAL_TYPE_P (t) || POINTER_TYPE_P (t))
     return (l == wi::min_value (prec, sign)
 	    && u == wi::max_value (prec, sign)
-	    && m_nonzero_mask == -1);
+	    && m_bitmask.unknown_p ());
   return true;
 }
 
@@ -908,7 +1055,7 @@ irange::set_varying (tree type)
 {
   m_kind = VR_VARYING;
   m_num_ranges = 1;
-  m_nonzero_mask = wi::minus_one (TYPE_PRECISION (type));
+  m_bitmask.set_unknown (TYPE_PRECISION (type));
 
   if (INTEGRAL_TYPE_P (type) || POINTER_TYPE_P (type))
     {
@@ -966,7 +1113,8 @@ irange::set_nonzero (tree type)
       m_type = type;
       m_kind = VR_RANGE;
       m_base[0] = wi::one (prec);
-      m_base[1] = m_nonzero_mask = wi::minus_one (prec);
+      m_base[1] = wi::minus_one (prec);
+      m_bitmask.set_unknown (prec);
       m_num_ranges = 1;
 
       if (flag_checking)
@@ -1002,13 +1150,15 @@ irange::normalize_kind ()
       else if (m_kind == VR_ANTI_RANGE)
 	set_undefined ();
     }
+  if (flag_checking)
+    verify_range ();
 }
 
 inline bool
 contains_zero_p (const irange &r)
 {
   if (r.undefined_p ())
-    return true;
+    return false;
 
   wide_int zero = wi::zero (TYPE_PRECISION (r.type ()));
   return r.contains_p (zero);
@@ -1222,17 +1372,18 @@ frange_val_is_max (const REAL_VALUE_TYPE &r, const_tree type)
   return real_identical (&max, &r);
 }
 
-// Build a signless NAN of type TYPE.
+// Build a NAN with a state of NAN.
 
 inline void
-frange::set_nan (tree type)
+frange::set_nan (tree type, const nan_state &nan)
 {
+  gcc_checking_assert (nan.pos_p () || nan.neg_p ());
   if (HONOR_NANS (type))
     {
       m_kind = VR_NAN;
       m_type = type;
-      m_pos_nan = true;
-      m_neg_nan = true;
+      m_neg_nan = nan.neg_p ();
+      m_pos_nan = nan.pos_p ();
       if (flag_checking)
 	verify_range ();
     }
@@ -1240,22 +1391,22 @@ frange::set_nan (tree type)
     set_undefined ();
 }
 
+// Build a signless NAN of type TYPE.
+
+inline void
+frange::set_nan (tree type)
+{
+  nan_state nan (true);
+  set_nan (type, nan);
+}
+
 // Build a NAN of type TYPE with SIGN.
 
 inline void
 frange::set_nan (tree type, bool sign)
 {
-  if (HONOR_NANS (type))
-    {
-      m_kind = VR_NAN;
-      m_type = type;
-      m_neg_nan = sign;
-      m_pos_nan = !sign;
-      if (flag_checking)
-	verify_range ();
-    }
-  else
-    set_undefined ();
+  nan_state nan (/*pos=*/!sign, /*neg=*/sign);
+  set_nan (type, nan);
 }
 
 // Return TRUE if range is known to be finite.

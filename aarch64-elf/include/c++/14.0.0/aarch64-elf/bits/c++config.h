@@ -36,7 +36,7 @@
 #define _GLIBCXX_RELEASE 14
 
 // The datestamp of the C++ library in compressed ISO date format.
-#define __GLIBCXX__ 20230523
+#define __GLIBCXX__ 20230914
 
 // Macros for various attributes.
 //   _GLIBCXX_PURE
@@ -320,7 +320,7 @@ namespace std
   extern "C++" __attribute__ ((__noreturn__, __always_inline__))
   inline void __terminate() _GLIBCXX_USE_NOEXCEPT
   {
-    void terminate() _GLIBCXX_USE_NOEXCEPT __attribute__ ((__noreturn__));
+    void terminate() _GLIBCXX_USE_NOEXCEPT __attribute__ ((__noreturn__,__cold__));
     terminate();
   }
 #pragma GCC visibility pop
@@ -822,10 +822,10 @@ namespace std
 # define _GLIBCXX_LDOUBLE_IS_IEEE_BINARY128 1
 #endif
 
-#ifdef __STDCPP_BFLOAT16_T__
+#if defined __cplusplus && defined __BFLT16_DIG__
 namespace __gnu_cxx
 {
-  using __bfloat16_t = decltype(0.0bf16);
+  typedef __decltype(0.0bf16) __bfloat16_t;
 }
 #endif
 
@@ -854,7 +854,15 @@ namespace __gnu_cxx
 # define _GLIBCXX_HAVE_BUILTIN_LAUNDER 1
 #endif
 
-#undef _GLIBCXX_HAS_BUILTIN
+// Returns 1 if _GLIBCXX_DO_NOT_USE_BUILTIN_TRAITS is not defined and the
+// compiler has a corresponding built-in type trait, 0 otherwise.
+// _GLIBCXX_DO_NOT_USE_BUILTIN_TRAITS can be defined to disable the use of
+// built-in traits.
+#ifndef _GLIBCXX_DO_NOT_USE_BUILTIN_TRAITS
+# define _GLIBCXX_USE_BUILTIN_TRAIT(BT) _GLIBCXX_HAS_BUILTIN(BT)
+#else
+# define _GLIBCXX_USE_BUILTIN_TRAIT(BT) 0
+#endif
 
 // Mark code that should be ignored by the compiler, but seen by Doxygen.
 #define _GLIBCXX_DOXYGEN_ONLY(X)
@@ -930,6 +938,10 @@ namespace __gnu_cxx
 
 /* Define to 1 if you have the `at_quick_exit' function. */
 /* #undef _GLIBCXX_HAVE_AT_QUICK_EXIT */
+
+/* Define if C99 float_t and double_t in <math.h> should be imported in
+   <cmath> in namespace std for C++11. */
+#define _GLIBCXX_HAVE_C99_FLT_EVAL_TYPES 1
 
 /* Define to 1 if the target assembler supports thread-local storage. */
 /* #undef _GLIBCXX_HAVE_CC_TLS */
@@ -1032,7 +1044,7 @@ namespace __gnu_cxx
 #define _GLIBCXX_HAVE_FREXPF 1
 
 /* Define to 1 if you have the `frexpl' function. */
-/* #undef _GLIBCXX_HAVE_FREXPL */
+#define _GLIBCXX_HAVE_FREXPL 1
 
 /* Define if getentropy is available in <unistd.h>. */
 #define _GLIBCXX_HAVE_GETENTROPY 1
@@ -1047,10 +1059,10 @@ namespace __gnu_cxx
 #define _GLIBCXX_HAVE_HYPOT 1
 
 /* Define to 1 if you have the `hypotf' function. */
-/* #undef _GLIBCXX_HAVE_HYPOTF */
+#define _GLIBCXX_HAVE_HYPOTF 1
 
 /* Define to 1 if you have the `hypotl' function. */
-/* #undef _GLIBCXX_HAVE_HYPOTL */
+#define _GLIBCXX_HAVE_HYPOTL 1
 
 /* Define if you have the iconv() function. */
 #define _GLIBCXX_HAVE_ICONV 1
@@ -1138,6 +1150,9 @@ namespace __gnu_cxx
 
 /* Define to 1 if you have the `logl' function. */
 /* #undef _GLIBCXX_HAVE_LOGL */
+
+/* Define if lseek is available in <unistd.h>. */
+#define _GLIBCXX_HAVE_LSEEK 1
 
 /* Define to 1 if you have the <machine/endian.h> header file. */
 #define _GLIBCXX_HAVE_MACHINE_ENDIAN_H 1
@@ -1249,10 +1264,10 @@ namespace __gnu_cxx
 #define _GLIBCXX_HAVE_SQRTF 1
 
 /* Define to 1 if you have the `sqrtl' function. */
-/* #undef _GLIBCXX_HAVE_SQRTL */
+#define _GLIBCXX_HAVE_SQRTL 1
 
 /* Define if the <stacktrace> header is supported. */
-/* #undef _GLIBCXX_HAVE_STACKTRACE */
+#define _GLIBCXX_HAVE_STACKTRACE 1
 
 /* Define to 1 if you have the <stdalign.h> header file. */
 #define _GLIBCXX_HAVE_STDALIGN_H 1
@@ -1668,8 +1683,8 @@ namespace __gnu_cxx
    C99 library functions to be present. */
 /* #undef _GLIBCXX11_USE_C99_COMPLEX */
 
-/* Define if C99 functions or macros in <math.h> should be imported in <cmath>
-   in namespace std for C++11. */
+/* Define if C99 generic macros in <math.h> should be imported in <cmath> in
+   namespace std for C++11. */
 #define _GLIBCXX11_USE_C99_MATH 1
 
 /* Define if C99 functions or macros in <stdio.h> should be imported in
@@ -1825,6 +1840,10 @@ namespace __gnu_cxx
    <tr1/cinttypes> in namespace std::tr1. */
 #define _GLIBCXX_USE_C99_INTTYPES_WCHAR_T_TR1 1
 
+/* Define if C99 functions in <math.h> should be imported in <cmath> in
+   namespace std for C++11. */
+/* #undef _GLIBCXX_USE_C99_MATH_FUNCS */
+
 /* Define if C99 functions or macros in <math.h> should be imported in
    <tr1/cmath> in namespace std::tr1. */
 /* #undef _GLIBCXX_USE_C99_MATH_TR1 */
@@ -1837,6 +1856,12 @@ namespace __gnu_cxx
    namespace std::tr1. */
 #define _GLIBCXX_USE_C99_STDINT_TR1 1
 
+/* Define if usable chdir is available in <unistd.h>. */
+#define _GLIBCXX_USE_CHDIR 1
+
+/* Define if usable chmod is available in <sys/stat.h>. */
+#define _GLIBCXX_USE_CHMOD 1
+
 /* Defined if clock_gettime syscall has monotonic and realtime clock support.
    */
 /* #undef _GLIBCXX_USE_CLOCK_GETTIME_SYSCALL */
@@ -1846,6 +1871,9 @@ namespace __gnu_cxx
 
 /* Defined if clock_gettime has realtime clock support. */
 /* #undef _GLIBCXX_USE_CLOCK_REALTIME */
+
+/* Define if copy_file_range is available in <unistd.h>. */
+/* #undef _GLIBCXX_USE_COPY_FILE_RANGE */
 
 /* Define if ISO/IEC TR 24733 decimal floating point types are supported on
    this host. */
@@ -1861,11 +1889,20 @@ namespace __gnu_cxx
 /* Define if fchmodat is available in <sys/stat.h>. */
 #define _GLIBCXX_USE_FCHMODAT 1
 
+/* Define if fseeko and ftello are available. */
+#define _GLIBCXX_USE_FSEEKO_FTELLO 1
+
+/* Define if usable getcwd is available in <unistd.h>. */
+#define _GLIBCXX_USE_GETCWD 1
+
 /* Defined if gettimeofday is available. */
 #define _GLIBCXX_USE_GETTIMEOFDAY 1
 
 /* Define if get_nprocs is available in <sys/sysinfo.h>. */
 /* #undef _GLIBCXX_USE_GET_NPROCS */
+
+/* Define if init_priority should be used for iostream initialization. */
+#define _GLIBCXX_USE_INIT_PRIORITY_ATTRIBUTE 1
 
 /* Define if LFS support is available. */
 /* #undef _GLIBCXX_USE_LFS */
@@ -1875,6 +1912,9 @@ namespace __gnu_cxx
 
 /* Define if lstat is available in <sys/stat.h>. */
 /* #undef _GLIBCXX_USE_LSTAT */
+
+/* Define if usable mkdir is available in <sys/stat.h>. */
+#define _GLIBCXX_USE_MKDIR 1
 
 /* Defined if nanosleep is available. */
 /* #undef _GLIBCXX_USE_NANOSLEEP */
