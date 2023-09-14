@@ -945,10 +945,6 @@ extern void gt_ggc_mx_hash_map_char__unsigned_ (void *);
   if ((intptr_t)(X) != 0) gt_ggc_mx_vec_gimple__va_gc_ (X);\
   } while (0)
 extern void gt_ggc_mx_vec_gimple__va_gc_ (void *);
-#define gt_ggc_m_12int_range_2_(X) do { \
-  if ((intptr_t)(X) != 0) gt_ggc_mx_int_range_2_ (X);\
-  } while (0)
-extern void gt_ggc_mx_int_range_2_ (void *);
 #define gt_ggc_m_26vec_ipa_agg_jf_item_va_gc_(X) do { \
   if ((intptr_t)(X) != 0) gt_ggc_mx_vec_ipa_agg_jf_item_va_gc_ (X);\
   } while (0)
@@ -961,6 +957,10 @@ extern void gt_ggc_mx_ipcp_transformation (void *);
   if ((intptr_t)(X) != 0) gt_ggc_mx_ipa_bits (X);\
   } while (0)
 extern void gt_ggc_mx_ipa_bits (void *);
+#define gt_ggc_m_6ipa_vr(X) do { \
+  if ((intptr_t)(X) != 0) gt_ggc_mx_ipa_vr (X);\
+  } while (0)
+extern void gt_ggc_mx_ipa_vr (void *);
 #define gt_ggc_m_31vec_ipa_param_descriptor_va_gc_(X) do { \
   if ((intptr_t)(X) != 0) gt_ggc_mx_vec_ipa_param_descriptor_va_gc_ (X);\
   } while (0)
@@ -977,6 +977,10 @@ extern void gt_ggc_mx_vec_ipa_bits__va_gc_ (void *);
   if ((intptr_t)(X) != 0) gt_ggc_mx_vec_ipa_vr_va_gc_ (X);\
   } while (0)
 extern void gt_ggc_mx_vec_ipa_vr_va_gc_ (void *);
+#define gt_ggc_m_33vec_ipa_uid_to_idx_map_elt_va_gc_(X) do { \
+  if ((intptr_t)(X) != 0) gt_ggc_mx_vec_ipa_uid_to_idx_map_elt_va_gc_ (X);\
+  } while (0)
+extern void gt_ggc_mx_vec_ipa_uid_to_idx_map_elt_va_gc_ (void *);
 #define gt_ggc_m_24vec_ipa_jump_func_va_gc_(X) do { \
   if ((intptr_t)(X) != 0) gt_ggc_mx_vec_ipa_jump_func_va_gc_ (X);\
   } while (0)
@@ -2434,10 +2438,6 @@ extern void gt_pch_nx_hash_map_char__unsigned_ (void *);
   if ((intptr_t)(X) != 0) gt_pch_nx_vec_gimple__va_gc_ (X);\
   } while (0)
 extern void gt_pch_nx_vec_gimple__va_gc_ (void *);
-#define gt_pch_n_12int_range_2_(X) do { \
-  if ((intptr_t)(X) != 0) gt_pch_nx_int_range_2_ (X);\
-  } while (0)
-extern void gt_pch_nx_int_range_2_ (void *);
 #define gt_pch_n_26vec_ipa_agg_jf_item_va_gc_(X) do { \
   if ((intptr_t)(X) != 0) gt_pch_nx_vec_ipa_agg_jf_item_va_gc_ (X);\
   } while (0)
@@ -2450,6 +2450,10 @@ extern void gt_pch_nx_ipcp_transformation (void *);
   if ((intptr_t)(X) != 0) gt_pch_nx_ipa_bits (X);\
   } while (0)
 extern void gt_pch_nx_ipa_bits (void *);
+#define gt_pch_n_6ipa_vr(X) do { \
+  if ((intptr_t)(X) != 0) gt_pch_nx_ipa_vr (X);\
+  } while (0)
+extern void gt_pch_nx_ipa_vr (void *);
 #define gt_pch_n_31vec_ipa_param_descriptor_va_gc_(X) do { \
   if ((intptr_t)(X) != 0) gt_pch_nx_vec_ipa_param_descriptor_va_gc_ (X);\
   } while (0)
@@ -2466,6 +2470,10 @@ extern void gt_pch_nx_vec_ipa_bits__va_gc_ (void *);
   if ((intptr_t)(X) != 0) gt_pch_nx_vec_ipa_vr_va_gc_ (X);\
   } while (0)
 extern void gt_pch_nx_vec_ipa_vr_va_gc_ (void *);
+#define gt_pch_n_33vec_ipa_uid_to_idx_map_elt_va_gc_(X) do { \
+  if ((intptr_t)(X) != 0) gt_pch_nx_vec_ipa_uid_to_idx_map_elt_va_gc_ (X);\
+  } while (0)
+extern void gt_pch_nx_vec_ipa_uid_to_idx_map_elt_va_gc_ (void *);
 #define gt_pch_n_24vec_ipa_jump_func_va_gc_(X) do { \
   if ((intptr_t)(X) != 0) gt_pch_nx_vec_ipa_jump_func_va_gc_ (X);\
   } while (0)
@@ -3581,13 +3589,13 @@ extern void gt_pch_p_24hash_map_char__unsigned_
     (void *, void *, gt_pointer_operator, void *);
 extern void gt_pch_p_18vec_gimple__va_gc_
     (void *, void *, gt_pointer_operator, void *);
-extern void gt_pch_p_12int_range_2_
-    (void *, void *, gt_pointer_operator, void *);
 extern void gt_pch_p_26vec_ipa_agg_jf_item_va_gc_
     (void *, void *, gt_pointer_operator, void *);
 extern void gt_pch_p_19ipcp_transformation
     (void *, void *, gt_pointer_operator, void *);
 extern void gt_pch_p_8ipa_bits
+    (void *, void *, gt_pointer_operator, void *);
+extern void gt_pch_p_6ipa_vr
     (void *, void *, gt_pointer_operator, void *);
 extern void gt_pch_p_31vec_ipa_param_descriptor_va_gc_
     (void *, void *, gt_pointer_operator, void *);
@@ -3596,6 +3604,8 @@ extern void gt_pch_p_27vec_ipa_argagg_value_va_gc_
 extern void gt_pch_p_20vec_ipa_bits__va_gc_
     (void *, void *, gt_pointer_operator, void *);
 extern void gt_pch_p_17vec_ipa_vr_va_gc_
+    (void *, void *, gt_pointer_operator, void *);
+extern void gt_pch_p_33vec_ipa_uid_to_idx_map_elt_va_gc_
     (void *, void *, gt_pointer_operator, void *);
 extern void gt_pch_p_24vec_ipa_jump_func_va_gc_
     (void *, void *, gt_pointer_operator, void *);

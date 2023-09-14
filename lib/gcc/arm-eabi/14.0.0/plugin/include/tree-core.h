@@ -558,6 +558,7 @@ enum omp_clause_default_kind {
 
 enum omp_clause_defaultmap_kind {
   OMP_CLAUSE_DEFAULTMAP_CATEGORY_UNSPECIFIED,
+  OMP_CLAUSE_DEFAULTMAP_CATEGORY_ALL,
   OMP_CLAUSE_DEFAULTMAP_CATEGORY_SCALAR,
   OMP_CLAUSE_DEFAULTMAP_CATEGORY_AGGREGATE,
   OMP_CLAUSE_DEFAULTMAP_CATEGORY_ALLOCATABLE,
@@ -572,7 +573,8 @@ enum omp_clause_defaultmap_kind {
   OMP_CLAUSE_DEFAULTMAP_NONE = 6 * (OMP_CLAUSE_DEFAULTMAP_CATEGORY_MASK + 1),
   OMP_CLAUSE_DEFAULTMAP_DEFAULT
     = 7 * (OMP_CLAUSE_DEFAULTMAP_CATEGORY_MASK + 1),
-  OMP_CLAUSE_DEFAULTMAP_MASK = 7 * (OMP_CLAUSE_DEFAULTMAP_CATEGORY_MASK + 1)
+  OMP_CLAUSE_DEFAULTMAP_PRESENT = 8 * (OMP_CLAUSE_DEFAULTMAP_CATEGORY_MASK + 1),
+  OMP_CLAUSE_DEFAULTMAP_MASK = 15 * (OMP_CLAUSE_DEFAULTMAP_CATEGORY_MASK + 1)
 };
 
 enum omp_clause_bind_kind {
@@ -1712,6 +1714,8 @@ struct GTY(()) tree_type_common {
   unsigned typeless_storage : 1;
   unsigned empty_flag : 1;
   unsigned indivisible_p : 1;
+  /* TYPE_NO_NAMED_ARGS_STDARG_P for a stdarg function.
+     Or TYPE_INCLUDES_FLEXARRAY for RECORD_TYPE and UNION_TYPE.  */
   unsigned no_named_args_stdarg_p : 1;
   unsigned spare : 1;
 
@@ -1803,7 +1807,8 @@ struct GTY(()) tree_decl_common {
      In VAR_DECL, PARM_DECL and RESULT_DECL, this is
      DECL_HAS_VALUE_EXPR_P.  */
   unsigned decl_flag_2 : 1;
-  /* In FIELD_DECL, this is DECL_PADDING_P.  */
+  /* In FIELD_DECL, this is DECL_PADDING_P.
+     In VAR_DECL, this is DECL_MERGEABLE.  */
   unsigned decl_flag_3 : 1;
   /* Logically, these two would go in a theoretical base shared by var and
      parm decl. */

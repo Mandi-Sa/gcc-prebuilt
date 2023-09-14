@@ -90,6 +90,8 @@ along with GCC; see the file COPYING3.  If not see
 	  /* pass_build_ealias is a dummy pass that ensures that we
 	     execute TODO_rebuild_alias at this point.  */
 	  NEXT_PASS (pass_build_ealias, 1);
+	  /* Do phiprop before FRE so we optimize std::min and std::max well.  */
+	  NEXT_PASS (pass_phiprop, 1);
 	  NEXT_PASS_WITH_ARG (pass_fre, 1, true /* may_iterate */);
 	  NEXT_PASS (pass_early_vrp, 1);
 	  NEXT_PASS (pass_merge_phi, 1);
@@ -206,9 +208,13 @@ along with GCC; see the file COPYING3.  If not see
       NEXT_PASS (pass_post_ipa_warn, 1);
       /* Must run before loop unrolling.  */
       NEXT_PASS_WITH_ARG (pass_warn_access, 2, /*early=*/true);
+      /* Profile count may overflow as a result of inlinining very large
+         loop nests.  This pass should run before any late pass that makes
+	 use of profile.  */
+      NEXT_PASS (pass_rebuild_frequencies, 1);
       NEXT_PASS (pass_complete_unrolli, 1);
       NEXT_PASS (pass_backprop, 1);
-      NEXT_PASS (pass_phiprop, 1);
+      NEXT_PASS (pass_phiprop, 2);
       NEXT_PASS (pass_forwprop, 2);
       /* pass_build_alias is a dummy pass that ensures that we
 	 execute TODO_rebuild_alias at this point.  */
@@ -233,6 +239,7 @@ along with GCC; see the file COPYING3.  If not see
       NEXT_PASS (pass_tail_recursion, 2);
       NEXT_PASS (pass_ch, 2);
       NEXT_PASS (pass_lower_complex, 1);
+      NEXT_PASS (pass_lower_bitint, 1);
       NEXT_PASS (pass_sra, 1);
       /* The dom pass will also resolve all __builtin_constant_p calls
          that are still there to 0.  This has to be done after some
@@ -278,8 +285,8 @@ along with GCC; see the file COPYING3.  If not see
 	     form if possible.  */
 	  NEXT_PASS (pass_tree_loop_init, 1);
 	  NEXT_PASS (pass_tree_unswitch, 1);
-	  NEXT_PASS (pass_scev_cprop, 1);
 	  NEXT_PASS (pass_loop_split, 1);
+	  NEXT_PASS (pass_scev_cprop, 1);
 	  NEXT_PASS (pass_loop_versioning, 1);
 	  NEXT_PASS (pass_loop_jam, 1);
 	  /* All unswitching, final value replacement and splitting can expose
@@ -382,6 +389,7 @@ along with GCC; see the file COPYING3.  If not see
       NEXT_PASS_WITH_ARG (pass_strip_predict_hints, 3, false /* early_p */);
       /* Lower remaining pieces of GIMPLE.  */
       NEXT_PASS (pass_lower_complex, 2);
+      NEXT_PASS (pass_lower_bitint, 2);
       NEXT_PASS (pass_lower_vector_ssa, 2);
       NEXT_PASS (pass_lower_switch, 2);
       /* Perform simple scalar cleanup which is constant/copy propagation.  */
@@ -395,6 +403,10 @@ along with GCC; see the file COPYING3.  If not see
          to forward object-size and builtin folding results properly.  */
       NEXT_PASS (pass_copy_prop, 5);
       NEXT_PASS (pass_dce, 8);
+      /* Profile count may overflow as a result of inlinining very large
+         loop nests.  This pass should run before any late pass that makes
+	 use of profile.  */
+      NEXT_PASS (pass_rebuild_frequencies, 2);
       NEXT_PASS (pass_sancov, 2);
       NEXT_PASS (pass_asan, 2);
       NEXT_PASS (pass_tsan, 2);
@@ -421,6 +433,7 @@ along with GCC; see the file COPYING3.  If not see
   NEXT_PASS (pass_lower_vaarg, 1);
   NEXT_PASS (pass_lower_vector, 1);
   NEXT_PASS (pass_lower_complex_O0, 1);
+  NEXT_PASS (pass_lower_bitint_O0, 1);
   NEXT_PASS (pass_sancov_O0, 1);
   NEXT_PASS (pass_lower_switch_O0, 1);
   NEXT_PASS (pass_asan_O0, 1);

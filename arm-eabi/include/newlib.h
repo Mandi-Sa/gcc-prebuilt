@@ -50,7 +50,7 @@
 
 /* Define if the linker supports .preinit_array/.init_array/.fini_array
  * sections.  */
-#define HAVE_INITFINI_ARRAY 1
+/* #undef HAVE_INITFINI_ARRAY */
 
 /* True if atexit() may dynamically allocate space for cleanup
    functions.  */
@@ -96,6 +96,9 @@
 
 /* Define to use type long for time_t.  */
 /* #undef _WANT_USE_LONG_TIME_T */
+
+/* Define if using gdtoa rather than legacy ldtoa.  */
+#define _WANT_USE_GDTOA 1
 
 /*
  * Iconv encodings enabled ("to" direction)

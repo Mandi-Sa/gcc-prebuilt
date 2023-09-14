@@ -623,15 +623,13 @@
 #endif
 
 
-/* Define if your Mac OS X assembler supports -mllvm -x86-pad-for-align=false.
-   */
+/* Define if your macOS assembler supports -mllvm -x86-pad-for-align=false. */
 #ifndef USED_FOR_TARGET
 /* #undef HAVE_AS_MLLVM_X86_PAD_FOR_ALIGN */
 #endif
 
 
-/* Define if your Mac OS X assembler supports the -mmacos-version-min option.
-   */
+/* Define if your macOS assembler supports the -mmacos-version-min option. */
 #ifndef USED_FOR_TARGET
 /* #undef HAVE_AS_MMACOSX_VERSION_MIN_OPTION */
 #endif
@@ -2176,6 +2174,12 @@
 /* Define if int64_t uses long as underlying type. */
 #ifndef USED_FOR_TARGET
 #define INT64_T_IS_LONG 1
+#endif
+
+
+/* Define to 1 if ld64 supports '-demangle'. */
+#ifndef USED_FOR_TARGET
+/* #undef LD64_HAS_DEMANGLE */
 #endif
 
 

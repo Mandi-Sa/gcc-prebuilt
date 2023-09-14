@@ -127,7 +127,7 @@
 #endif
 
 /* Configure small REENT structure for Xilinx MicroBlaze platforms */
-#if defined (__MICROBLAZE__)
+#if defined (__MICROBLAZE__) && !defined(__rtems__)
 #ifndef _REENT_SMALL
 #define _REENT_SMALL
 #endif
@@ -290,6 +290,12 @@
 #ifdef _WANT_USE_LONG_TIME_T
 #ifndef _USE_LONG_TIME_T
 #define _USE_LONG_TIME_T
+#endif
+#endif
+
+#ifdef _WANT_USE_GDTOA
+#ifndef _USE_GDTOA
+#define _USE_GDTOA
 #endif
 #endif
 

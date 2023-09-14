@@ -1743,18 +1743,18 @@ template <typename _To, typename _From>
       return reinterpret_cast<_To>(__x);
     else if constexpr (__is_vector_type_v<_To> && __from_is_vectorizable)
       {
-	using _FV [[gnu::vector_size(sizeof(_From))]] = _From;
+	using _FV [[__gnu__::__vector_size__(sizeof(_From))]] = _From;
 	return reinterpret_cast<_To>(_FV{__x});
       }
     else if constexpr (__to_is_vectorizable && __from_is_vectorizable)
       {
-	using _TV [[gnu::vector_size(sizeof(_To))]] = _To;
-	using _FV [[gnu::vector_size(sizeof(_From))]] = _From;
+	using _TV [[__gnu__::__vector_size__(sizeof(_To))]] = _To;
+	using _FV [[__gnu__::__vector_size__(sizeof(_From))]] = _From;
 	return reinterpret_cast<_TV>(_FV{__x})[0];
       }
     else if constexpr (__to_is_vectorizable && __is_vector_type_v<_From>)
       {
-	using _TV [[gnu::vector_size(sizeof(_To))]] = _To;
+	using _TV [[__gnu__::__vector_size__(sizeof(_To))]] = _To;
 	return reinterpret_cast<_TV>(__x)[0];
       }
     else
@@ -2369,15 +2369,21 @@ template <>
   struct __intrinsic_type<float, 16, void>
   { using type = float32x4_t; };
 
-#if _GLIBCXX_SIMD_HAVE_NEON_A64
 template <>
   struct __intrinsic_type<double, 8, void>
-  { using type = float64x1_t; };
+  {
+#if _GLIBCXX_SIMD_HAVE_NEON_A64
+   using type = float64x1_t;
+#endif
+  };
 
 template <>
   struct __intrinsic_type<double, 16, void>
-  { using type = float64x2_t; };
+  {
+#if _GLIBCXX_SIMD_HAVE_NEON_A64
+    using type = float64x2_t;
 #endif
+  };
 
 #define _GLIBCXX_SIMD_ARM_INTRIN(_Bits, _Np)                                   \
 template <>                                                                    \
@@ -2460,11 +2466,40 @@ template <typename _Tp, size_t _Bytes>
 		  "no __intrinsic_type support for 64-bit floating point on PowerPC w/o VSX");
 #endif
 
-    using type =
-      typename __intrinsic_type_impl<
-		 conditional_t<is_floating_point_v<_Tp>,
-			       conditional_t<_S_is_ldouble, double, _Tp>,
-			       __int_for_sizeof_t<_Tp>>>::type;
+    static constexpr auto __element_type()
+    {
+      if constexpr (is_floating_point_v<_Tp>)
+	{
+	  if constexpr (_S_is_ldouble)
+	    return double {};
+	  else
+	    return _Tp {};
+	}
+      else if constexpr (is_signed_v<_Tp>)
+	{
+	  if constexpr (sizeof(_Tp) == sizeof(_SChar))
+	    return _SChar {};
+	  else if constexpr (sizeof(_Tp) == sizeof(short))
+	    return short {};
+	  else if constexpr (sizeof(_Tp) == sizeof(int))
+	    return int {};
+	  else if constexpr (sizeof(_Tp) == sizeof(_LLong))
+	    return _LLong {};
+	}
+      else
+	{
+	  if constexpr (sizeof(_Tp) == sizeof(_UChar))
+	    return _UChar {};
+	  else if constexpr (sizeof(_Tp) == sizeof(_UShort))
+	    return _UShort {};
+	  else if constexpr (sizeof(_Tp) == sizeof(_UInt))
+	    return _UInt {};
+	  else if constexpr (sizeof(_Tp) == sizeof(_ULLong))
+	    return _ULLong {};
+	}
+    }
+
+    using type = typename __intrinsic_type_impl<decltype(__element_type())>::type;
   };
 #endif // __ALTIVEC__
 
@@ -2773,8 +2808,10 @@ template <typename _Tp>
 	  return 16;
 
 	// ARM:
-	if constexpr (__have_neon_a64
-		      || (__have_neon_a32 && !is_same_v<_Tp, double>) )
+	if constexpr (__have_neon_a64)
+	  return 16;
+	if constexpr (__have_neon_a32 and (not is_floating_point_v<_Tp>
+					     or is_same_v<_Tp, float>))
 	  return 16;
 	if constexpr (__have_neon
 		      && sizeof(_Tp) < 8
@@ -3269,7 +3306,7 @@ template <typename _Tp, int _Np>
     return {__mem, vector_aligned};
   }
 
-template <typename _Tp, size_t _Np>
+template <typename _Tp, int _Np>
   _GLIBCXX_SIMD_INTRINSIC
   enable_if_t<(_Np == native_simd_mask<_Tp>::size()), native_simd_mask<_Tp>>
   to_native(const fixed_size_simd_mask<_Tp, _Np>& __x)
@@ -3280,7 +3317,7 @@ template <typename _Tp, size_t _Np>
   }
 
 // to_compatible {{{2
-template <typename _Tp, size_t _Np>
+template <typename _Tp, int _Np>
   _GLIBCXX_SIMD_INTRINSIC enable_if_t<(_Np == simd<_Tp>::size()), simd<_Tp>>
   to_compatible(const simd<_Tp, simd_abi::fixed_size<_Np>>& __x)
   {
@@ -3289,12 +3326,13 @@ template <typename _Tp, size_t _Np>
     return {__mem, vector_aligned};
   }
 
-template <typename _Tp, size_t _Np>
+template <typename _Tp, int _Np>
   _GLIBCXX_SIMD_INTRINSIC
   enable_if_t<(_Np == simd_mask<_Tp>::size()), simd_mask<_Tp>>
   to_compatible(const simd_mask<_Tp, simd_abi::fixed_size<_Np>>& __x)
   {
     return simd_mask<_Tp>(
+	     __private_init,
 	     [&](auto __i) constexpr _GLIBCXX_SIMD_ALWAYS_INLINE_LAMBDA { return __x[__i]; });
   }
 
